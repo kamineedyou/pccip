@@ -23,4 +23,4 @@ jobs:
           command: |
             . pcc/bin/activate
             flake8 --exclude=pcc* --statistics
-            pytest -v --cov=test
+            pytest -v --cov=test/

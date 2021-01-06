@@ -9,7 +9,6 @@ decorator==4.4.2
 deprecation==2.1.0
 flake8==3.8.4
 graphviz==0.16
-gurobipy==9.1.0
 iniconfig==1.1.1
 intervaltree==3.1.0
 ipython==7.19.0

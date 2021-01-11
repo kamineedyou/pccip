@@ -1,4 +1,4 @@
-import pytest
+import pytest, os
 from pccip.bin.pd.createCausalStructure import generateCausalStructure
 from pm4py.objects.log.importer.xes import importer as xes_importer
 
@@ -6,7 +6,9 @@ from pm4py.objects.log.importer.xes import importer as xes_importer
 class Test_CausalStructure:
     @pytest.fixture
     def validEventLog(self):
-        return xes_importer.apply('figure8.xes')
+        currentDir = os.path.dirname(os.path.realpath(__file__))
+        pathToFile = os.path.join(currentDir, 'figure8.xes')
+        return xes_importer.apply(pathToFile)
 
     def test_ValidLogDefaults(self, validEventLog):
         causal = generateCausalStructure(validEventLog)

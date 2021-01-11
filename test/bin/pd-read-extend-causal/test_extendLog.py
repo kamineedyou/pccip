@@ -1,4 +1,5 @@
-import pytest, os
+import pytest
+import os
 from pm4py.objects.log.importer.xes import importer as xes_importer
 from pccip.bin.pd.extendLog import extendEventLog
 

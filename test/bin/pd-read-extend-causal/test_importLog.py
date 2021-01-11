@@ -1,4 +1,5 @@
-import pytest, os
+import pytest
+import os
 from pccip.bin.pd.importLog import importEventLog, WrongEventLogType
 from pm4py.objects.log.importer.xes import importer as xes_importer
 from pm4py.objects.log.log import EventLog
@@ -34,4 +35,4 @@ class Test_ImportLog:
         currentDir = os.path.dirname(os.path.realpath(__file__))
         pathToFile = os.path.join(currentDir, nonExistantFile)
         with pytest.raises(FileNotFoundError):
-            importEventLog(nonExistantFile)
+            importEventLog(pathToFile)

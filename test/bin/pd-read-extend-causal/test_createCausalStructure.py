@@ -1,4 +1,5 @@
-import pytest, os
+import pytest
+import os
 from pccip.bin.pd.createCausalStructure import generateCausalStructure
 from pm4py.objects.log.importer.xes import importer as xes_importer
 

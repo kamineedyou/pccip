@@ -27,6 +27,7 @@ The tests have to be in the test dir.
 
 The test are written with the pytest framework
 And are executed with the following command at the project level
+And will be only accepted if the coverage is 100%
 
 ```bash
 pytest -v --cov=test/
@@ -40,7 +41,7 @@ flake8 --statistics
 ```
 
 ## Contributing
+Make a feature branch from dev (git flow feature start MYFEATURE ) and do a merge request with dev. If the code is reviewed by another person it will be pushed into
+dev. At the end of the sprint we merge dev if we all agree into main.
 
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
-Please make sure to update tests as appropriate.
+To able to do a pull request the code should be according to the code quality chapter.

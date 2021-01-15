@@ -15,8 +15,8 @@ class Test_ExtendLog:
         ext_log = extendEventLog(validEventLog)
         # Check if all the traces have both the added activities
         for trace in ext_log:
-            assert trace[0]['concept:name'] == 'Passage:START'
-            assert trace[-1]['concept:name'] == 'Passage:END'
+            assert trace[0]['concept:name'] == 'Artificial:Start'
+            assert trace[-1]['concept:name'] == 'Artificial:End'
 
     def test_ExtendInvalidLog(self):
         # Use String as opposed to EventLog

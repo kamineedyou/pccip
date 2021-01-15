@@ -32,8 +32,7 @@ And will be only accepted if the coverage is 100%
 ```bash
 pytest -v --cov=test/
 ```
-
-The code quality wil be evaluated with the flake8 linter.
+The code quality wil be evaluated with the flake8 linter in the CircleCI pipeline.
 You can check if the quality is sufficcient with the following command.
 
 ```bash

@@ -11,20 +11,20 @@ class Causal_Struct():
         self.predecessors = self.generate_predecessors(successors)
         self.parallel = parallel
 
-    def generate_predecessors(self, successors):
+    def generate_predecessors(self, successors) -> set:
         pred = set()
         for match in successors:
             pred.add(match[::-1])
 
         return pred
 
-    def __eq__(self, obj):
+    def __eq__(self, obj) -> bool:
         return isinstance(obj, Causal_Struct) and \
             self.successors == obj.successors and \
             self.predecessors == obj.predecessors and \
             self.parallel == obj.parallel
 
-    def __ne__(self, obj):
+    def __ne__(self, obj) -> bool:
         return not self == obj
 
 

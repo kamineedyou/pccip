@@ -37,3 +37,8 @@ class Test_CausalStructure:
         # Use String as opposed to EventLog
         with pytest.raises(TypeError):
             generateCausalStructure('Process Model')
+
+    def test_InvalidCausalVariant(self, validEventLog):
+        # Use String as opposed to EventLog
+        with pytest.raises(TypeError):
+            generateCausalStructure(validEventLog, variants='fake-causal')

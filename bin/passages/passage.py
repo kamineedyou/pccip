@@ -38,3 +38,21 @@ class Passage:
             y_set.add(edge[1])
 
         return x_set, y_set
+
+    def __repr__(self):
+        x = sorted(list(self.getX()))
+        y = sorted(list(self.getY()))
+        return 'X=' + str(x) + ', Y=' + str(y)
+
+    def __eq__(self, obj):
+        x = sorted(list(self.getX()))
+        y = sorted(list(self.getY()))
+        other_x = sorted(list(obj.getX()))
+        other_y = sorted(list(obj.getY()))
+
+        if x == other_x and y == other_y:
+            return True
+        return False
+
+    def __hash__(self):
+        return hash(self.__repr__())

@@ -50,7 +50,6 @@ class Test_Passages:
         test_add = ('a', 'b')
         test_add_set = {('a', 'b')}
         test_add_wrong_edge0 = (2, 'b')
-        test_add_wrong_edge1 = ('a', 2)
 
         assert len(validPassage.edges) == 6
         validPassage.addEdge(test_add)
@@ -62,4 +61,3 @@ class Test_Passages:
         with pytest.raises(TypeError):
             validPassage.addEdge(test_add_set)
             validPassage.addEdge(test_add_wrong_edge0)
-            validPassage.addEdge(test_add_wrong_edge1)

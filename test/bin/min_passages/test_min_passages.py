@@ -21,7 +21,24 @@ class Test_CausalStructure:
 
         return causal_example, causal_expected
 
-    def test_ValidCausalPassages(self, validCausal):
+
+    @pytest.fixture
+    def validCausal2(self):
+        # from figure 8 in paper
+        causal_example = {('Artificial:Start', 'a'), ('Artificial:Start', 'c'),
+                          ('a', 'b'), ('c', 'd'), ('b', 'Artificial:End'),
+                          ('d', 'Artificial:End')}
+
+        causal_expected = {Passage({('Artificial:Start', 'a'),
+                                    ('Artificial:Start', 'c')}),
+                           Passage({('a', 'b')}),
+                           Passage({('c', 'd')}),
+                           Passage({('b', 'Artificial:End'),
+                                    ('d', 'Artificial:End')})}
+
+        return causal_example, causal_expected
+
+    def test_ValidCausalPassages(self, validCausal, validCausal2):
         passage_set = algorithm(validCausal[0])
         assert len(passage_set) == 5
         assert len(validCausal[1] | passage_set) == 5
@@ -30,4 +47,14 @@ class Test_CausalStructure:
             assert passage in passage_set
 
         for passage in passage_set:
+            assert isinstance(passage, Passage)
+
+        passage_set2 = algorithm(validCausal2[0])
+        assert len(passage_set2) == 4
+        assert len(validCausal2[1] | passage_set2) == 4
+
+        for passage in validCausal2[1]:
+            assert passage in passage_set2
+
+        for passage in passage_set2:
             assert isinstance(passage, Passage)

@@ -3,7 +3,7 @@ from pccip.bin.passages.passage import Passage
 from pccip.bin.passages.min_passages import algorithm, pi_1, pi_2
 
 
-class Test_CausalStructure:
+class Test_Min_Passages:
     @pytest.fixture
     def validCausal(self):
         # from figure 2 in paper

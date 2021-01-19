@@ -2,7 +2,7 @@ import pytest
 from pccip.bin.passages.passage import Passage
 
 
-class Test_CausalStructure:
+class Test_Passages:
     @pytest.fixture
     def validPassage(self):
         # from figure 2 in paper

@@ -21,7 +21,6 @@ class Test_CausalStructure:
 
         return causal_example, causal_expected
 
-
     @pytest.fixture
     def validCausal2(self):
         # from figure 8 in paper
@@ -37,6 +36,23 @@ class Test_CausalStructure:
                                     ('d', 'Artificial:End')})}
 
         return causal_example, causal_expected
+
+    def test_pi_1(self):
+        edge_set = {('a', 'b'), ('a', 'd'), ('b', 'a'), ('d', 't')}
+
+        assert pi_1('a', edge_set) == {('a', 'b'), ('a', 'd')}
+        assert pi_1('b', edge_set) == {('b', 'a')}
+        assert pi_1('d', edge_set) == {('d', 't')}
+        assert pi_1('t', edge_set) == set()
+
+    def test_pi_2(self):
+        edge_set = {('a', 'b'), ('a', 'd'), ('b', 'a'), ('d', 't')}
+
+        assert pi_2('a', edge_set) == {('b', 'a')}
+        assert pi_2('b', edge_set) == {('a', 'b')}
+        assert pi_2('d', edge_set) == {('a', 'd')}
+        assert pi_2('t', edge_set) == {('d', 't')}
+        assert pi_2('s', edge_set) == set()
 
     def test_ValidCausalPassages(self, validCausal, validCausal2):
         passage_set = algorithm(validCausal[0])

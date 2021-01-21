@@ -56,3 +56,19 @@ class Passage:
 
     def __hash__(self):
         return hash(self.__repr__())
+
+    def __add__(self, obj):
+        if not isinstance(obj, Passage):
+            raise TypeError(type(obj), 'cannot be added to', type(Passage))
+        new_edges = self.edges + obj.edges
+
+        return Passage(new_edges)
+
+    def __sub__(self, obj):
+        if not isinstance(obj, Passage):
+            raise TypeError(
+                type(obj), 'cannot be subtracted from', type(Passage))
+
+        new_edges = self.edges - obj.edges
+
+        return Passage(new_edges)

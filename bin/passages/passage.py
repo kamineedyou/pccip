@@ -15,19 +15,27 @@ class Passage:
 
         self.edges.add(edge)
 
-    def getX(self) -> Set[Tuple[str, str]]:
+    def getX(self) -> Set[str]:
         x_set = set()
         for edge in self.edges:
             x_set.add(edge[0])
 
         return x_set
 
-    def getY(self) -> Set[Tuple[str, str]]:
+    def getY(self) -> Set[str]:
         y_set = set()
         for edge in self.edges:
             y_set.add(edge[1])
 
         return y_set
+
+    def getXBorder(self) -> Set[str]:
+        return {edge[0] for edge in self.edges
+                if edge[0] not in {edge2[1] for edge2 in self.edges}}
+
+    def getYBorder(self) -> Set[str]:
+        return {edge[1] for edge in self.edges
+                if edge[1] not in {edge2[0] for edge2 in self.edges}}
 
     def getXY(self) -> Tuple[Set[str], Set[str]]:
         x_set = set()
@@ -39,12 +47,12 @@ class Passage:
 
         return x_set, y_set
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         x = sorted(list(self.getX()))
         y = sorted(list(self.getY()))
         return 'X=' + str(x) + ', Y=' + str(y)
 
-    def __eq__(self, obj):
+    def __eq__(self, obj) -> bool:
         x = sorted(list(self.getX()))
         y = sorted(list(self.getY()))
         other_x = sorted(list(obj.getX()))
@@ -54,17 +62,17 @@ class Passage:
             return True
         return False
 
-    def __hash__(self):
+    def __hash__(self) -> int:
         return hash(self.__repr__())
 
-    def __add__(self, obj):
+    def __add__(self, obj) -> Passage:
         if not isinstance(obj, Passage):
             raise TypeError(type(obj), 'cannot be added to', type(Passage))
         new_edges = self.edges + obj.edges
 
         return Passage(new_edges)
 
-    def __sub__(self, obj):
+    def __sub__(self, obj) -> Passage:
         if not isinstance(obj, Passage):
             raise TypeError(
                 type(obj), 'cannot be subtracted from', type(Passage))

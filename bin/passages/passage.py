@@ -29,13 +29,15 @@ class Passage:
 
         return y_set
 
-    def getXBorder(self) -> Set[str]:
+    def getBorderX(self) -> Set[str]:
         return {edge[0] for edge in self.edges
-                if edge[0] not in {edge2[1] for edge2 in self.edges}}
+                if edge[0] not in {edge2[1] for edge2 in self.edges
+                                   if edge2[0] != edge2[1]}}
 
-    def getYBorder(self) -> Set[str]:
+    def getBorderY(self) -> Set[str]:
         return {edge[1] for edge in self.edges
-                if edge[1] not in {edge2[0] for edge2 in self.edges}}
+                if edge[1] not in {edge2[0] for edge2 in self.edges
+                                   if edge2[0] != edge2[1]}}
 
     def getXY(self) -> Tuple[Set[str], Set[str]]:
         x_set = set()
@@ -65,14 +67,14 @@ class Passage:
     def __hash__(self) -> int:
         return hash(self.__repr__())
 
-    def __add__(self, obj) -> Passage:
+    def __add__(self, obj):
         if not isinstance(obj, Passage):
             raise TypeError(type(obj), 'cannot be added to', type(Passage))
-        new_edges = self.edges + obj.edges
+        new_edges = self.edges | obj.edges
 
         return Passage(new_edges)
 
-    def __sub__(self, obj) -> Passage:
+    def __sub__(self, obj):
         if not isinstance(obj, Passage):
             raise TypeError(
                 type(obj), 'cannot be subtracted from', type(Passage))

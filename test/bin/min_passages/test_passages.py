@@ -11,6 +11,18 @@ class Test_Passages:
 
         return Passage(causal_example)
 
+    @pytest.fixture
+    def validPassages(self):
+        # from figure 2 in paper
+        passage_list = [Passage({('b', 'f'), ('d', 'e'), ('c', 'f'),
+                                ('b', 'e'), ('d', 'd'), ('b', 'd')}),
+                        Passage({('e', 'g')}),
+                        Passage({('a', 'c'), ('a', 'b')}),
+                        Passage({('h', 'i'), ('g', 'i')}),
+                        Passage({('f', 'h')})]
+
+        return passage_list
+
     def test_ValidPassageInit(self, validPassage):
 
         assert isinstance(validPassage, Passage)
@@ -61,3 +73,37 @@ class Test_Passages:
         with pytest.raises(TypeError):
             validPassage.addEdge(test_add_set)
             validPassage.addEdge(test_add_wrong_edge0)
+
+    def test_ValidPassageMagicAddSub(self, validPassage):
+        test_pass = Passage({('x', 'y')})
+        test_invalid = {('x', 'y')}
+        new_passage = validPassage + test_pass
+        assert new_passage != validPassage
+        new_passage = new_passage - test_pass
+        assert new_passage == validPassage
+        # test if it stays the same if removed again
+        new_passage = new_passage - test_pass
+        assert new_passage == validPassage
+
+        # add required both to be Passages
+        with pytest.raises(TypeError):
+            test_pass + test_invalid
+            test_pass - test_invalid
+
+    def test_ValidPassageBorderCheck(self, validPassages):
+        big_passage = validPassages[0]
+        start_passage = validPassages[2]
+        combined_passage = big_passage + start_passage
+        assert big_passage.getBorderX() == {'c', 'b'}
+        assert big_passage.getBorderY() == {'e', 'f'}
+        assert start_passage.getBorderX() == {'a'}
+        assert start_passage.getBorderY() == {'b', 'c'}
+        assert combined_passage.getBorderX() == {'a'}
+        assert combined_passage.getBorderY() == {'e', 'f'}
+
+        # making sure loops at border dont interfere with border check
+        # Before: X={'a'}, Y={'b', 'c'}
+        # After: X={'a', 'c'}, Y={'a', 'b', 'c'}
+        loop_passage = start_passage + Passage({('a', 'a'), ('c', 'c')})
+        assert loop_passage.getBorderX() == {'a'}
+        assert loop_passage.getBorderY() == {'b', 'c'}

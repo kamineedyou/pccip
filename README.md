@@ -19,9 +19,13 @@ pip install -r requirements.txt
 ```
 
 ## Usage
+Import the functions from the bin folder
 
-Put your code into the bin dir and fit it to your needs.
-The tests have to be in the test dir.
+```python
+from pccip.bin.cc.importModel import importPetriNet
+pathToFile="example.pnml"
+(net, initial_marking, final_marking) = importPetriNet(pathToFile)
+```
 
 ## Code quality
 

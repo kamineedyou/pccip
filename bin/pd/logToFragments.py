@@ -27,18 +27,24 @@ def split_log(sublog: EventLog):
                 next_event = trace[index+1]['concept:name']
             else:
                 next_event = None
-
+            # if event is a starting activity, not at the start of the trace
+            # and the previous event was not a starting event (parallel),
+            # split the log
             if curr_event in start_activities \
                 and index > last_loop \
                     and prev_event not in start_activities:
                 split_log.append(Trace(trace[last_loop:index]))
                 last_loop = index
+            # if event is a ending activity, not at the end of the trace
+            # and the next event is not a ending event (parallel),
+            # split the log
             elif curr_event in end_activities \
                 and index < len(trace) - 1 \
                     and next_event not in end_activities:
                 split_log.append(Trace(trace[last_loop:index+1]))
                 last_loop = index + 1
             prev_event = curr_event
+        # add the rest of the trace as a trace
         split_log.append(trace[last_loop:])
 
     return split_log
@@ -55,7 +61,9 @@ def create_fragment(sublog: EventLog,
     if parameters is None:
         parameters = {}
 
+    # create new log by splitting the input sublog
     new_log = split_log(sublog)
+    # use the p-algo to create a new fragment
     net, im, fm = variant(sublog=new_log, parameters=parameters)
 
     initial_marking = Marking()
@@ -64,6 +72,7 @@ def create_fragment(sublog: EventLog,
     fm_place = next(iter(fm.keys()))
 
     # Create new Marking if fragment is the start fragment
+    # and remove artificial start
     if len(im_place.out_arcs) == 1:
         im_transition = next(iter(im_place.out_arcs)).target
         if im_transition.label == 'Artificial:Start':
@@ -73,6 +82,7 @@ def create_fragment(sublog: EventLog,
             initial_marking = Marking({new_im_place: 1})
 
     # Create new Marking if fragment is the end fragment
+    # and remove artificial end
     if len(fm_place.in_arcs) == 1:
         fm_transition = next(iter(fm_place.in_arcs)).source
         if fm_transition.label == 'Artificial:End':
@@ -81,6 +91,7 @@ def create_fragment(sublog: EventLog,
             remove_transition(net, fm_transition)
             final_marking = Marking({new_fm_place: 1})
 
+    # if not at end, remove the generated start and/or end place
     if not len(initial_marking):
         remove_place(net, im_place)
     if not len(final_marking):

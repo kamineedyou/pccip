@@ -5,6 +5,7 @@ from pm4py.objects.petri.petrinet import PetriNet
 from pm4py.algo.discovery.alpha.algorithm import apply as alpha_algo
 from pm4py.statistics.start_activities.log.get import get_start_activities
 from pm4py.statistics.end_activities.log.get import get_end_activities
+from pm4py.objects.petri.utils import remove_place
 
 
 def alpha_fragments(sublog: EventLog, parameters: dict = None) -> PetriNet:
@@ -49,5 +50,6 @@ def create_fragments(sublog: EventLog,
 
     new_log = split_log(sublog)
     net, im, fm = variant(sublog=new_log, parameters=parameters)
-
-    return net, im, fm
+    remove_place(net, next(iter(im.keys())))
+    remove_place(net, next(iter(fm.keys())))
+    return net

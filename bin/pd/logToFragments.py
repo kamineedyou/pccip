@@ -103,7 +103,6 @@ def generate_petrinet(fragments: list) -> PetriNet:
 def merge_fragments(fragments: list) -> PetriNet:
     merged_net = fragments[0][0]
     transitions = {tran.label: tran for tran in merged_net.transitions}
-    places = {place.name: place for place in merged_net.places}
     net_list = [net[0] for net in fragments[1:]]
     for net in net_list:
         for transition in net.transitions:
@@ -124,11 +123,9 @@ def merge_fragments(fragments: list) -> PetriNet:
                                     merged_net)
             else:
                 merged_net.transitions.add(transition)
+                transitions[transition.label] = transition
         merged_net.places.update(net.places)
         merged_net.arcs.update(net.arcs)
-        transitions = {tran.label: tran for tran in merged_net.transitions}
-        places = {place.name: place for place in merged_net.places}
-
 
     initial_marking_set = {im[1] for im in fragments if not len(im[1]) == 0}
     final_marking_set = {im[2] for im in fragments if not len(im[2]) == 0}
@@ -136,6 +133,7 @@ def merge_fragments(fragments: list) -> PetriNet:
     initial_marking = Marking()
     final_marking = Marking()
 
+    # add all the initial and final markings from the fragments
     if initial_marking_set:
         for marking in initial_marking_set:
             initial_marking = initial_marking + marking
@@ -146,8 +144,6 @@ def merge_fragments(fragments: list) -> PetriNet:
     return merged_net, initial_marking, final_marking
 
 
-
 def remove_arc_set(net: PetriNet, arc_set: Set[PetriNet.Arc]):
     for arc in arc_set.copy():
         remove_arc(net, arc)
-

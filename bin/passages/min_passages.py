@@ -27,8 +27,9 @@ def algorithm(edges: Set[Tuple[str, str]], silents: Set[str]) -> Set[Passage]:
 
     return passage_set
 
+
 def pi_both(x_activity: str, y_activity: str, edges: Set[Tuple[str, str]],
-            silents: Set[str], t_vis: Set[str]) -> Set[Tuple[str,str]]:
+            silents: Set[str], t_vis: Set[str]) -> Set[Tuple[str, str]]:
     return {edge for edge in edges
             if edge[0] == x_activity
             or edge[1] == y_activity

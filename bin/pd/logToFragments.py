@@ -1,4 +1,3 @@
-
 from enum import Enum
 from pm4py.objects.log.log import EventLog, Trace
 from pm4py.objects.petri.petrinet import PetriNet

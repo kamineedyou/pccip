@@ -45,7 +45,7 @@ def split_log(sublog: EventLog):
                 last_loop = index + 1
             prev_event = curr_event
         # add the rest of the trace as a trace
-        split_log.append(trace[last_loop:])
+        split_log.append(Trace(trace[last_loop:]))
 
     return split_log
 

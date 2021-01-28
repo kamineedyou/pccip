@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<pnml>
+  <net id="net1" type="http://www.pnml.org/version-2009/grammar/pnmlcoremodel">
+    <page id="n0">
+      <place id="({'d'}, {'e'})">
+        <name>
+          <text>({'d'}, {'e'})</text>
+        </name>
+      </place>
+      <place id="({'c', 'b'}, {'e'})">
+        <name>
+          <text>({'c', 'b'}, {'e'})</text>
+        </name>
+      </place>
+      <place id="({'f', 'a'}, {'d'})">
+        <name>
+          <text>({'f', 'a'}, {'d'})</text>
+        </name>
+      </place>
+      <place id="({'f', 'a'}, {'c', 'b'})">
+        <name>
+          <text>({'f', 'a'}, {'c', 'b'})</text>
+        </name>
+      </place>
+      <transition id="f">
+        <name>
+          <text>f</text>
+        </name>
+      </transition>
+      <transition id="e">
+        <name>
+          <text>e</text>
+        </name>
+      </transition>
+      <transition id="a">
+        <name>
+          <text>a</text>
+        </name>
+      </transition>
+      <transition id="b">
+        <name>
+          <text>b</text>
+        </name>
+      </transition>
+      <transition id="c">
+        <name>
+          <text>c</text>
+        </name>
+      </transition>
+      <transition id="d">
+        <name>
+          <text>d</text>
+        </name>
+      </transition>
+      <arc id="8783326724768" source="f" target="({'f', 'a'}, {'c', 'b'})"/>
+      <arc id="8783326724804" source="a" target="({'f', 'a'}, {'d'})"/>
+      <arc id="8783326724774" source="a" target="({'f', 'a'}, {'c', 'b'})"/>
+      <arc id="8783326722470" source="c" target="({'c', 'b'}, {'e'})"/>
+      <arc id="8783326724810" source="({'f', 'a'}, {'d'})" target="d"/>
+      <arc id="8783326724780" source="({'f', 'a'}, {'c', 'b'})" target="c"/>
+      <arc id="8783326724654" source="d" target="({'d'}, {'e'})"/>
+      <arc id="8783326724786" source="({'f', 'a'}, {'c', 'b'})" target="b"/>
+      <arc id="8783326727479" source="({'c', 'b'}, {'e'})" target="e"/>
+      <arc id="8783326713597" source="b" target="({'c', 'b'}, {'e'})"/>
+      <arc id="8783326724798" source="f" target="({'f', 'a'}, {'d'})"/>
+      <arc id="8783326727455" source="({'d'}, {'e'})" target="e"/>
+    </page>
+  </net>
+</pnml>

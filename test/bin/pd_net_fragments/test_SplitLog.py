@@ -1,7 +1,7 @@
 import pytest
 import os
 from pm4py.objects.log.importer.xes import importer as xes_importer
-from pm4py.objects.log.log import EventLog
+from pm4py.objects.log.log import EventLog, Trace
 from pccip.bin.pd.logToFragments import split_log
 
 
@@ -78,6 +78,7 @@ class Test_SplitLog:
 
         # check if the traces are the same as expected
         for trace in new_split:
+            assert isinstance(trace, Trace)
             calc_trace = [x['concept:name'] for x in trace]
             assert calc_trace in expected_traces
 
@@ -88,6 +89,7 @@ class Test_SplitLog:
         expected_traces = []
         # generate list of activities in each trace in order
         for trace in expected_split:
+            assert isinstance(trace, Trace)
             expected_traces.append([x['concept:name'] for x in trace])
         # use split_log function
         new_split = split_log(sublog)
@@ -96,5 +98,6 @@ class Test_SplitLog:
 
         # check if the traces are the same as expected
         for trace in new_split:
+            assert isinstance(trace, Trace)
             calc_trace = [x['concept:name'] for x in trace]
             assert calc_trace in expected_traces

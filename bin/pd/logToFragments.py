@@ -104,17 +104,22 @@ def merge_fragments(fragments: list) -> PetriNet:
     merged_net = fragments[0][0]
     transitions = {tran.label: tran for tran in merged_net.transitions}
     net_list = [net[0] for net in fragments[1:]]
+    # for each fragment in the list
     for net in net_list:
+        # for each transition in the fragment
         for transition in net.transitions:
             in_arcs_src = {arc.source for arc in transition.in_arcs}
             out_arcs_tar = {arc.target for arc in transition.out_arcs}
+            # if transition has already been added, alter edges
             if transition.label in transitions:
+                # if transition comes after the merge transition
                 for place in in_arcs_src:
                     remove_arc_set(net, transition.in_arcs)
                     merged_net.places.add(place)
                     add_arc_from_to(place,
                                     transitions[transition.label],
                                     merged_net)
+                # if trannsition comes before the merge transition
                 for place in out_arcs_tar:
                     remove_arc_set(net, transition.out_arcs)
                     merged_net.places.add(place)
@@ -122,11 +127,14 @@ def merge_fragments(fragments: list) -> PetriNet:
                                     place,
                                     merged_net)
             else:
+                # if transition does not yet exist, simply add
                 merged_net.transitions.add(transition)
                 transitions[transition.label] = transition
+        # add all the arcs and places from the current fragment to the merge
         merged_net.places.update(net.places)
         merged_net.arcs.update(net.arcs)
 
+    # collect all of the non-empty initial and final marking
     initial_marking_set = {im[1] for im in fragments if not len(im[1]) == 0}
     final_marking_set = {im[2] for im in fragments if not len(im[2]) == 0}
 

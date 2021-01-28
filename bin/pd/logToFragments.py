@@ -100,17 +100,6 @@ def create_fragment(sublog: EventLog,
     return net, initial_marking, final_marking
 
 
-def generate_petrinet(fragments: list) -> PetriNet:
-    final_net = merge_fragments([net[0] for net in fragments])
-    for _, im, fm in fragments:
-        if len(im):
-            initial_marking = im
-        if len(fm):
-            final_marking = fm
-
-    return final_net, initial_marking, final_marking
-
-
 def merge_fragments(fragments: list) -> PetriNet:
     merged_net = fragments[0][0]
     transitions = {tran.label: tran for tran in merged_net.transitions}

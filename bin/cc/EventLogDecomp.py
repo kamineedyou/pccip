@@ -4,7 +4,9 @@ from typing import List
 
 
 def decompose_event_log(log: EventLog, List_events: List[List]) -> EventLog:
-    parameters = {basic_filter.Parameters.ATTRIBUTE_KEY: "concept:name", basic_filter.Parameters.POSITIVE: True}
-    filtered_log = basic_filter.filter_log_events_attr(log, List_events, parameters)
+    c_name = "concept:name"
+    par = {basic_filter.Parameters.ATTRIBUTE_KEY: c_name}
+    par[basic_filter.Parameters.POSITIVE] = True
+    filtered_log = basic_filter.filter_log_events_attr(log, List_events, par)
 
     return filtered_log

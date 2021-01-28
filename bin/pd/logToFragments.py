@@ -20,17 +20,23 @@ def split_log(sublog: EventLog):
         last_loop = 0
         prev_event = None
         for index, event in enumerate(trace):
-            if event['concept:name'] in start_activities \
+            curr_event = event['concept:name']
+            if index < len(trace) - 1:
+                next_event = trace[index+1]['concept:name']
+            else:
+                next_event = None
+
+            if curr_event in start_activities \
                 and index > last_loop \
                     and prev_event not in start_activities:
                 split_log.append(Trace(trace[last_loop:index]))
                 last_loop = index
-            elif event['concept:name'] in end_activities \
+            elif curr_event in end_activities \
                 and index < len(trace) - 1 \
-                    and prev_event not in end_activities:
+                    and next_event not in end_activities:
                 split_log.append(Trace(trace[last_loop:index+1]))
                 last_loop = index + 1
-            prev_event = event['concept:name']
+            prev_event = curr_event
         split_log.append(trace[last_loop:])
 
     return split_log
@@ -42,8 +48,8 @@ class Variants(Enum):
 
 
 def create_fragment(sublog: EventLog,
-                     parameters: dict = None,
-                     variant: Variants = Variants.DEFAULT_VARIANT) -> PetriNet:
+                    parameters: dict = None,
+                    variant: Variants = Variants.DEFAULT_VARIANT) -> PetriNet:
     if parameters is None:
         parameters = {}
 

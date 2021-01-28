@@ -1,10 +1,12 @@
 from enum import Enum
+from typing import Set
 from pm4py.objects.log.log import EventLog, Trace
 from pm4py.objects.petri.petrinet import PetriNet, Marking
 from pm4py.algo.discovery.alpha.algorithm import apply as alpha_algo
 from pm4py.statistics.start_activities.log.get import get_start_activities
 from pm4py.statistics.end_activities.log.get import get_end_activities
-from pm4py.objects.petri.utils import remove_place, merge, remove_transition
+from pm4py.objects.petri.utils import remove_place, remove_transition
+from pm4py.objects.petri.utils import remove_arc, add_arc_from_to
 
 
 def alpha_fragments(sublog: EventLog, parameters: dict = None) -> PetriNet:
@@ -87,12 +89,65 @@ def create_fragment(sublog: EventLog,
     return net, initial_marking, final_marking
 
 
-def merge_fragments(fragments: list) -> PetriNet:
-    final_net = merge(nets=fragments)
-    for net, im, fm in fragments:
+def generate_petrinet(fragments: list) -> PetriNet:
+    final_net = merge_fragments([net[0] for net in fragments])
+    for _, im, fm in fragments:
         if len(im):
             initial_marking = im
         if len(fm):
             final_marking = fm
 
     return final_net, initial_marking, final_marking
+
+
+def merge_fragments(fragments: list) -> PetriNet:
+    merged_net = fragments[0][0]
+    transitions = {tran.label: tran for tran in merged_net.transitions}
+    places = {place.name: place for place in merged_net.places}
+    net_list = [net[0] for net in fragments[1:]]
+    for net in net_list:
+        for transition in net.transitions:
+            in_arcs_src = {arc.source for arc in transition.in_arcs}
+            out_arcs_tar = {arc.target for arc in transition.out_arcs}
+            if transition.label in transitions:
+                for place in in_arcs_src:
+                    remove_arc_set(net, transition.in_arcs)
+                    merged_net.places.add(place)
+                    add_arc_from_to(place,
+                                    transitions[transition.label],
+                                    merged_net)
+                for place in out_arcs_tar:
+                    remove_arc_set(net, transition.out_arcs)
+                    merged_net.places.add(place)
+                    add_arc_from_to(transitions[transition.label],
+                                    place,
+                                    merged_net)
+            else:
+                merged_net.transitions.add(transition)
+        merged_net.places.update(net.places)
+        merged_net.arcs.update(net.arcs)
+        transitions = {tran.label: tran for tran in merged_net.transitions}
+        places = {place.name: place for place in merged_net.places}
+
+
+    initial_marking_set = {im[1] for im in fragments if not len(im[1]) == 0}
+    final_marking_set = {im[2] for im in fragments if not len(im[2]) == 0}
+
+    initial_marking = Marking()
+    final_marking = Marking()
+
+    if initial_marking_set:
+        for marking in initial_marking_set:
+            initial_marking = initial_marking + marking
+    if final_marking_set:
+        for marking in final_marking_set:
+            final_marking = final_marking + marking
+
+    return merged_net, initial_marking, final_marking
+
+
+
+def remove_arc_set(net: PetriNet, arc_set: Set[PetriNet.Arc]):
+    for arc in arc_set.copy():
+        remove_arc(net, arc)
+

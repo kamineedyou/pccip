@@ -3,6 +3,7 @@ import os
 from pm4py.objects.log.importer.xes import importer as xes_importer
 from pm4py.objects.petri.importer import importer as pnml_importer
 from pm4py.objects.petri.petrinet import PetriNet, Marking
+from pm4py.objects.log.log import Trace
 from pccip.bin.pd.logToFragments import create_fragment, Variants
 
 
@@ -201,3 +202,8 @@ class Test_CreateFragmentAlpha:
 
         assert sorted(str(exp_im)) == sorted(str(new_im))
         assert sorted(str(exp_fm)) == sorted(str(new_fm))
+
+    def test_InvalidInput(self):
+        with pytest.raises(TypeError):
+            create_fragment('<xml>event log</xml>')
+            create_fragment(Trace())

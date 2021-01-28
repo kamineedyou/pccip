@@ -197,3 +197,8 @@ class Test_MergeFragments:
 
         assert sorted(str(exp_im)) == sorted(str(new_im))
         assert sorted(str(exp_fm)) == sorted(str(new_fm))
+
+    def test_InvalidInput(self):
+        with pytest.raises(TypeError):
+            merge_fragments([PetriNet(), PetriNet()])
+            merge_fragments([('PetriNet', 'im', 'fm')])

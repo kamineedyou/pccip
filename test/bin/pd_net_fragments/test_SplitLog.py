@@ -101,3 +101,8 @@ class Test_SplitLog:
             assert isinstance(trace, Trace)
             calc_trace = [x['concept:name'] for x in trace]
             assert calc_trace in expected_traces
+
+    def test_InvalidInput(self):
+        with pytest.raises(TypeError):
+            split_log('<xml>event log</xml>')
+            split_log(Trace())

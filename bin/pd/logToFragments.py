@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import Set
+from typing import Set, List, Tuple
 from pm4py.objects.log.log import EventLog, Trace
 from pm4py.objects.petri.petrinet import PetriNet, Marking
 from pm4py.algo.discovery.alpha.algorithm import apply as alpha_algo
@@ -10,10 +10,14 @@ from pm4py.objects.petri.utils import remove_arc, add_arc_from_to
 
 
 def alpha_fragments(sublog: EventLog, parameters: dict = None) -> PetriNet:
+    if parameters is None:
+        parameters = {}
     return alpha_algo(sublog, parameters=parameters)
 
 
 def split_log(sublog: EventLog):
+    if not isinstance(sublog, EventLog):
+        raise TypeError('Invalid Event Log Type')
     start_activities = set(get_start_activities(sublog).keys())
     end_activities = set(get_end_activities(sublog).keys())
     split_log = EventLog()
@@ -58,6 +62,9 @@ class Variants(Enum):
 def create_fragment(sublog: EventLog,
                     parameters: dict = None,
                     variant: Variants = Variants.DEFAULT_VARIANT) -> PetriNet:
+    if not isinstance(sublog, EventLog):
+        raise TypeError('Invalid Event Log Type')
+
     if parameters is None:
         parameters = {}
 
@@ -100,7 +107,15 @@ def create_fragment(sublog: EventLog,
     return net, initial_marking, final_marking
 
 
-def merge_fragments(fragments: list) -> PetriNet:
+def merge_fragments(fragments: List[
+                               Tuple[PetriNet, Marking, Marking]]) -> PetriNet:
+    if not isinstance(fragments[0], tuple):
+        raise TypeError('Please use a List[Tuple[PetriNet, Marking, Marking]]')
+    if not isinstance(fragments[0][0], PetriNet) \
+       or not isinstance(fragments[0][1], Marking) \
+       or not isinstance(fragments[0][2], Marking):
+        raise TypeError('Please use Tuple[PetriNet, Marking, Marking]')
+
     merged_net = fragments[0][0]
     transitions = {tran.label: tran for tran in merged_net.transitions}
     net_list = [net[0] for net in fragments[1:]]
@@ -152,6 +167,6 @@ def merge_fragments(fragments: list) -> PetriNet:
     return merged_net, initial_marking, final_marking
 
 
-def remove_arc_set(net: PetriNet, arc_set: Set[PetriNet.Arc]):
+def remove_arc_set(net: PetriNet, arc_set: Set[PetriNet.Arc]) -> None:
     for arc in arc_set.copy():
         remove_arc(net, arc)

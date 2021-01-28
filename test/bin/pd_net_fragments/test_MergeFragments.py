@@ -93,6 +93,9 @@ class Test_MergeFragments:
             assert isinstance(arc, PetriNet.Arc)
             assert sorted(str(arc)) in exp_arcs
 
+        assert sorted(str(exp_im)) == sorted(str(new_im))
+        assert sorted(str(exp_fm)) == sorted(str(new_fm))
+
     def test_MergeMiddleEnd(self, middleEnd):
         fragment_list = middleEnd[0]
         exp_net, exp_im, exp_fm = middleEnd[1]
@@ -123,6 +126,9 @@ class Test_MergeFragments:
         for arc in new_merge.arcs:
             assert isinstance(arc, PetriNet.Arc)
             assert sorted(str(arc)) in exp_arcs
+
+        assert sorted(str(exp_im)) == sorted(str(new_im))
+        assert sorted(str(exp_fm)) == sorted(str(new_fm))
 
     def test_MergeMiddleOnly(self, middleOnly):
         fragment_list = middleOnly[0]
@@ -155,6 +161,9 @@ class Test_MergeFragments:
             assert isinstance(arc, PetriNet.Arc)
             assert sorted(str(arc)) in exp_arcs
 
+        assert sorted(str(exp_im)) == sorted(str(new_im))
+        assert sorted(str(exp_fm)) == sorted(str(new_fm))
+
     def test_MergeWhole(self, whole):
         fragment_list = whole[0]
         exp_net, exp_im, exp_fm = whole[1]
@@ -185,3 +194,6 @@ class Test_MergeFragments:
         for arc in new_merge.arcs:
             assert isinstance(arc, PetriNet.Arc)
             assert sorted(str(arc)) in exp_arcs
+
+        assert sorted(str(exp_im)) == sorted(str(new_im))
+        assert sorted(str(exp_fm)) == sorted(str(new_fm))

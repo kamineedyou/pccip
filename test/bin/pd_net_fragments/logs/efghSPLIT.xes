@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<log>
+	<trace>
+		<event>
+			<string key="concept:name" value="e" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2020-12-04T00:00:00+01:00" />
+		</event>
+		<event>
+			<string key="concept:name" value="g" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2020-12-05T00:00:00+01:00" />
+		</event>
+	</trace>
+	<trace>
+		<event>
+			<string key="concept:name" value="e" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2020-12-04T00:00:00+01:00" />
+		</event>
+		<event>
+			<string key="concept:name" value="f" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2020-12-05T00:00:00+01:00" />
+		</event>
+	</trace>
+	<trace>
+		<event>
+			<string key="concept:name" value="e" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2020-12-08T00:00:00+01:00" />
+		</event>
+		<event>
+			<string key="concept:name" value="g" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2020-12-09T00:00:00+01:00" />
+		</event>
+	</trace>
+	<trace>
+		<event>
+			<string key="concept:name" value="e" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2020-12-04T00:00:00+01:00" />
+		</event>
+		<event>
+			<string key="concept:name" value="h" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2020-12-05T00:00:00+01:00" />
+		</event>
+	</trace>
+	<trace>
+		<event>
+			<string key="concept:name" value="e" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2020-12-04T00:00:00+01:00" />
+		</event>
+		<event>
+			<string key="concept:name" value="f" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2020-12-05T00:00:00+01:00" />
+		</event>
+	</trace>
+	<trace>
+		<event>
+			<string key="concept:name" value="e" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2020-12-08T00:00:00+01:00" />
+		</event>
+		<event>
+			<string key="concept:name" value="g" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2020-12-09T00:00:00+01:00" />
+		</event>
+	</trace>
+	<trace>
+		<event>
+			<string key="concept:name" value="e" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2020-12-04T00:00:00+01:00" />
+		</event>
+		<event>
+			<string key="concept:name" value="h" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2020-12-05T00:00:00+01:00" />
+		</event>
+	</trace>
+	<trace>
+		<event>
+			<string key="concept:name" value="e" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2020-12-04T00:00:00+01:00" />
+		</event>
+		<event>
+			<string key="concept:name" value="g" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2020-12-05T00:00:00+01:00" />
+		</event>
+	</trace>
+	<trace>
+		<event>
+			<string key="concept:name" value="e" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2020-12-04T00:00:00+01:00" />
+		</event>
+		<event>
+			<string key="concept:name" value="g" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2020-12-05T00:00:00+01:00" />
+		</event>
+	</trace>
+	<trace>
+		<event>
+			<string key="concept:name" value="e" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2020-12-04T00:00:00+01:00" />
+		</event>
+		<event>
+			<string key="concept:name" value="h" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2020-12-05T00:00:00+01:00" />
+		</event>
+	</trace>
+	<trace>
+		<event>
+			<string key="concept:name" value="e" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2020-12-04T00:00:00+01:00" />
+		</event>
+		<event>
+			<string key="concept:name" value="f" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2020-12-05T00:00:00+01:00" />
+		</event>
+	</trace>
+	<trace>
+		<event>
+			<string key="concept:name" value="e" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2020-12-08T00:00:00+01:00" />
+		</event>
+		<event>
+			<string key="concept:name" value="h" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2020-12-09T00:00:00+01:00" />
+		</event>
+	</trace>
+	<trace>
+		<event>
+			<string key="concept:name" value="e" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2020-12-04T00:00:00+01:00" />
+		</event>
+		<event>
+			<string key="concept:name" value="f" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2020-12-05T00:00:00+01:00" />
+		</event>
+	</trace>
+	<trace>
+		<event>
+			<string key="concept:name" value="e" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2020-12-08T00:00:00+01:00" />
+		</event>
+		<event>
+			<string key="concept:name" value="g" />
+			<string key="lifecycle:transition" value="complete" />
+			<date key="time:timestamp" value="2020-12-09T00:00:00+01:00" />
+		</event>
+	</trace>
+</log>

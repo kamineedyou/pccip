@@ -3,10 +3,11 @@ from pm4py.objects.log.log import EventLog
 from typing import List
 
 
-def decompose_event_log(log: EventLog, List_events: List[str]) -> EventLog:
-    c_name = "concept:name"
-    par = {basic_filter.Parameters.ATTRIBUTE_KEY: c_name}
-    par[basic_filter.Parameters.POSITIVE] = True
-    filtered_log = basic_filter.filter_log_events_attr(log, List_events, par)
+def decompose_event_log(log: EventLog, events: List[str]) -> EventLog:
+    concept_name = "concept:name"
+    parameter = {basic_filter.Parameters.ATTRIBUTE_KEY: concept_name}
+    parameter[basic_filter.Parameters.POSITIVE] = True
+    decomposed_Log = basic_filter.filter_log_events_attr(
+        log, events, parameter)
 
-    return filtered_log
+    return decomposed_Log

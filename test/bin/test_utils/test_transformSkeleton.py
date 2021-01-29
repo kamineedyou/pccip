@@ -1,8 +1,6 @@
 from pccip.bin.utils.transformSkeleton import petriNetIntoSkeleton
-from pccip.bin.utils.transformSkeleton import UnlabeledTransitions
 from pm4py.objects.petri.petrinet import PetriNet, Marking
 from pm4py.objects.petri import utils
-from pytest import raises
 
 
 class TestSkeleton:

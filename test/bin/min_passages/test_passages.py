@@ -2,6 +2,7 @@ import pytest
 import os
 from networkx import DiGraph
 from pccip.bin.passages.passage import Passage
+from pm4py.objects.petri.petrinet import PetriNet
 from pm4py.objects.petri.importer import importer as pn_importer
 
 
@@ -36,7 +37,7 @@ class Test_Passages:
             for arcIn in place.in_arcs:
                 for arcOut in place.out_arcs:
                     skeleton.add_edge(arcIn.source, arcOut.target)
-        return skeleton
+        return skeleton, net
 
     def test_ValidPassageInit(self, validPassage):
 
@@ -123,12 +124,39 @@ class Test_Passages:
         assert loop_passage.getBorderX() == {'a'}
         assert loop_passage.getBorderY() == {'b', 'c'}
 
+    def test_GetVisibleTransitions(self, validPassages):
+        passage_list = validPassages
+        expected_t_vis = [['b', 'c', 'd', 'e', 'f'],
+                          ['e', 'g'],
+                          ['a', 'b', 'c'],
+                          ['g', 'h', 'i'],
+                          ['f', 'h']]
+
+        for index, passage in enumerate(passage_list):
+            assert sorted(passage.getTVis()) == sorted(expected_t_vis[index])
+
     def test_DiGraphImport(self, validDiGraph):
-        passage = Passage(validDiGraph)
+        passage = Passage(validDiGraph[0])
+        exp_net = validDiGraph[1]
 
         for edge in passage.edges:
             assert edge in set(passage.digraph_link.keys())
             assert isinstance(edge, tuple)
+            assert isinstance(edge[0], str)
+            assert isinstance(edge[1], str)
 
         assert passage.getBorderX() == {'a'}
         assert passage.getBorderY() == {'g', 'h'}
+
+        for transition in exp_net.transitions:
+            tran = passage.get_digraph_transition(transition.name)
+            assert tran is not None
+            assert isinstance(tran, PetriNet.Transition)
+
+        for edge in passage.edges:
+            di_edge = passage.get_digraph_edge(edge)
+            assert di_edge is not None
+            assert isinstance(di_edge, tuple)
+            assert isinstance(di_edge[0], PetriNet.Transition)
+            assert isinstance(di_edge[1], PetriNet.Transition)
+            assert di_edge in validDiGraph[0].edges

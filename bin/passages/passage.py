@@ -1,4 +1,4 @@
-from typing import Tuple, Set, Union
+from typing import Tuple, Set, Union, List
 from networkx import DiGraph
 
 
@@ -81,6 +81,11 @@ class Passage:
 
         return x_set, y_set
 
+    def getTVis(self, silents: Set[str] = set()) -> List[str]:
+        t_vis_set = {x[0] for x in self.edges} | {y[1] for y in self.edges}
+        t_vis_set = t_vis_set - silents
+        return list(t_vis_set)
+
     def __repr__(self) -> str:
         x = sorted(list(self.getX()))
         y = sorted(list(self.getY()))
@@ -105,6 +110,8 @@ class Passage:
         new_edges = self.edges | obj.edges
         if self.digraph_link is not None and obj.digraph_link is not None:
             new_digraph = self.digraph_link | obj.digraph_link
+        elif self.digraph_link == obj.digraph_link:
+            new_digraph = self.digraph_link
         else:
             new_digraph = None
 
@@ -120,6 +127,8 @@ class Passage:
             new_digraph = {k: self.digraph_link[k]
                            for k in
                            set(self.digraph_link) - set(obj.digraph_link)}
+        elif self.digraph_link == obj.digraph_link:
+            new_digraph = self.digraph_link
         else:
             new_digraph = None
 

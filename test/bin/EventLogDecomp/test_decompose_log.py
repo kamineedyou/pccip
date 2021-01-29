@@ -1,4 +1,3 @@
-import pytest
 import os
 from pccip.bin.cc.EventLogDecomp import decompose_event_log
 from pm4py.objects.log.importer.xes import importer as xes_importer

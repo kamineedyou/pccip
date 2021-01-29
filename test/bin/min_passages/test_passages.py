@@ -1,5 +1,8 @@
 import pytest
+import os
+from networkx import DiGraph
 from pccip.bin.passages.passage import Passage
+from pm4py.objects.petri.importer import importer as pn_importer
 
 
 class Test_Passages:
@@ -22,6 +25,18 @@ class Test_Passages:
                         Passage({('f', 'h')})]
 
         return passage_list
+
+    @pytest.fixture
+    def validDiGraph(self):
+        currentDir = os.path.dirname(os.path.realpath(__file__))
+        pathToFile = os.path.join(currentDir, 'figure1.pnml')
+        net, *_ = pn_importer.apply(pathToFile)
+        skeleton = DiGraph()
+        for place in net.places:
+            for arcIn in place.in_arcs:
+                for arcOut in place.out_arcs:
+                    skeleton.add_edge(arcIn.source, arcOut.target)
+        return skeleton
 
     def test_ValidPassageInit(self, validPassage):
 
@@ -107,3 +122,13 @@ class Test_Passages:
         loop_passage = start_passage + Passage({('a', 'a'), ('c', 'c')})
         assert loop_passage.getBorderX() == {'a'}
         assert loop_passage.getBorderY() == {'b', 'c'}
+
+    def test_DiGraphImport(self, validDiGraph):
+        passage = Passage(validDiGraph)
+
+        for edge in passage.edges:
+            assert edge in set(passage.digraph_link.keys())
+            assert isinstance(edge, tuple)
+
+        assert passage.getBorderX() == {'a'}
+        assert passage.getBorderY() == {'g', 'h'}

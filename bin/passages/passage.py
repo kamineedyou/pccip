@@ -1,12 +1,44 @@
-from typing import Tuple, Set
+from typing import Tuple, Set, Union
+from networkx import DiGraph
 
 
 class Passage:
-    def __init__(self, edges: Set[Tuple[str, str]] = set()):
-        if not isinstance(edges, set):
+    def __init__(self, edges: Union[DiGraph, Set[Tuple[str, str]]] = set(),
+                 digraph_link: dict = None):
+        if not isinstance(edges, set) and not isinstance(edges, DiGraph):
             raise TypeError('Invalid Input Edges Format.')
 
-        self.edges = edges
+        if isinstance(edges, DiGraph) and digraph_link is None:
+            self.edges, self.digraph_link = self.digraph_to_tuple(edges)
+        else:
+            self.edges = edges
+            self.digraph_link = digraph_link
+
+    def digraph_to_tuple(self, digraph: DiGraph):
+        digraph_link = {}
+        tuple_edges = set()
+        for edge in digraph.edges:
+            src = edge[0]
+            tar = edge[1]
+            tuple_edges.add((src.name, tar.name))
+            digraph_link[(src.name, tar.name)] = edge
+            digraph_link[src.name] = src
+            digraph_link[tar.name] = tar
+        return tuple_edges, digraph_link
+
+    def get_digraph_edge(self, edge: Tuple[str, str]):
+        if self.digraph_link is not None \
+           and edge in set(self.digraph_link.keys()):
+            return self.digraph_link[edge]
+        else:
+            return None
+
+    def get_digraph_transition(self, transition: str):
+        if self.digraph_link is not None \
+           and transition in set(self.digraph_link.keys()):
+            return self.digraph_link[transition]
+        else:
+            return None
 
     def addEdge(self, edge: Tuple[str, str]):
         if not isinstance(edge, tuple) or not len(edge) == 2 or \
@@ -71,8 +103,12 @@ class Passage:
         if not isinstance(obj, Passage):
             raise TypeError(type(obj), 'cannot be added to', type(Passage))
         new_edges = self.edges | obj.edges
+        if self.digraph_link is not None and obj.digraph_link is not None:
+            new_digraph = self.digraph_link | obj.digraph_link
+        else:
+            new_digraph = None
 
-        return Passage(new_edges)
+        return Passage(new_edges, new_digraph)
 
     def __sub__(self, obj):
         if not isinstance(obj, Passage):
@@ -80,5 +116,11 @@ class Passage:
                 type(obj), 'cannot be subtracted from', type(Passage))
 
         new_edges = self.edges - obj.edges
+        if self.digraph_link is not None and obj.digraph_link is not None:
+            new_digraph = {k: self.digraph_link[k]
+                           for k in
+                           set(self.digraph_link) - set(obj.digraph_link)}
+        else:
+            new_digraph = None
 
-        return Passage(new_edges)
+        return Passage(new_edges, new_digraph)

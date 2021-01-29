@@ -1,6 +1,9 @@
 import pytest
+import os
+from networkx import DiGraph
 from pccip.bin.passages.passage import Passage
-from pccip.bin.passages.min_passages import algorithm, pi_1, pi_2
+from pccip.bin.passages.min_passages import algorithm, pi_1, pi_2, pi_both
+from pm4py.objects.petri.importer import importer as pn_importer
 
 
 class Test_Min_Passages:
@@ -37,6 +40,21 @@ class Test_Min_Passages:
 
         return causal_example, causal_expected
 
+    @pytest.fixture
+    def validDiGraph(self):
+        currentDir = os.path.dirname(os.path.realpath(__file__))
+        pathToFile = os.path.join(currentDir, 'figure1.pnml')
+        net, *_ = pn_importer.apply(pathToFile)
+        skeleton = DiGraph()
+        for place in net.places:
+            for arcIn in place.in_arcs:
+                for arcOut in place.out_arcs:
+                    skeleton.add_edge(arcIn.source, arcOut.target)
+
+        expected = {'getX': [{'e'}, {'a', 'f'}, {'b', 'c', 'd'}],
+                    'getY': [{'f', 'g', 'h'}, {'b', 'c', 'd'}, {'e'}]}
+        return skeleton, expected
+
     def test_pi_1(self):
         edge_set = {('a', 'b'), ('a', 'd'), ('b', 'a'), ('d', 't')}
 
@@ -53,6 +71,14 @@ class Test_Min_Passages:
         assert pi_2('d', edge_set) == {('a', 'd')}
         assert pi_2('t', edge_set) == {('d', 't')}
         assert pi_2('s', edge_set) == set()
+
+    def test_pi_both(self):
+        edge_set = {('a', 'b'), ('a', 'd'), ('b', 'a'), ('d', 't')}
+
+        assert pi_both('a', 'b', edge_set, [], []) == {('a', 'b'), ('a', 'd')}
+        assert pi_both('b', 'a', edge_set, [], []) == {('b', 'a')}
+        assert pi_both('d', 'a', edge_set, [], []) == {('d', 't'), ('b', 'a')}
+        assert pi_both('s', 'z', edge_set, [], []) == set()
 
     def test_ValidCausalPassages(self, validCausal, validCausal2):
         passage_set = algorithm(validCausal[0])
@@ -74,3 +100,16 @@ class Test_Min_Passages:
 
         for passage in passage_set2:
             assert isinstance(passage, Passage)
+
+    def test_DiGraphInput(self, validDiGraph):
+        exp_getX = validDiGraph[1]['getX']
+        exp_getY = validDiGraph[1]['getY']
+        passage_set = algorithm(validDiGraph[0])
+        assert len(passage_set) == 3
+        assert len(passage_set) == len(exp_getX)
+
+        for p in passage_set:
+            assert p.digraph_link is not None
+            assert isinstance(p, Passage)
+            assert p.getX() in exp_getX
+            assert p.getY() in exp_getY

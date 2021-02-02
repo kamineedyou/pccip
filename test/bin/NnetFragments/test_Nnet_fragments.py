@@ -18,20 +18,22 @@ class TestNnetFragmnets:
         passage_list = [Passage({('h', 'sink'), ('g', 'sink')})]
 
         NnetFragments_test = net_fragments(passage_list, process_model)
-        pathToValidFile = os.path.join(currentDir, 'test_petrinet_passage_g_h.pnml')
-        valid_fragments, initial_marking, final_marking = pnml_importer.apply(pathToValidFile)
+        filename = 'test_petrinet_passage_g_h.pnml'
+        pathToValid = os.path.join(currentDir, filename)
+        valid_fragments, initial_marking, final_marking = pnml_importer.apply(pathToValid)
 
         valid_trans = valid_fragments.transitions
         test_trans = NnetFragments_test[0].transitions
 
         assert len(valid_trans) == len(test_trans)
-
+        true = True
         for arc in NnetFragments_test[0].arcs:
             arc_source_test = arc.source.label
             arc_sink_test = arc.target.name
             found = False
             for arc in valid_fragments.arcs:
-                if arc_source_test == arc.source.label and arc_sink_test == arc.target.name:
-                    found = True
-                    break
-            assert found == True
+                if arc_source_test == arc.source.label:
+                    if arc_sink_test == arc.target.name:
+                        found = True
+                        break
+            assert found == true

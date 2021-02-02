@@ -10,8 +10,6 @@ def net_fragments(passage_list: List[Passage], process_model: PetriNet) -> List[
     for passage in passage_list:
         X, Y = passage.getXY()
 
-        events = process_model.transitions
-        arcs = process_model.arcs
         places = process_model.places
 
         places_new = set()

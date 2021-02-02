@@ -20,7 +20,7 @@ class TestNnetFragmnets:
         NnetFragments_test = net_fragments(passage_list, process_model)
         filename = 'test_petrinet_passage_g_h.pnml'
         pathToValid = os.path.join(currentDir, filename)
-        valid_fragments, initial_marking, final_marking = pnml_importer.apply(pathToValid)
+        valid_fragments, init_mar, fmarking = pnml_importer.apply(pathToValid)
 
         valid_trans = valid_fragments.transitions
         test_trans = NnetFragments_test[0].transitions

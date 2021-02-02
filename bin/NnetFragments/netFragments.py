@@ -4,13 +4,13 @@ from typing import List
 from pm4py.objects.petri.petrinet import PetriNet
 
 
-def net_fragments(passage_list: List[Passage], process_model: PetriNet) -> List[PetriNet]:
+def net_fragments(list: List[Passage], model: PetriNet) -> List[PetriNet]:
     NnetFragments = list()
 
-    for passage in passage_list:
+    for passage in list:
         X, Y = passage.getXY()
 
-        places = process_model.places
+        places = model.places
 
         places_new = set()
         arcs_new = set()

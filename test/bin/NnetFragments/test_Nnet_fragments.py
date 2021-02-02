@@ -1,4 +1,3 @@
-import pytest
 from pccip.bin.NnetFragments.netFragments import net_fragments
 import os
 from pm4py.objects.log.importer.xes import importer as xes_importer

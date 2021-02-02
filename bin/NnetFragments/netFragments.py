@@ -4,10 +4,10 @@ from typing import List
 from pm4py.objects.petri.petrinet import PetriNet
 
 
-def net_fragments(list: List[Passage], model: PetriNet) -> List[PetriNet]:
+def net_fragments(passages: List[Passage], model: PetriNet) -> List[PetriNet]:
     NnetFragments = list()
 
-    for passage in list:
+    for passage in passages:
         X, Y = passage.getXY()
 
         places = model.places

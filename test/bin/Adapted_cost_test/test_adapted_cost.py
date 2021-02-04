@@ -1,11 +1,9 @@
 import os
-import sys
 import pytest
-from pm4py.objects.petri.petrinet import PetriNet, Marking
+from pm4py.objects.petri.petrinet import PetriNet
 from pm4py.objects.log.importer.xes import importer as xes_importer
 from pm4py.algo.discovery.inductive import algorithm as inductive_miner
 from pm4py.algo.conformance.alignments import algorithm as alignments
-from pm4py.algo.discovery.alpha.algorithm import apply
 from pccip.bin.cc.EventLogDecomp import decompose_event_log
 from pccip.bin.cc import Adapted_Cost
 

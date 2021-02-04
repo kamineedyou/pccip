@@ -24,8 +24,10 @@ def net_frag():
     log_1 = xes_importer.apply(pathToFile_1)
     log_2 = xes_importer.apply(pathToFile_2)
     net, initial_marking, final_marking = inductive_miner.apply(log_1)
-    aligned_transition = alignments.apply_log(log_2,
-                                             net, initial_marking, final_marking)
+    aligned_transition = alignments.apply_log(
+                log_2,
+                net, initial_marking, final_marking
+                )
     return aligned_transition
 
 
@@ -62,7 +64,6 @@ def nnet_fragments():
     utils.add_arc_from_to(c_1, t_12, net_1)
     utils.add_arc_from_to(t_12, sink_1, net_1)
     utils.add_arc_from_to(t_13, sink_1, net_1)
-#second fragment
     net_2 = PetriNet("petri_net_2")
     source_2 = PetriNet.Place("source")
     sink_2 = PetriNet.Place("sink")
@@ -89,6 +90,6 @@ def nnet_fragments():
 
 
 def test_adapted_cost_fun(nnet_fragments):
-    align_trace, average_fitness = Adapted_Cost.Adapted_Cost_func(nnet_fragments[0],
-                                                                   nnet_fragments[1])
+    align_trace, average_fitness = Adapted_Cost.Adapted_Cost_func(
+                            nnet_fragments[0], nnet_fragments[1])
     assert align_trace[1][0]['cost'] == 0.5

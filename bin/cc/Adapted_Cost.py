@@ -72,6 +72,8 @@ def Adapted_Cost_func(SubEvents: List[EventLog],
                         count_trace += 10000
                 if count_trace != 0:
                     aligned_traces[i][trace]['cost'] /= count_trace
-            average_fitness[i] = replay_fitness.evaluate(aligned_traces[i],
-                                                         variant=replay_fitness.Variants.ALIGNMENT_BASED)
+            average_fitness[i] = replay_fitness.evaluate(
+                                                         aligned_traces[i],
+                                                         variant=replay_fitness.Variants.ALIGNMENT_BASED
+                                                         )
     return aligned_traces, average_fitness

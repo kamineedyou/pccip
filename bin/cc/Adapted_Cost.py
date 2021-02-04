@@ -69,8 +69,8 @@ def Adapted_Cost_func(SubEvents: List[EventLog],
             for trace in range(len(misaligned_trans[i])):
                 count_trace = 0
                 for j in range(len(Net_fragments)):
-                    if (k in set(misaligned_trans[i][trace]) for k in
-                                        str(Net_fragments[j].transitions)):
+                    if (k in set(misaligned_trans[i][trace]) for k in 
+                                                                   str(Net_fragments[j].transitions)):
                         count_trace += 10000
                 if count_trace != 0:
                     aligned_traces[i][trace]['cost'] /= count_trace

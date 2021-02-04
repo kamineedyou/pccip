@@ -24,7 +24,7 @@ def Get_Misaligned_Trans(aligned_traces: List) -> List[Set[str]]:
         if trace['fitness'] != 1:
             for alig in trace['alignment']:
                 if Get_Acti(alig) is not None \
-                    and Get_Acti(alig) not in unfited_traces:
+                                  and Get_Acti(alig) not in unfited_traces:
                     unfited_traces.add(Get_Acti(alig))
         lis.append(unfited_traces)
     return lis
@@ -67,13 +67,11 @@ def Adapted_Cost_func(SubEvents: List[EventLog],
             for trace in range(len(misaligned_trans[i])):
                 count_trace = 0
                 for j in range(len(Net_fragments)):
-                    if (k in set(misaligned_trans[i][trace]) for k in \
-                        str(Net_fragments[j].transitions)):
+                    if (k in set(misaligned_trans[i][trace]) for k in
+                         str(Net_fragments[j].transitions)):
                         count_trace += 10000
                 if count_trace != 0:
                     aligned_traces[i][trace]['cost'] /= count_trace
             average_fitness[i] = replay_fitness.evaluate(
-                                                         aligned_traces[i],
-                                                         variant=replay_fitness.Variants.ALIGNMENT_BASED
-                                                         )
+                        aligned_traces[i],variant=replay_fitness.Variants.ALIGNMENT_BASED)
     return aligned_traces, average_fitness

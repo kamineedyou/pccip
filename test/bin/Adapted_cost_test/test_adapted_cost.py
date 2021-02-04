@@ -22,29 +22,29 @@ def test_Get_Acti(tupl,result):
 def net_frag():
     currentDir = os.path.dirname(os.path.realpath(__file__))
     pathToFile_1 = os.path.join(currentDir, 'figure8_mod_orig.xes')
-    pathToFile_2= os.path.join(currentDir, 'figure8_mod.xes')
-    log_1= xes_importer.apply(pathToFile_1)
-    log_2= xes_importer.apply(pathToFile_2)
-    net,initial_marking,final_marking= inductive_miner.apply(log_1)
-    aligned_transition= alignments.apply_log(log_2,net,initial_marking,final_marking)
+    pathToFile_2 = os.path.join(currentDir, 'figure8_mod.xes')
+    log_1 = xes_importer.apply(pathToFile_1)
+    log_2 = xes_importer.apply(pathToFile_2)
+    net,initial_marking,final_marking = inductive_miner.apply(log_1)
+    aligned_transition = alignments.apply_log(log_2, net, initial_marking,final_marking)
     return aligned_transition
 
 def test_Get_Misaligned(net_frag):
-    result=Adapted_Cost.Get_Misaligned_Trans(net_frag)
+    result= Adapted_Cost.Get_Misaligned_Trans(net_frag)
     assert result == [{'a','b'}]
 
 @pytest.fixture
 def nnet_fragments():
     currentDir = os.path.dirname(os.path.realpath(__file__))
-    pathToFile= os.path.join(currentDir,'figure8_mod.xes')
-    log=xes_importer.apply(pathToFile)
-    sub_log_1= decompose_event_log(log,['a','b','c'])
-    sub_log_2= decompose_event_log(log,['b','c','d'])
+    pathToFile = os.path.join(currentDir,'figure8_mod.xes')
+    log = xes_importer.apply(pathToFile)
+    sub_log_1 = decompose_event_log(log, ['a','b','c'])
+    sub_log_2 = decompose_event_log(log, ['b','c','d'])
 
     net_1 = PetriNet("petri_net_1")
     source_1 = PetriNet.Place("source")
     sink_1 = PetriNet.Place("sink")
-    c_1=PetriNet.Place("c_1")
+    c_1 = PetriNet.Place("c_1")
     net_1.places.add(source_1)
     net_1.places.add(sink_1)
     net_1.places.add(c_1)
@@ -56,18 +56,18 @@ def nnet_fragments():
     net_1.transitions.add(t_13)
     from pm4py.objects.petri import utils
     utils.add_arc_from_to(source_1, t_11, net_1)
-    utils.add_arc_from_to(source_1,t_13, net_1)
-    utils.add_arc_from_to(t_11,c_1, net_1)
-    utils.add_arc_from_to(c_1,t_12, net_1)
-    utils.add_arc_from_to(t_12,sink_1, net_1)
-    utils.add_arc_from_to(t_13,sink_1, net_1)
+    utils.add_arc_from_to(source_1, t_13, net_1)
+    utils.add_arc_from_to(t_11, c_1, net_1)
+    utils.add_arc_from_to(c_1, t_12, net_1)
+    utils.add_arc_from_to(t_12, sink_1, net_1)
+    utils.add_arc_from_to(t_13, sink_1, net_1)
 
 
     #second fragment
     net_2 = PetriNet("petri_net_2")
     source_2 = PetriNet.Place("source")
-    sink_2= PetriNet.Place("sink")
-    c_2=PetriNet.Place("c_2")
+    sink_2 = PetriNet.Place("sink")
+    c_2 = PetriNet.Place("c_2")
     net_2.places.add(sink_2)
     net_2.places.add(source_2)
     net_2.places.add(c_2)
@@ -84,10 +84,10 @@ def nnet_fragments():
     utils.add_arc_from_to(c_2,t_21, net_2)
     utils.add_arc_from_to(t_21,sink_2, net_2)
     utils.add_arc_from_to(t_22,sink_2, net_2)
-    net_log=[sub_log_1,sub_log_2]
-    net_frag=[net_1,net_2]
-    return net_log,net_frag
+    net_log = [sub_log_1, sub_log_2]
+    net_frag = [net_1, net_2]
+    return net_log, net_frag
 
 def test_adapted_cost_fun(nnet_fragments):
-    align_trace,average_fitness= Adapted_Cost.Adapted_Cost_func(nnet_fragments[0],nnet_fragments[1])
+    align_trace, average_fitness = Adapted_Cost.Adapted_Cost_func(nnet_fragments[0], nnet_fragments[1])
     assert align_trace[1][0]['cost'] == 0.5

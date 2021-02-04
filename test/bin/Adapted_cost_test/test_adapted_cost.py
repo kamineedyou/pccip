@@ -11,9 +11,7 @@ from pccip.bin.cc import Adapted_Cost
 @pytest.mark.parametrize(('tupl, result'),
                          [(('a', 'b'), None),
                          (('a', '>>'), 'a'),
-                         (('a', None), None)
-                         ])
-
+                         (('a', None), None)])
 def test_Get_Acti(tupl, result):
     assert Adapted_Cost.Get_Acti(tupl) == result
 
@@ -26,12 +24,15 @@ def net_frag():
     log_1 = xes_importer.apply(pathToFile_1)
     log_2 = xes_importer.apply(pathToFile_2)
     net, initial_marking, final_marking = inductive_miner.apply(log_1)
-    aligned_transition = alignments.apply_log(log_2, net, initial_marking, final_marking)
+    aligned_transition = alignments.apply_log(log_2,
+                                             net, initial_marking, final_marking)
     return aligned_transition
+
 
 def test_Get_Misaligned(net_frag):
     result = Adapted_Cost.Get_Misaligned_Trans(net_frag)
     assert result == [{'a', 'b'}]
+
 
 @pytest.fixture
 def nnet_fragments():
@@ -86,6 +87,8 @@ def nnet_fragments():
     net_frag = [net_1, net_2]
     return net_log, net_frag
 
+
 def test_adapted_cost_fun(nnet_fragments):
-    align_trace, average_fitness = Adapted_Cost.Adapted_Cost_func(nnet_fragments[0], nnet_fragments[1])
+    align_trace, average_fitness = Adapted_Cost.Adapted_Cost_func(nnet_fragments[0],
+                                                                   nnet_fragments[1])
     assert align_trace[1][0]['cost'] == 0.5

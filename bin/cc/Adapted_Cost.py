@@ -62,16 +62,19 @@ def Adapted_Cost_func(SubEvents: List[EventLog],
         final_marking = discover_final_marking(fragment)
         for i in range(len(SubEvents)):
             aligned_traces[i] = alignments.apply_log(SubEvents[i],
-                                                     fragment, initial_marking, final_marking)
+                                                     fragment,
+                                                     initial_marking,
+                                                     final_marking)
             misaligned_trans[i] = Get_Misaligned_Trans(aligned_traces[i])
             for trace in range(len(misaligned_trans[i])):
                 count_trace = 0
                 for j in range(len(Net_fragments)):
-                    if (k in set(misaligned_trans[i][trace]) for k in
-                         str(Net_fragments[j].transitions)):
+                    if (k in set(misaligned_trans[i][trace]) for k in \
+                                  str(Net_fragments[j].transitions)):
                         count_trace += 10000
                 if count_trace != 0:
                     aligned_traces[i][trace]['cost'] /= count_trace
             average_fitness[i] = replay_fitness.evaluate(
-                        aligned_traces[i],variant=replay_fitness.Variants.ALIGNMENT_BASED)
+                        aligned_traces[i],
+                        variant=replay_fitness.Variants.ALIGNMENT_BASED)
     return aligned_traces, average_fitness

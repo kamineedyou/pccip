@@ -71,7 +71,7 @@ class Test_CreateFragmentAlpha:
         exp_arcs = [sorted(str(x)) for x in exp_net.arcs]
 
         new_frag, new_im, new_fm = create_fragment(sublog,
-                                                   variant=Variants.ALPHA)
+                                                   variant='ALPHA')
 
         assert isinstance(new_frag, PetriNet)
         assert isinstance(new_im, Marking)
@@ -106,7 +106,7 @@ class Test_CreateFragmentAlpha:
         exp_arcs = [sorted(str(x)) for x in exp_net.arcs]
 
         new_frag, new_im, new_fm = create_fragment(sublog,
-                                                   variant=Variants.ALPHA)
+                                                   variant='ALPHA')
 
         assert isinstance(new_frag, PetriNet)
         assert isinstance(new_im, Marking)
@@ -141,7 +141,7 @@ class Test_CreateFragmentAlpha:
         exp_arcs = [sorted(str(x)) for x in exp_net.arcs]
 
         new_frag, new_im, new_fm = create_fragment(sublog,
-                                                   variant=Variants.ALPHA)
+                                                   variant='ALPHA')
 
         assert isinstance(new_frag, PetriNet)
         assert isinstance(new_im, Marking)
@@ -176,7 +176,7 @@ class Test_CreateFragmentAlpha:
         exp_arcs = [sorted(str(x)) for x in exp_net.arcs]
 
         new_frag, new_im, new_fm = create_fragment(sublog,
-                                                   variant=Variants.ALPHA)
+                                                   variant='ALPHA')
 
         assert isinstance(new_frag, PetriNet)
         assert isinstance(new_im, Marking)

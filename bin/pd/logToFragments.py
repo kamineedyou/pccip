@@ -1,18 +1,11 @@
-from enum import Enum
 from typing import Set, List, Tuple
 from pm4py.objects.log.log import EventLog, Trace
 from pm4py.objects.petri.petrinet import PetriNet, Marking
-from pm4py.algo.discovery.alpha.algorithm import apply as alpha_algo
 from pm4py.statistics.start_activities.log.get import get_start_activities
 from pm4py.statistics.end_activities.log.get import get_end_activities
 from pm4py.objects.petri.utils import remove_place, remove_transition
 from pm4py.objects.petri.utils import remove_arc, add_arc_from_to
-
-
-def alpha_fragments(sublog: EventLog, parameters: dict = None) -> PetriNet:
-    if parameters is None:
-        parameters = {}
-    return alpha_algo(sublog, parameters=parameters)
+from pccip.bin.pd.p_variants import Variants
 
 
 def split_log(sublog: EventLog):
@@ -54,16 +47,15 @@ def split_log(sublog: EventLog):
     return split_log
 
 
-class Variants(Enum):
-    DEFAULT_VARIANT = alpha_fragments
-    ALPHA = alpha_fragments
-
-
 def create_fragment(sublog: EventLog,
                     parameters: dict = None,
-                    variant: Variants = Variants.DEFAULT_VARIANT) -> PetriNet:
+                    variant: str = 'DEFAULT_VARIANT') -> PetriNet:
     if not isinstance(sublog, EventLog):
         raise TypeError('Invalid Event Log Type')
+
+    variant = getattr(Variants, variant, None)
+    if variant is None:
+        raise TypeError('Invalid input variant (p_algo)')
 
     if parameters is None:
         parameters = {}

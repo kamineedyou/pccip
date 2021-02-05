@@ -30,7 +30,7 @@ def algorithm(xes,
     for passage in passage_set:
         sublogs.add(log_decomp(ext_log, passage.getTVis()))
 
-    # generate fragment based off of each sublog
+    # generate fragments based off of each sublog
     fragments = []
     for sublog in sublogs:
         fragments.append(create_fragment(sublog, variant=p_algo))

@@ -4,7 +4,6 @@ from pm4py.objects.log.importer.xes import importer as xes_importer
 from pm4py.objects.petri.importer import importer as pnml_importer
 from pm4py.objects.petri.petrinet import PetriNet, Marking
 from pm4py.objects.log.log import Trace
-from pccip.bin.pd.logToFragments import create_fragment, Variants
 
 
 class Test_CreateFragmentAlpha:

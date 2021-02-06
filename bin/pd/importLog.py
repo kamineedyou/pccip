@@ -5,7 +5,7 @@ from typing import Union
 
 def importEventLog(xes: Union[EventLog, str]) -> EventLog:
     """Import event log from file or return EventLog object if it was used
-       as parameter.
+    as parameter.
 
     Args:
         xes (Union[EventLog, str]): input file path to xes file. if EventLog

@@ -4,12 +4,12 @@ from pccip.bin.pd.c_variants import Variants
 
 
 def create_causal_structure(log: EventLog,
-                            variant: Variants = 'DEFAULT_VARIANT',
+                            variant: str = 'DEFAULT_VARIANT',
                             params: dict = None) -> Set[Tuple[str, str]]:
     if not isinstance(log, EventLog):
         raise TypeError('Invalid Log Type')
 
-    variant = getattr(Variants, variant, None)
+    variant = getattr(Variants, variant.upper(), None)
     if variant is None:
         raise TypeError('Invalid input variant (c_algo)')
 

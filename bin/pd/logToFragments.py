@@ -53,7 +53,7 @@ def create_fragment(sublog: EventLog,
     if not isinstance(sublog, EventLog):
         raise TypeError('Invalid Event Log Type')
 
-    variant = getattr(Variants, variant, None)
+    variant = getattr(Variants, variant.upper(), None)
     if variant is None:
         raise TypeError('Invalid input variant (p_algo)')
 
@@ -92,8 +92,30 @@ def create_fragment(sublog: EventLog,
 
     # if not at end, remove the generated start and/or end place
     if not len(initial_marking):
+        # remove all silent border transitions
+        out_arcs = im_place.out_arcs.copy()
+        for arc in out_arcs:
+            if arc.target.label is None:
+                # remove all places, only connected to silent transition
+                to_remove_places = {p.target for p in arc.target.out_arcs
+                                    if len(p.target.in_arcs) == 1}
+                for place in to_remove_places:
+                    remove_place(net, place)
+                remove_transition(net, arc.target)
+        # finally remove the initial place
         remove_place(net, im_place)
     if not len(final_marking):
+        # remove all silent border transitions
+        in_arcs = fm_place.in_arcs.copy()
+        for arc in in_arcs:
+            if arc.source.label is None:
+                # remove all places, only connected to silent transition
+                to_remove_places = {p.source for p in arc.source.in_arcs
+                                    if len(p.source.out_arcs) == 1}
+                for place in to_remove_places:
+                    remove_place(net, place)
+                remove_transition(net, arc.source)
+        # finally remove the final place
         remove_place(net, fm_place)
 
     return net, initial_marking, final_marking

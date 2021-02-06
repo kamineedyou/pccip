@@ -23,7 +23,7 @@ def generateEndEvent() -> Event:
     """Generate an artificial end event.
 
     Returns:
-        Event: Artificial end event
+        Event: Artificial end event.
     """
     end = {'concept:name': 'Artificial:End',
            'lifecycle:transition': 'complete',

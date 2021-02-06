@@ -70,6 +70,12 @@ def create_fragment(sublog: EventLog,
     im_place = next(iter(im.keys()))
     fm_place = next(iter(fm.keys()))
 
+    # add unique identifier to each place to avoid naming collisions
+    # from other fragments
+    identifier = hash(sublog) % 100000
+    for place in net.places:
+        place.name = f'{place}{identifier}'
+
     # Create new Marking if fragment is the start fragment
     # and remove artificial start
     if len(im_place.out_arcs) == 1:

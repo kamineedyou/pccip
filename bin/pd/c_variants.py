@@ -3,15 +3,14 @@ from typing import Set, Tuple
 from pm4py.objects.log.log import EventLog
 from pm4py.algo.discovery.dfg import algorithm as dfg_discovery
 from pm4py.algo.discovery.causal import algorithm as causal_discovery
-from pm4py.algo.discovery.causal.variants import heuristic
-from pm4py.algo.discovery.footprints import algorithm as a_discovery
+from pm4py.algo.discovery.causal.variants import alpha, heuristic
 
 
 def alpha_causal_structure(log: EventLog,
                            params: dict = {}) -> Set[Tuple[str, str]]:
-    foot = a_discovery.apply(log,
-                             variant=a_discovery.Variants.ENTIRE_EVENT_LOG)
-    return foot['sequence']
+
+    dfg = dfg_discovery.apply(log)
+    return set(causal_discovery.apply(dfg, alpha).keys())
 
 
 def heuristic_causal_structure(log: EventLog,

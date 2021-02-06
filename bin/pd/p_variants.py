@@ -9,6 +9,15 @@ from pm4py.algo.discovery.inductive.algorithm import apply as im_algo
 def alpha_fragments(sublog: EventLog,
                     parameters: dict = None) \
                         -> Tuple[PetriNet, Marking, Marking]:
+    """Discover the net fragment using the alpha miner.
+
+    Args:
+        sublog (EventLog): Sublog to do process discovery on.
+        parameters (dict, optional): Parameters for the discovery algorithm.
+
+    Returns:
+        Tuple[PetriNet, Marking, Marking]: Net fragment
+    """
     if parameters is None:
         parameters = {}
 
@@ -18,6 +27,15 @@ def alpha_fragments(sublog: EventLog,
 def inductive_fragments(sublog: EventLog,
                         parameters: dict = None) \
                             -> Tuple[PetriNet, Marking, Marking]:
+    """Discover the net fragment using the inductive miner.
+
+    Args:
+        sublog (EventLog): Sublog to do process discovery on.
+        parameters (dict, optional): Parameters for the discovery algorithm.
+
+    Returns:
+        Tuple[PetriNet, Marking, Marking]: Net fragment
+    """
     if parameters is None:
         parameters = {}
 
@@ -25,6 +43,8 @@ def inductive_fragments(sublog: EventLog,
 
 
 class Variants(Enum):
+    """Process discovery variant (p_algo) enum object.
+    """
     DEFAULT_VARIANT = alpha_fragments
     ALPHA = alpha_fragments
     INDUCTIVE = inductive_fragments

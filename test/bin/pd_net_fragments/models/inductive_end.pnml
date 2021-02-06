@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<pnml>
+  <net id="net1" type="http://www.pnml.org/version-2009/grammar/pnmlcoremodel">
+    <page id="n0">
+      <place id="p_3">
+        <name>
+          <text>p_3</text>
+        </name>
+      </place>
+      <transition id="d6575194-a1ef-4cfd-9e53-4ecdc760f0d4">
+        <name>
+          <text>g</text>
+        </name>
+      </transition>
+      <transition id="62024be3-bc5b-4651-ac03-2f3de473ff49">
+        <name>
+          <text>h</text>
+        </name>
+      </transition>
+      <arc id="8766703144723" source="d6575194-a1ef-4cfd-9e53-4ecdc760f0d4" target="p_3"/>
+      <arc id="8766703144888" source="62024be3-bc5b-4651-ac03-2f3de473ff49" target="p_3"/>
+    </page>
+    <finalmarkings>
+      <marking>
+        <place idref="p_3">
+          <text>1</text>
+        </place>
+      </marking>
+    </finalmarkings>
+  </net>
+</pnml>

@@ -1,3 +1,6 @@
+from typing import Tuple
+from pm4py.objects.petri.petrinet import PetriNet, Marking
+from pm4py.objects.log.log import EventLog
 from pccip.bin.pd.importLog import importEventLog as import_log
 from pccip.bin.pd.extendLog import extendEventLog as extend_log
 from pccip.bin.pd.createCausalStructure import create_causal_structure
@@ -7,11 +10,11 @@ from pccip.bin.pd.logToFragments import create_fragment, merge_fragments
 from pccip.bin.pd.logToFragments import Variants as pAlgo
 
 
-def algorithm(xes,
+def algorithm(xes: EventLog,
               c_algo: str = 'DEFAULT_VARIANT',
               c_params: dict = None,
               p_algo: pAlgo = 'DEFAULT_VARIANT',
-              p_params: dict = None):
+              p_params: dict = None) -> Tuple[PetriNet, Marking, Marking]:
 
     # import event log (through file path or already imported xes)
     log = import_log(xes)

@@ -1,18 +1,23 @@
 from enum import Enum
-from pm4py.objects.petri.petrinet import PetriNet
+from typing import Tuple
+from pm4py.objects.petri.petrinet import PetriNet, Marking
 from pm4py.objects.log.log import EventLog
 from pm4py.algo.discovery.alpha.algorithm import apply as alpha_algo
 from pm4py.algo.discovery.inductive.algorithm import apply as im_algo
 
 
-def alpha_fragments(sublog: EventLog, parameters: dict = None) -> PetriNet:
+def alpha_fragments(sublog: EventLog,
+                    parameters: dict = None) \
+                        -> Tuple[PetriNet, Marking, Marking]:
     if parameters is None:
         parameters = {}
 
     return alpha_algo(sublog, parameters=parameters)
 
 
-def inductive_fragments(sublog: EventLog, parameters: dict = None) -> PetriNet:
+def inductive_fragments(sublog: EventLog,
+                        parameters: dict = None) \
+                            -> Tuple[PetriNet, Marking, Marking]:
     if parameters is None:
         parameters = {}
 

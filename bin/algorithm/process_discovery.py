@@ -15,7 +15,25 @@ def algorithm(xes: EventLog,
               c_params: dict = None,
               p_algo: pAlgo = 'DEFAULT_VARIANT',
               p_params: dict = None) -> Tuple[PetriNet, Marking, Marking]:
+    """Algorithm that executes decomposed process discovery using passages.
 
+    Args:
+        xes (EventLog): already imported EventLog or file location to .xes
+        c_algo (str, optional): Causal algorithm to create causal structure.
+                                Variants available: 'ALPHA', 'HEURISTIC'.
+                                Defaults to 'DEFAULT_VARIANT'.
+        c_params (dict, optional): Parameters for the causal algorithm.
+                                   Defaults to None.
+        p_algo (pAlgo, optional): Process discovery algorithm to create net
+                                  fragments from sublogs.
+                                  Variants available: 'ALPHA', 'INDUCTIVE'.
+                                  Defaults to 'DEFAULT_VARIANT'.
+        p_params (dict, optional): Parameters for the discovery algorithm.
+                                   Defaults to None.
+
+    Returns:
+        Tuple[PetriNet, Marking, Marking]: Complete petri net of the whole log.
+    """
     # import event log (through file path or already imported xes)
     log = import_log(xes)
 

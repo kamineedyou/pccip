@@ -2,14 +2,14 @@
 <pnml>
   <net id="net1" type="http://www.pnml.org/version-2009/grammar/pnmlcoremodel">
     <page id="n0">
-      <place id="p_5">
+      <place id="p_512345">
         <name>
-          <text>p_5</text>
+          <text>p_512345</text>
         </name>
       </place>
-      <place id="p_7">
+      <place id="p_712345">
         <name>
-          <text>p_7</text>
+          <text>p_712345</text>
         </name>
       </place>
       <transition id="326fdcd5-15ac-4c98-b810-359a2d0e4814">
@@ -32,11 +32,11 @@
           <text>c</text>
         </name>
       </transition>
-      <arc id="8766703144439" source="da683a63-7c58-4e3c-991b-7b37074c2d1d" target="p_7"/>
-      <arc id="8766703144397" source="p_5" target="326fdcd5-15ac-4c98-b810-359a2d0e4814"/>
-      <arc id="8766703144367" source="2713a3e7-4d1c-4958-b292-3c3a82a4a54a" target="p_5"/>
-      <arc id="8766703144729" source="p_7" target="326fdcd5-15ac-4c98-b810-359a2d0e4814"/>
-      <arc id="8766703144349" source="d004e423-0f69-4b1f-a063-8244a483f0f1" target="p_7"/>
+      <arc id="8766703144439" source="da683a63-7c58-4e3c-991b-7b37074c2d1d" target="p_712345"/>
+      <arc id="8766703144397" source="p_512345" target="326fdcd5-15ac-4c98-b810-359a2d0e4814"/>
+      <arc id="8766703144367" source="2713a3e7-4d1c-4958-b292-3c3a82a4a54a" target="p_512345"/>
+      <arc id="8766703144729" source="p_712345" target="326fdcd5-15ac-4c98-b810-359a2d0e4814"/>
+      <arc id="8766703144349" source="d004e423-0f69-4b1f-a063-8244a483f0f1" target="p_712345"/>
     </page>
   </net>
 </pnml>

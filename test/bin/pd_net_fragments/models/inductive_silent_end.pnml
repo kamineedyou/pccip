@@ -2,19 +2,19 @@
 <pnml>
   <net id="net1" type="http://www.pnml.org/version-2009/grammar/pnmlcoremodel">
     <page id="n0">
-      <place id="p_3">
+      <place id="p_312345">
         <name>
-          <text>p_3</text>
+          <text>p_312345</text>
         </name>
       </place>
-      <place id="p_4">
+      <place id="p_412345">
         <name>
-          <text>p_4</text>
+          <text>p_412345</text>
         </name>
       </place>
-      <place id="p_6">
+      <place id="p_612345">
         <name>
-          <text>p_6</text>
+          <text>p_612345</text>
         </name>
       </place>
       <transition id="7090a5f4-ba07-4e5b-a659-f6237765c5d3">
@@ -48,14 +48,14 @@
           <text>a</text>
         </name>
       </transition>
-      <arc id="8766703151776" source="p_4" target="4d7de4cc-9790-4a42-b5d9-c3984f519231"/>
-      <arc id="8766703151719" source="118675c9-8349-48a6-9802-9e04acfa15d4" target="p_3"/>
-      <arc id="8766703151758" source="tauSplit_1" target="p_4"/>
-      <arc id="8766703151800" source="tauSplit_1" target="p_6"/>
-      <arc id="8766703151857" source="p_6" target="2b1b3872-0e96-41eb-8819-3d10aad8f8e6"/>
-      <arc id="8766703151731" source="p_3" target="tauSplit_1"/>
-      <arc id="8766703151827" source="p_6" target="7090a5f4-ba07-4e5b-a659-f6237765c5d3"/>
-      <arc id="8766703151704" source="dbec9103-4e41-48fa-ac9c-2309d1cdf250" target="p_3"/>
+      <arc id="8766703151776" source="p_412345" target="4d7de4cc-9790-4a42-b5d9-c3984f519231"/>
+      <arc id="8766703151719" source="118675c9-8349-48a6-9802-9e04acfa15d4" target="p_312345"/>
+      <arc id="8766703151758" source="tauSplit_1" target="p_412345"/>
+      <arc id="8766703151800" source="tauSplit_1" target="p_612345"/>
+      <arc id="8766703151857" source="p_612345" target="2b1b3872-0e96-41eb-8819-3d10aad8f8e6"/>
+      <arc id="8766703151731" source="p_312345" target="tauSplit_1"/>
+      <arc id="8766703151827" source="p_612345" target="7090a5f4-ba07-4e5b-a659-f6237765c5d3"/>
+      <arc id="8766703151704" source="dbec9103-4e41-48fa-ac9c-2309d1cdf250" target="p_312345"/>
     </page>
   </net>
 </pnml>

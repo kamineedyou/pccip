@@ -2,9 +2,9 @@
 <pnml>
   <net id="net1" type="http://www.pnml.org/version-2009/grammar/pnmlcoremodel">
     <page id="n0">
-      <place id="p_3">
+      <place id="p_363192">
         <name>
-          <text>p_3</text>
+          <text>p_363192</text>
         </name>
         <initialMarking>
           <text>1</text>
@@ -15,7 +15,7 @@
           <text>a</text>
         </name>
       </transition>
-      <arc id="8766703143693" source="p_3" target="2c4f6de9-a503-4226-a566-3a6e4319c47e"/>
+      <arc id="8766703143693" source="p_363192" target="2c4f6de9-a503-4226-a566-3a6e4319c47e"/>
     </page>
   </net>
 </pnml>

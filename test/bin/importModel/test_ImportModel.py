@@ -21,5 +21,5 @@ class TestImportPetrinet:
     def test_WrongPath(self, filePath):
         currentDir = os.path.dirname(os.path.realpath(__file__))
         pathToFile = os.path.join(currentDir, filePath)
-        with pytest.raises(TypeError):
+        with pytest.raises(Exception):
             (net, initial_marking, final_marking) = importPetriNet(pathToFile)

@@ -7,13 +7,12 @@ from pccip.bin.pd.createCausalStructure import create_causal_structure
 from pccip.bin.passages.min_passages import algorithm as min_passages
 from pccip.bin.cc.EventLogDecomp import decompose_event_log as log_decomp
 from pccip.bin.pd.logToFragments import create_fragment, merge_fragments
-from pccip.bin.pd.logToFragments import Variants as pAlgo
 
 
 def algorithm(xes: EventLog,
               c_algo: str = 'DEFAULT_VARIANT',
               c_params: dict = None,
-              p_algo: pAlgo = 'DEFAULT_VARIANT',
+              p_algo: str = 'DEFAULT_VARIANT',
               p_params: dict = None) -> Tuple[PetriNet, Marking, Marking]:
     """Algorithm that executes decomposed process discovery using passages.
 
@@ -24,10 +23,10 @@ def algorithm(xes: EventLog,
                                 Defaults to 'DEFAULT_VARIANT'.
         c_params (dict, optional): Parameters for the causal algorithm.
                                    Defaults to None.
-        p_algo (pAlgo, optional): Process discovery algorithm to create net
-                                  fragments from sublogs.
-                                  Variants available: 'ALPHA', 'INDUCTIVE'.
-                                  Defaults to 'DEFAULT_VARIANT'.
+        p_algo (str, optional): Process discovery algorithm to create net
+                                fragments from sublogs.
+                                Variants available: 'ALPHA', 'INDUCTIVE'.
+                                Defaults to 'DEFAULT_VARIANT'.
         p_params (dict, optional): Parameters for the discovery algorithm.
                                    Defaults to None.
 

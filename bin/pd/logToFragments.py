@@ -8,7 +8,18 @@ from pm4py.objects.petri.utils import remove_arc, add_arc_from_to
 from pccip.bin.pd.p_variants import Variants
 
 
-def split_log(sublog: EventLog):
+def split_log(sublog: EventLog) -> EventLog:
+    """Function to split looping traces into new traces.
+
+    Args:
+        sublog (EventLog): Sublog to split.
+
+    Raises:
+        TypeError: Raised when EventLog is of the wrong type.
+
+    Returns:
+        EventLog: New event log that contains no more looping
+    """
     if not isinstance(sublog, EventLog):
         raise TypeError('Invalid Event Log Type')
     start_activities = set(get_start_activities(sublog).keys())
@@ -49,7 +60,26 @@ def split_log(sublog: EventLog):
 
 def create_fragment(sublog: EventLog,
                     parameters: dict = None,
-                    variant: str = 'DEFAULT_VARIANT') -> PetriNet:
+                    variant: str = 'DEFAULT_VARIANT') \
+                        -> Tuple[PetriNet, Marking, Marking]:
+    """Create a net fragment from a sublog.
+
+    Args:
+        sublog (EventLog): Sublog to do process discovery on.
+        parameters (dict, optional): Parameters for the discovery algorithm.
+                                     Defaults to None.
+        variant (str, optional): process discovery algorithm to create net
+                                 fragments from sublogs.
+                                 Variants available: 'ALPHA', 'INDUCTIVE'.
+                                 Defaults to 'DEFAULT_VARIANT'.
+
+    Raises:
+        TypeError: Raised when sublog is of wrong type.
+        TypeError: Raised when the variant is invalid.
+
+    Returns:
+        Tuple[PetriNet, Marking, Marking]: Net fragment from the sublog.
+    """
     if not isinstance(sublog, EventLog):
         raise TypeError('Invalid Event Log Type')
 
@@ -128,7 +158,21 @@ def create_fragment(sublog: EventLog,
 
 
 def merge_fragments(fragments: List[
-                               Tuple[PetriNet, Marking, Marking]]) -> PetriNet:
+                               Tuple[PetriNet, Marking, Marking]]) \
+                                   -> Tuple[PetriNet, Marking, Marking]:
+    """Merge a list of net fragments into a whole complete petri net.
+
+    Args:
+        fragments (List[Tuple[PetriNet, Marking, Marking]]): all fragments
+                                                             to be combined.
+
+    Raises:
+        TypeError: Raised when input fragments are not of correct type.
+        TypeError: Raised when input is not complete.
+
+    Returns:
+        Tuple[PetriNet, Marking, Marking]: Petri Net from combined fragments.
+    """
     if not isinstance(fragments[0], tuple):
         raise TypeError('Please use a List[Tuple[PetriNet, Marking, Marking]]')
     if not isinstance(fragments[0][0], PetriNet) \
@@ -188,5 +232,11 @@ def merge_fragments(fragments: List[
 
 
 def remove_arc_set(net: PetriNet, arc_set: Set[PetriNet.Arc]) -> None:
+    """Remove a set of arcs from a petri net.
+
+    Args:
+        net (PetriNet): Petri net to remove arcs from.
+        arc_set (Set[PetriNet.Arc]): set of arcs to remove from petri net.
+    """
     for arc in arc_set.copy():
         remove_arc(net, arc)

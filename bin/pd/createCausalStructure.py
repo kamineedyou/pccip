@@ -14,7 +14,8 @@ def create_causal_structure(log: EventLog,
                                  causal structure.
                                  Variants available: 'ALPHA', 'HEURISTIC'.
                                  Defaults to 'DEFAULT_VARIANT'.
-        params (dict, optional): [description]. Defaults to None.
+        params (dict, optional): Parameters for the discovery algorithm.
+                                 Defaults to None.
 
     Raises:
         TypeError: Raised when input is not of type EventLog.

@@ -1,4 +1,5 @@
 from typing import Set, List, Tuple
+from random import randint
 from pm4py.objects.log.log import EventLog, Trace
 from pm4py.objects.petri.petrinet import PetriNet, Marking
 from pm4py.statistics.start_activities.log.get import get_start_activities
@@ -99,35 +100,19 @@ def create_fragment(sublog: EventLog,
     final_marking = Marking()
     im_place = next(iter(im.keys()))
     fm_place = next(iter(fm.keys()))
+    im_transition = next(iter(im_place.out_arcs)).target.label
+    fm_transition = next(iter(fm_place.in_arcs)).source.label
 
     # add unique identifier to each place to avoid naming collisions
     # from other fragments
-    identifier = hash(sublog) % 100000
+    identifier = randint(10000, 99999)
     for place in net.places:
         place.name = f'{place}{identifier}'
 
-    # Create new Marking if fragment is the start fragment
-    # and remove artificial start
-    if len(im_place.out_arcs) == 1:
-        im_transition = next(iter(im_place.out_arcs)).target
-        if im_transition.label == 'Artificial:Start':
-            new_im_place = next(iter(im_transition.out_arcs)).target
-            remove_place(net, im_place)
-            remove_transition(net, im_transition)
-            initial_marking = Marking({new_im_place: 1})
-
-    # Create new Marking if fragment is the end fragment
-    # and remove artificial end
-    if len(fm_place.in_arcs) == 1:
-        fm_transition = next(iter(fm_place.in_arcs)).source
-        if fm_transition.label == 'Artificial:End':
-            new_fm_place = next(iter(fm_transition.in_arcs)).source
-            remove_place(net, fm_place)
-            remove_transition(net, fm_transition)
-            final_marking = Marking({new_fm_place: 1})
-
     # if not at end, remove the generated start and/or end place
-    if not len(initial_marking):
+    if im_transition == 'Artificial:Start':
+        initial_marking = im
+    else:
         # remove all silent border transitions
         out_arcs = im_place.out_arcs.copy()
         for arc in out_arcs:
@@ -140,7 +125,10 @@ def create_fragment(sublog: EventLog,
                 remove_transition(net, arc.target)
         # finally remove the initial place
         remove_place(net, im_place)
-    if not len(final_marking):
+
+    if fm_transition == 'Artificial:End':
+        final_marking = fm
+    else:
         # remove all silent border transitions
         in_arcs = fm_place.in_arcs.copy()
         for arc in in_arcs:
@@ -179,6 +167,9 @@ def merge_fragments(fragments: List[
        or not isinstance(fragments[0][1], Marking) \
        or not isinstance(fragments[0][2], Marking):
         raise TypeError('Please use Tuple[PetriNet, Marking, Marking]')
+
+    if len(fragments) == 1:
+        return fragments[0]
 
     merged_net = fragments[0][0]
     transitions = {tran.label: tran for tran in merged_net.transitions}

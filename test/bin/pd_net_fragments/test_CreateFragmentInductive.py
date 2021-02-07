@@ -71,7 +71,7 @@ class Test_CreateFragmentInductive:
         sublog = inductive_start[0][0]
         exp_net, exp_im, exp_fm = inductive_start[1]
         exp_places = [sorted(
-            [x for x in re.split("[^a-zA-Z]*", p.name[:-5])
+            [x for x in re.split("[^a-zA-Z0-9]*", p.name[:-5])
              if x]) for p in exp_net.places]
         exp_transitions = {str(x) for x in exp_net.transitions}
         exp_arcs = [sorted([x for x in re.split("[^a-zA-Z]*", str(a)) if x])
@@ -97,7 +97,7 @@ class Test_CreateFragmentInductive:
         assert len(exp_net.places) == len(new_frag.places)
         for place in new_frag.places:
             assert isinstance(place, PetriNet.Place)
-            assert sorted([x for x in re.split("[^a-zA-Z]*",
+            assert sorted([x for x in re.split("[^a-zA-Z0-9]*",
                                                place.name) if x]) in exp_places
 
         # check all arcs
@@ -114,7 +114,7 @@ class Test_CreateFragmentInductive:
         sublog = inductive_silent_start[0][0]
         exp_net, exp_im, exp_fm = inductive_silent_start[1]
         exp_places = [sorted(
-            [x for x in re.split("[^a-zA-Z]*", p.name[:-5])
+            [x for x in re.split("[^a-zA-Z0-9]*", p.name[:-5])
              if x]) for p in exp_net.places]
         exp_transitions = {str(x) for x in exp_net.transitions}
         exp_arcs = [sorted([x for x in re.split("[^a-zA-Z]*", str(a)) if x])
@@ -140,7 +140,7 @@ class Test_CreateFragmentInductive:
         assert len(exp_net.places) == len(new_frag.places)
         for place in new_frag.places:
             assert isinstance(place, PetriNet.Place)
-            assert sorted([x for x in re.split("[^a-zA-Z]*",
+            assert sorted([x for x in re.split("[^a-zA-Z0-9]*",
                                                place.name) if x]) in exp_places
 
         # check all arcs
@@ -157,7 +157,7 @@ class Test_CreateFragmentInductive:
         sublog = inductive_silent_end[0][0]
         exp_net, exp_im, exp_fm = inductive_silent_end[1]
         exp_places = [sorted(
-            [x for x in re.split("[^a-zA-Z]*", p.name[:-5])
+            [x for x in re.split("[^a-zA-Z0-9]*", p.name[:-5])
              if x]) for p in exp_net.places]
         exp_transitions = {str(x) for x in exp_net.transitions}
         exp_arcs = [sorted([x for x in re.split("[^a-zA-Z]*", str(a)) if x])
@@ -183,7 +183,7 @@ class Test_CreateFragmentInductive:
         assert len(exp_net.places) == len(new_frag.places)
         for place in new_frag.places:
             assert isinstance(place, PetriNet.Place)
-            assert sorted([x for x in re.split("[^a-zA-Z]*",
+            assert sorted([x for x in re.split("[^a-zA-Z0-9]*",
                                                place.name) if x]) in exp_places
 
         # check all arcs
@@ -200,7 +200,7 @@ class Test_CreateFragmentInductive:
         sublog = inductive_end[0][0]
         exp_net, exp_im, exp_fm = inductive_end[1]
         exp_places = [sorted(
-            [x for x in re.split("[^a-zA-Z]*", p.name[:-5])
+            [x for x in re.split("[^a-zA-Z0-9]*", p.name[:-5])
              if x]) for p in exp_net.places]
         exp_transitions = {str(x) for x in exp_net.transitions}
         exp_arcs = [sorted([x for x in re.split("[^a-zA-Z]*", str(a)) if x])
@@ -226,7 +226,7 @@ class Test_CreateFragmentInductive:
         assert len(exp_net.places) == len(new_frag.places)
         for place in new_frag.places:
             assert isinstance(place, PetriNet.Place)
-            assert sorted([x for x in re.split("[^a-zA-Z]*",
+            assert sorted([x for x in re.split("[^a-zA-Z0-9]*",
                                                place.name) if x]) in exp_places
 
         # check all arcs

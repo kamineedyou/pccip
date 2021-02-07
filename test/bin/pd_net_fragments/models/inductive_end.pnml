@@ -2,27 +2,39 @@
 <pnml>
   <net id="net1" type="http://www.pnml.org/version-2009/grammar/pnmlcoremodel">
     <page id="n0">
-      <place id="p_312345">
+      <place id="p_376563">
         <name>
-          <text>p_312345</text>
+          <text>p_376563</text>
         </name>
       </place>
-      <transition id="d6575194-a1ef-4cfd-9e53-4ecdc760f0d4">
+      <place id="sink76563">
         <name>
-          <text>g</text>
+          <text>sink76563</text>
         </name>
-      </transition>
-      <transition id="62024be3-bc5b-4651-ac03-2f3de473ff49">
+      </place>
+      <transition id="6ec1efa1-bbe9-4a6e-93d0-3e1a73581e1a">
         <name>
           <text>h</text>
         </name>
       </transition>
-      <arc id="8766703144723" source="d6575194-a1ef-4cfd-9e53-4ecdc760f0d4" target="p_312345"/>
-      <arc id="8766703144888" source="62024be3-bc5b-4651-ac03-2f3de473ff49" target="p_312345"/>
+      <transition id="7fadcec9-dfa3-47b2-87bd-89620e6cffd5">
+        <name>
+          <text>g</text>
+        </name>
+      </transition>
+      <transition id="6678be50-ff4b-4b5e-88c9-ba1a88a15d2a">
+        <name>
+          <text>Artificial:End</text>
+        </name>
+      </transition>
+      <arc id="8793884922754" source="p_376563" target="6678be50-ff4b-4b5e-88c9-ba1a88a15d2a"/>
+      <arc id="8793884922694" source="6ec1efa1-bbe9-4a6e-93d0-3e1a73581e1a" target="p_376563"/>
+      <arc id="8793884922233" source="7fadcec9-dfa3-47b2-87bd-89620e6cffd5" target="p_376563"/>
+      <arc id="8793884922778" source="6678be50-ff4b-4b5e-88c9-ba1a88a15d2a" target="sink76563"/>
     </page>
     <finalmarkings>
       <marking>
-        <place idref="p_312345">
+        <place idref="sink76563">
           <text>1</text>
         </place>
       </marking>

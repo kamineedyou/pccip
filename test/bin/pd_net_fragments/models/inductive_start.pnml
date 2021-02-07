@@ -2,20 +2,32 @@
 <pnml>
   <net id="net1" type="http://www.pnml.org/version-2009/grammar/pnmlcoremodel">
     <page id="n0">
-      <place id="p_363192">
+      <place id="p_313023">
         <name>
-          <text>p_363192</text>
+          <text>p_313023</text>
+        </name>
+      </place>
+      <place id="source13023">
+        <name>
+          <text>source13023</text>
         </name>
         <initialMarking>
           <text>1</text>
         </initialMarking>
       </place>
-      <transition id="2c4f6de9-a503-4226-a566-3a6e4319c47e">
+      <transition id="79ea8049-6ff1-4c4e-bf08-2ae7b950a04a">
+        <name>
+          <text>Artificial:Start</text>
+        </name>
+      </transition>
+      <transition id="7f36fec5-aad4-4a02-baef-d935293b702e">
         <name>
           <text>a</text>
         </name>
       </transition>
-      <arc id="8766703143693" source="p_363192" target="2c4f6de9-a503-4226-a566-3a6e4319c47e"/>
+      <arc id="8793884924052" source="p_313023" target="7f36fec5-aad4-4a02-baef-d935293b702e"/>
+      <arc id="8793884924028" source="79ea8049-6ff1-4c4e-bf08-2ae7b950a04a" target="p_313023"/>
+      <arc id="8793884924031" source="source13023" target="79ea8049-6ff1-4c4e-bf08-2ae7b950a04a"/>
     </page>
   </net>
 </pnml>

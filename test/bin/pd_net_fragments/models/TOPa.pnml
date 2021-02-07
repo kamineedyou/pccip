@@ -2,20 +2,32 @@
 <pnml>
   <net id="net1" type="http://www.pnml.org/version-2009/grammar/pnmlcoremodel">
     <page id="n0">
-      <place id="({'Artificial:Start'}, {'a'})">
+      <place id="({'Artificial:Start'}, {'a'})29133">
         <name>
-          <text>({'Artificial:Start'}, {'a'})</text>
+          <text>({'Artificial:Start'}, {'a'})29133</text>
+        </name>
+      </place>
+      <place id="start29133">
+        <name>
+          <text>start29133</text>
         </name>
         <initialMarking>
           <text>1</text>
         </initialMarking>
       </place>
+      <transition id="Artificial:Start">
+        <name>
+          <text>Artificial:Start</text>
+        </name>
+      </transition>
       <transition id="a">
         <name>
           <text>a</text>
         </name>
       </transition>
-      <arc id="8768969051965" source="({'Artificial:Start'}, {'a'})" target="a"/>
+      <arc id="8779732267843" source="Artificial:Start" target="({'Artificial:Start'}, {'a'})29133"/>
+      <arc id="8779732290515" source="start29133" target="Artificial:Start"/>
+      <arc id="8779732267834" source="({'Artificial:Start'}, {'a'})29133" target="a"/>
     </page>
   </net>
 </pnml>

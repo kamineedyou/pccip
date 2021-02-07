@@ -2,14 +2,14 @@
 <pnml>
   <net id="net1" type="http://www.pnml.org/version-2009/grammar/pnmlcoremodel">
     <page id="n0">
-      <place id="({'d'}, {'e'})">
+      <place id="({'d'}, {'e'})12345">
         <name>
-          <text>({'d'}, {'e'})</text>
+          <text>({'d'}, {'e'})12345</text>
         </name>
       </place>
-      <place id="({'b', 'c'}, {'e'})">
+      <place id="({'b', 'c'}, {'e'})12345">
         <name>
-          <text>({'b', 'c'}, {'e'})</text>
+          <text>({'b', 'c'}, {'e'})12345</text>
         </name>
       </place>
       <transition id="d">
@@ -32,11 +32,11 @@
           <text>e</text>
         </name>
       </transition>
-      <arc id="8768969054531" source="c" target="({'b', 'c'}, {'e'})"/>
-      <arc id="8768969054537" source="({'b', 'c'}, {'e'})" target="e"/>
-      <arc id="8768969054507" source="d" target="({'d'}, {'e'})"/>
-      <arc id="8768969054513" source="({'d'}, {'e'})" target="e"/>
-      <arc id="8768969054525" source="b" target="({'b', 'c'}, {'e'})"/>
+      <arc id="8768969054531" source="c" target="({'b', 'c'}, {'e'})12345"/>
+      <arc id="8768969054537" source="({'b', 'c'}, {'e'})12345" target="e"/>
+      <arc id="8768969054507" source="d" target="({'d'}, {'e'})12345"/>
+      <arc id="8768969054513" source="({'d'}, {'e'})12345" target="e"/>
+      <arc id="8768969054525" source="b" target="({'b', 'c'}, {'e'})12345"/>
     </page>
   </net>
 </pnml>

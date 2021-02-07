@@ -45,10 +45,6 @@ class Test_Process_Discovery:
         exp_pnet, exp_pim, exp_pfm = alpha_figure_1[1]
         exp_pfoot = footprints(exp_pnet, exp_pim)
 
-        # expected from the default usage of the alpha algorithm
-        exp_net, exp_im, exp_fm = alpha_figure_1[2]
-        exp_foot = footprints(exp_net, exp_im)
-
         # check return types
         new_net, new_im, new_fm = discover(test_log, p_algo='ALPHA')
         new_foot = footprints(new_net, new_im)
@@ -58,23 +54,11 @@ class Test_Process_Discovery:
 
         assert new_foot == exp_pfoot
 
-        # compare the result to the default alpha algorithm implementation
-        # check all transitions
-        assert len(exp_net.transitions) == len(new_net.transitions)
-        assert len(exp_net.places) == len(new_net.places)
-        assert len(exp_net.arcs) == len(new_net.arcs)
-
-        assert new_foot == exp_foot
-
     def test_inductive_figure_1(self, inductive_figure_1):
         test_log = inductive_figure_1[0]
         # expected from the algorithm
         exp_pnet, exp_pim, exp_pfm = inductive_figure_1[1]
         exp_pfoot = footprints(exp_pnet, exp_pim)
-
-        # expected from the default usage of the inductive algorithm
-        exp_net, exp_im, exp_fm = inductive_figure_1[2]
-        exp_foot = footprints(exp_net, exp_im)
 
         # check return types
         new_net, new_im, new_fm = discover(test_log, p_algo='INDUCTIVE')
@@ -84,11 +68,3 @@ class Test_Process_Discovery:
         assert isinstance(new_fm, Marking)
 
         assert new_foot == exp_pfoot
-
-        # compare the result to the default inductive algorithm implementation
-        # check all transitions
-        assert len(exp_net.transitions) == len(new_net.transitions)
-        assert len(exp_net.places) == len(new_net.places)
-        assert len(exp_net.arcs) == len(new_net.arcs)
-
-        assert new_foot == exp_foot

@@ -1,5 +1,6 @@
 import pytest
 import os
+import re
 from pm4py.objects.petri.importer import importer as pnml_importer
 from pm4py.objects.petri.petrinet import PetriNet, Marking
 from pccip.bin.pd.logToFragments import merge_fragments
@@ -65,138 +66,170 @@ class Test_MergeFragments:
     def test_MergeStartMiddle(self, startMiddle):
         fragment_list = startMiddle[0]
         exp_net, exp_im, exp_fm = startMiddle[1]
-        exp_places = [sorted(str(x)) for x in exp_net.places]
+        exp_places = [sorted(
+            [x for x in re.split("[^a-zA-Z]*", p.name[:-5])
+             if x]) for p in exp_net.places]
         exp_transitions = {str(x) for x in exp_net.transitions}
-        exp_arcs = [sorted(str(x)) for x in exp_net.arcs]
+        exp_arcs = [sorted([x for x in re.split("[^a-zA-Z]*", str(a)) if x])
+                    for a in exp_net.arcs]
 
-        # check return types
-        new_merge, new_im, new_fm = merge_fragments(fragment_list)
-        assert isinstance(new_merge, PetriNet)
+        new_frag, new_im, new_fm = merge_fragments(fragment_list)
+
+        for place in new_frag.places:
+            place.name = place.name[:-5]
+
+        assert isinstance(new_frag, PetriNet)
         assert isinstance(new_im, Marking)
         assert isinstance(new_fm, Marking)
 
         # check all transitions
-        assert len(exp_net.transitions) == len(new_merge.transitions)
-        for transition in new_merge.transitions:
+        assert len(exp_net.transitions) == len(new_frag.transitions)
+        for transition in new_frag.transitions:
             assert isinstance(transition, PetriNet.Transition)
             assert str(transition) in exp_transitions
 
         # check all places
-        assert len(exp_net.places) == len(new_merge.places)
-        for place in new_merge.places:
+        assert len(exp_net.places) == len(new_frag.places)
+        for place in new_frag.places:
             assert isinstance(place, PetriNet.Place)
-            assert sorted(str(place)) in exp_places
+            assert sorted([x for x in re.split("[^a-zA-Z]*",
+                                               place.name) if x]) in exp_places
 
         # check all arcs
-        assert len(exp_net.arcs) == len(new_merge.arcs)
-        for arc in new_merge.arcs:
+        assert len(exp_net.arcs) == len(new_frag.arcs)
+        for arc in new_frag.arcs:
             assert isinstance(arc, PetriNet.Arc)
-            assert sorted(str(arc)) in exp_arcs
+            assert sorted([x for x in re.split("[^a-zA-Z]*",
+                                               str(arc)) if x]) in exp_arcs
 
-        assert sorted(str(exp_im)) == sorted(str(new_im))
-        assert sorted(str(exp_fm)) == sorted(str(new_fm))
+        assert len(new_im.keys()) == len(exp_im.keys())
+        assert len(new_fm.keys()) == len(exp_fm.keys())
 
     def test_MergeMiddleEnd(self, middleEnd):
         fragment_list = middleEnd[0]
         exp_net, exp_im, exp_fm = middleEnd[1]
-        exp_places = [sorted(str(x)) for x in exp_net.places]
+        exp_places = [sorted(
+            [x for x in re.split("[^a-zA-Z]*", p.name[:-5])
+             if x]) for p in exp_net.places]
         exp_transitions = {str(x) for x in exp_net.transitions}
-        exp_arcs = [sorted(str(x)) for x in exp_net.arcs]
+        exp_arcs = [sorted([x for x in re.split("[^a-zA-Z]*", str(a)) if x])
+                    for a in exp_net.arcs]
 
-        # check return types
-        new_merge, new_im, new_fm = merge_fragments(fragment_list)
-        assert isinstance(new_merge, PetriNet)
+        new_frag, new_im, new_fm = merge_fragments(fragment_list)
+
+        for place in new_frag.places:
+            place.name = place.name[:-5]
+
+        assert isinstance(new_frag, PetriNet)
         assert isinstance(new_im, Marking)
         assert isinstance(new_fm, Marking)
 
         # check all transitions
-        assert len(exp_net.transitions) == len(new_merge.transitions)
-        for transition in new_merge.transitions:
+        assert len(exp_net.transitions) == len(new_frag.transitions)
+        for transition in new_frag.transitions:
             assert isinstance(transition, PetriNet.Transition)
             assert str(transition) in exp_transitions
 
         # check all places
-        assert len(exp_net.places) == len(new_merge.places)
-        for place in new_merge.places:
+        assert len(exp_net.places) == len(new_frag.places)
+        for place in new_frag.places:
             assert isinstance(place, PetriNet.Place)
-            assert sorted(str(place)) in exp_places
+            assert sorted([x for x in re.split("[^a-zA-Z]*",
+                                               place.name) if x]) in exp_places
 
         # check all arcs
-        assert len(exp_net.arcs) == len(new_merge.arcs)
-        for arc in new_merge.arcs:
+        assert len(exp_net.arcs) == len(new_frag.arcs)
+        for arc in new_frag.arcs:
             assert isinstance(arc, PetriNet.Arc)
-            assert sorted(str(arc)) in exp_arcs
+            assert sorted([x for x in re.split("[^a-zA-Z]*",
+                                               str(arc)) if x]) in exp_arcs
 
-        assert sorted(str(exp_im)) == sorted(str(new_im))
-        assert sorted(str(exp_fm)) == sorted(str(new_fm))
+        assert len(new_im.keys()) == len(exp_im.keys())
+        assert len(new_fm.keys()) == len(exp_fm.keys())
 
     def test_MergeMiddleOnly(self, middleOnly):
         fragment_list = middleOnly[0]
         exp_net, exp_im, exp_fm = middleOnly[1]
-        exp_places = [sorted(str(x)) for x in exp_net.places]
+        exp_places = [sorted(
+            [x for x in re.split("[^a-zA-Z]*", p.name[:-5])
+             if x]) for p in exp_net.places]
         exp_transitions = {str(x) for x in exp_net.transitions}
-        exp_arcs = [sorted(str(x)) for x in exp_net.arcs]
+        exp_arcs = [sorted([x for x in re.split("[^a-zA-Z]*", str(a)) if x])
+                    for a in exp_net.arcs]
 
-        # check return types
-        new_merge, new_im, new_fm = merge_fragments(fragment_list)
-        assert isinstance(new_merge, PetriNet)
+        new_frag, new_im, new_fm = merge_fragments(fragment_list)
+
+        for place in new_frag.places:
+            place.name = place.name[:-5]
+
+        assert isinstance(new_frag, PetriNet)
         assert isinstance(new_im, Marking)
         assert isinstance(new_fm, Marking)
 
         # check all transitions
-        assert len(exp_net.transitions) == len(new_merge.transitions)
-        for transition in new_merge.transitions:
+        assert len(exp_net.transitions) == len(new_frag.transitions)
+        for transition in new_frag.transitions:
             assert isinstance(transition, PetriNet.Transition)
             assert str(transition) in exp_transitions
 
         # check all places
-        assert len(exp_net.places) == len(new_merge.places)
-        for place in new_merge.places:
+        assert len(exp_net.places) == len(new_frag.places)
+        for place in new_frag.places:
             assert isinstance(place, PetriNet.Place)
-            assert sorted(str(place)) in exp_places
+            assert sorted([x for x in re.split("[^a-zA-Z]*",
+                                               place.name) if x]) in exp_places
 
         # check all arcs
-        assert len(exp_net.arcs) == len(new_merge.arcs)
-        for arc in new_merge.arcs:
+        assert len(exp_net.arcs) == len(new_frag.arcs)
+        for arc in new_frag.arcs:
             assert isinstance(arc, PetriNet.Arc)
-            assert sorted(str(arc)) in exp_arcs
+            assert sorted([x for x in re.split("[^a-zA-Z]*",
+                                               str(arc)) if x]) in exp_arcs
 
-        assert sorted(str(exp_im)) == sorted(str(new_im))
-        assert sorted(str(exp_fm)) == sorted(str(new_fm))
+        assert len(new_im.keys()) == len(exp_im.keys())
+        assert len(new_fm.keys()) == len(exp_fm.keys())
 
     def test_MergeWhole(self, whole):
         fragment_list = whole[0]
         exp_net, exp_im, exp_fm = whole[1]
-        exp_places = [sorted(str(x)) for x in exp_net.places]
+        exp_places = [sorted(
+            [x for x in re.split("[^a-zA-Z]*", p.name[:-5])
+             if x]) for p in exp_net.places]
         exp_transitions = {str(x) for x in exp_net.transitions}
-        exp_arcs = [sorted(str(x)) for x in exp_net.arcs]
+        exp_arcs = [sorted([x for x in re.split("[^a-zA-Z]*", str(a)) if x])
+                    for a in exp_net.arcs]
 
-        # check return types
-        new_merge, new_im, new_fm = merge_fragments(fragment_list)
-        assert isinstance(new_merge, PetriNet)
+        new_frag, new_im, new_fm = merge_fragments(fragment_list)
+
+        for place in new_frag.places:
+            place.name = place.name[:-5]
+
+        assert isinstance(new_frag, PetriNet)
         assert isinstance(new_im, Marking)
         assert isinstance(new_fm, Marking)
 
         # check all transitions
-        assert len(exp_net.transitions) == len(new_merge.transitions)
-        for transition in new_merge.transitions:
+        assert len(exp_net.transitions) == len(new_frag.transitions)
+        for transition in new_frag.transitions:
             assert isinstance(transition, PetriNet.Transition)
             assert str(transition) in exp_transitions
 
         # check all places
-        assert len(exp_net.places) == len(new_merge.places)
-        for place in new_merge.places:
+        assert len(exp_net.places) == len(new_frag.places)
+        for place in new_frag.places:
             assert isinstance(place, PetriNet.Place)
-            assert sorted(str(place)) in exp_places
+            assert sorted([x for x in re.split("[^a-zA-Z]*",
+                                               place.name) if x]) in exp_places
 
         # check all arcs
-        assert len(exp_net.arcs) == len(new_merge.arcs)
-        for arc in new_merge.arcs:
+        assert len(exp_net.arcs) == len(new_frag.arcs)
+        for arc in new_frag.arcs:
             assert isinstance(arc, PetriNet.Arc)
-            assert sorted(str(arc)) in exp_arcs
+            assert sorted([x for x in re.split("[^a-zA-Z]*",
+                                               str(arc)) if x]) in exp_arcs
 
-        assert sorted(str(exp_im)) == sorted(str(new_im))
-        assert sorted(str(exp_fm)) == sorted(str(new_fm))
+        assert len(new_im.keys()) == len(exp_im.keys())
+        assert len(new_fm.keys()) == len(exp_fm.keys())
 
     def test_InvalidInput(self):
         with pytest.raises(TypeError):

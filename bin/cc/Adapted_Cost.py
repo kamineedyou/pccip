@@ -16,7 +16,7 @@ def get_acti(activity: Tuple[str, str]) -> str:
 
 
 # Get all the misaligned transitions and store them in a "lis"
-#so that later we can check whether they are in other net fragments
+# So that later we can check whether they are in other net fragments
 def get_misaligned_trans(aligned_traces: List) -> List[Set[str]]:
     lis = list[]
     for trace in aligned_traces:

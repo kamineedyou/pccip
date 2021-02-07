@@ -13,7 +13,7 @@ from pccip.bin.cc import Adapted_Cost
                          (('a', '>>'), 'a'),
                          (('a', None), None)])
 def test_Get_Acti(tupl, result):
-    assert Adapted_Cost.Get_Acti(tupl) == result
+    assert Adapted_Cost.get_acti(tupl) == result
 
 
 @pytest.fixture
@@ -31,8 +31,8 @@ def net_frag():
     return aligned_transition
 
 
-def test_Get_Misaligned(net_frag):
-    result = Adapted_Cost.Get_Misaligned_Trans(net_frag)
+def test_get_misaligned(net_frag):
+    result = Adapted_Cost.get_misaligned_trans(net_frag)
     assert result == [{'a', 'b'}]
 
 
@@ -90,6 +90,6 @@ def nnet_fragments():
 
 
 def test_adapted_cost_fun(nnet_fragments):
-    align_trace, average_fitness = Adapted_Cost.Adapted_Cost_func(
+    align_trace, average_fitness = Adapted_Cost.adapted_cost_func(
                             nnet_fragments[0], nnet_fragments[1])
     assert align_trace[1][0]['cost'] == 0.5

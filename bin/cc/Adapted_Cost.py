@@ -8,7 +8,7 @@ from typing import Tuple, List, Set
 
 def get_acti(activity: Tuple[str, str]) -> str:
     SKIP = '>>'
-    if x is not None and SKIP in x:
+    if activity is not None and SKIP in activity:
         if activity[0] != SKIP:
             return activity[0]
         else:
@@ -18,14 +18,14 @@ def get_acti(activity: Tuple[str, str]) -> str:
 # Get all the misaligned transitions and store them in a "lis"
 # So that later we can check whether they are in other net fragments
 def get_misaligned_trans(aligned_traces: List) -> List[Set[str]]:
-    lis = list[]
+    lis = list()
     for trace in aligned_traces:
         unfited_traces = set()
         if trace['fitness'] != 1:
             for alig in trace['alignment']:
-                if get_Acti(alig) is not None \
-                                  and get_Acti(alig) not in unfited_traces:
-                    unfited_traces.add(get_Acti(alig))
+                if get_acti(alig) is not None \
+                                  and get_acti(alig) not in unfited_traces:
+                    unfited_traces.add(get_acti(alig))
         lis.append(unfited_traces)
     return lis
 

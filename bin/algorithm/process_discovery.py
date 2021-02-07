@@ -9,11 +9,12 @@ from pccip.bin.cc.EventLogDecomp import decompose_event_log as log_decomp
 from pccip.bin.pd.logToFragments import create_fragment, merge_fragments
 
 
-def algorithm(xes: EventLog,
-              c_algo: str = 'DEFAULT_VARIANT',
-              c_params: dict = None,
-              p_algo: str = 'DEFAULT_VARIANT',
-              p_params: dict = None) -> Tuple[PetriNet, Marking, Marking]:
+def passage_process_discovery(xes: EventLog,
+                              c_algo: str = 'DEFAULT_VARIANT',
+                              c_params: dict = None,
+                              p_algo: str = 'DEFAULT_VARIANT',
+                              p_params: dict = None) \
+                                  -> Tuple[PetriNet, Marking, Marking]:
     """Algorithm that executes decomposed process discovery using passages.
 
     Args:

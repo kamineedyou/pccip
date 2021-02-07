@@ -3,7 +3,7 @@ import os
 from pm4py.objects.petri.importer import importer as pnml_importer
 from pm4py.objects.log.importer.xes import importer as log_importer
 from pm4py.objects.petri.petrinet import PetriNet, Marking
-from pccip.bin.algorithm.process_discovery import algorithm as discover
+from pccip.bin.algorithm.process_discovery import passage_process_discovery
 from pm4py.algo.discovery.footprints.algorithm import apply as footprints
 
 
@@ -46,7 +46,8 @@ class Test_Process_Discovery:
         exp_pfoot = footprints(exp_pnet, exp_pim)
 
         # check return types
-        new_net, new_im, new_fm = discover(test_log, p_algo='ALPHA')
+        new_net, new_im, new_fm = passage_process_discovery(test_log,
+                                                            p_algo='ALPHA')
         new_foot = footprints(new_net, new_im)
         assert isinstance(new_net, PetriNet)
         assert isinstance(new_im, Marking)
@@ -61,7 +62,8 @@ class Test_Process_Discovery:
         exp_pfoot = footprints(exp_pnet, exp_pim)
 
         # check return types
-        new_net, new_im, new_fm = discover(test_log, p_algo='INDUCTIVE')
+        new_net, new_im, new_fm = passage_process_discovery(test_log,
+                                                            p_algo='INDUCTIVE')
         new_foot = footprints(new_net, new_im)
         assert isinstance(new_net, PetriNet)
         assert isinstance(new_im, Marking)

@@ -1,10 +1,9 @@
 import os
 import pytest
-from pm4py.objects.petri.petrinet import PetriNet
 from pm4py.objects.log.importer.xes import importer as xes_importer
 from pm4py.algo.discovery.inductive import algorithm as inductive_miner
 from pm4py.algo.conformance.alignments import algorithm as alignments
-from pccip.bin.cc.EventLogDecomp import decompose_event_log
+from pm4py.objects.petri.importer import importer as pnml_importer
 from pccip.bin.cc import Adapted_Cost
 
 
@@ -33,63 +32,34 @@ def net_frag():
 
 def test_get_misaligned(net_frag):
     result = Adapted_Cost.get_misaligned_trans(net_frag)
-    assert result == [{'a', 'b'}]
+    assert result[0] == {'Artificial:Start', 'b', 'a'}
 
 
-@pytest.fixture
-def nnet_fragments():
-    currentDir = os.path.dirname(os.path.realpath(__file__))
-    pathToFile = os.path.join(currentDir, 'figure8_mod.xes')
-    log = xes_importer.apply(pathToFile)
-    sub_log_1 = decompose_event_log(log, ['a', 'b', 'c'])
-    sub_log_2 = decompose_event_log(log, ['b', 'c', 'd'])
-
-    net_1 = PetriNet("petri_net_1")
-    source_1 = PetriNet.Place("source")
-    sink_1 = PetriNet.Place("sink")
-    c_1 = PetriNet.Place("c_1")
-    net_1.places.add(source_1)
-    net_1.places.add(sink_1)
-    net_1.places.add(c_1)
-    t_11 = PetriNet.Transition("name_1", "a")
-    t_12 = PetriNet.Transition("name_2", "b")
-    t_13 = PetriNet.Transition("name_3", "c")
-    net_1.transitions.add(t_11)
-    net_1.transitions.add(t_12)
-    net_1.transitions.add(t_13)
-    from pm4py.objects.petri import utils
-    utils.add_arc_from_to(source_1, t_11, net_1)
-    utils.add_arc_from_to(source_1, t_13, net_1)
-    utils.add_arc_from_to(t_11, c_1, net_1)
-    utils.add_arc_from_to(c_1, t_12, net_1)
-    utils.add_arc_from_to(t_12, sink_1, net_1)
-    utils.add_arc_from_to(t_13, sink_1, net_1)
-    net_2 = PetriNet("petri_net_2")
-    source_2 = PetriNet.Place("source")
-    sink_2 = PetriNet.Place("sink")
-    c_2 = PetriNet.Place("c_2")
-    net_2.places.add(sink_2)
-    net_2.places.add(source_2)
-    net_2.places.add(c_2)
-    t_21 = PetriNet.Transition("n_1", "d")
-    t_22 = PetriNet.Transition("n_2", "b")
-    t_23 = PetriNet.Transition("n_3", "c")
-    net_2.transitions.add(t_21)
-    net_2.transitions.add(t_22)
-    net_2.transitions.add(t_23)
-    from pm4py.objects.petri import utils
-    utils.add_arc_from_to(source_2, t_22, net_2)
-    utils.add_arc_from_to(source_2, t_23, net_2)
-    utils.add_arc_from_to(t_23, c_2, net_2)
-    utils.add_arc_from_to(c_2, t_21, net_2)
-    utils.add_arc_from_to(t_21, sink_2, net_2)
-    utils.add_arc_from_to(t_22, sink_2, net_2)
-    net_log = [sub_log_1, sub_log_2]
-    net_frag = [net_1, net_2]
-    return net_log, net_frag
+currentDir = os.path.dirname(os.path.realpath(__file__))
+pathToLog = os.path.join(currentDir, 'figure8_mod.xes')
+log = xes_importer.apply(pathToLog)
+pathToFile_1 = os.path.join(currentDir, 'f1.pnml')
+pathToFile_2 = os.path.join(currentDir, 'f2.pnml')
+pathToFile_3 = os.path.join(currentDir, 'f3.pnml')
+pathToFile_4 = os.path.join(currentDir, 'f4.pnml')
+pathToFile_5 = os.path.join(currentDir, 'f5.pnml')
+fragments_1, im_1, fm_1 = pnml_importer.apply(pathToFile_1)
+fragments_2, im_2, fm_2 = pnml_importer.apply(pathToFile_2)
+fragments_3, im_3, fm_3 = pnml_importer.apply(pathToFile_3)
+fragments_4, im_4, fm_4 = pnml_importer.apply(pathToFile_4)
+fragments_5, im_5, fm_5 = pnml_importer.apply(pathToFile_5)
+list_frag = [(fragments_1, im_1, fm_1),
+             (fragments_2, im_2, fm_2),
+             (fragments_3, im_3, fm_3),
+             (fragments_4, im_4, fm_4),
+             (fragments_5, im_5, fm_5)]
+for frag in list_frag:
+    frag[0].lvis_labels = [str(acti.label) for acti in frag[0].transitions]
 
 
-def test_adapted_cost_fun(nnet_fragments):
-    align_trace, average_fitness = Adapted_Cost.adapted_cost_func(
-                            nnet_fragments[0], nnet_fragments[1])
-    assert align_trace[1][0]['cost'] == 0.5
+def test_adapted_cost_fun():
+    align_trace, total_cost = Adapted_Cost.adapted_cost_func(log, list_frag)
+    assert align_trace[0][0]['cost'] == 0
+    assert align_trace[1][0]['cost'] == 10000
+    assert total_cost[0] == 0
+    assert total_cost[2] == 10000

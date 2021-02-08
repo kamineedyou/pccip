@@ -1,15 +1,19 @@
 from pccip.bin.passages.passage import Passage
 from pm4py.objects.petri import utils
-from typing import List
-from pm4py.objects.petri.petrinet import PetriNet
+from typing import List, Tuple
+from pm4py.objects.petri.petrinet import PetriNet, Marking
 
 
-def net_fragments(passages: List[Passage], model: PetriNet) -> List[PetriNet]:
-    NnetFragments = list()
+Fragment = Tuple[PetriNet, Marking, Marking]
+
+
+def net_fragments(passages: List[Passage], model: PetriNet) -> List[Fragment]:
+    net_fragments = list()
 
     for passage in passages:
         X, Y = passage.getXY()
-
+        init_marking = Marking()
+        final_marking = Marking()
         places = model.places
 
         places_new = set()
@@ -30,7 +34,14 @@ def net_fragments(passages: List[Passage], model: PetriNet) -> List[PetriNet]:
 
         fragment_net = PetriNet("new_petri_net")
         for place_new in places_new:
+            if place_new.name == "end":
+                final_marking[place_new] = 1
+
+            if place_new.name == "start":
+                init_marking[place_new] = 1
+
             fragment_net.places.add(place_new)
+
         for trans in trans_new:
             fragment_net.transitions.add(trans)
 
@@ -38,6 +49,7 @@ def net_fragments(passages: List[Passage], model: PetriNet) -> List[PetriNet]:
             arcs_new.add(arc)
             utils.add_arc_from_to(arc.source, arc.target, fragment_net)
 
-        NnetFragments.append(fragment_net)
+        perti_net = tuple([fragment_net, init_marking, final_marking])
+        net_fragments.append(perti_net)
 
-    return NnetFragments
+    return net_fragments

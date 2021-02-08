@@ -100,8 +100,8 @@ def create_fragment(sublog: EventLog,
     final_marking = Marking()
     im_place = next(iter(im.keys()))
     fm_place = next(iter(fm.keys()))
-    im_transition = next(iter(im_place.out_arcs)).target.label
-    fm_transition = next(iter(fm_place.in_arcs)).source.label
+    im_transitions = {p.target.label for p in im_place.out_arcs}
+    fm_transitions = {p.source.label for p in fm_place.in_arcs}
 
     # add unique identifier to each place to avoid naming collisions
     # from other fragments
@@ -110,8 +110,13 @@ def create_fragment(sublog: EventLog,
         place.name = f'{place}{identifier}'
 
     # if not at end, remove the generated start and/or end place
-    if im_transition == 'Artificial:Start':
+    if 'Artificial:Start' in im_transitions:
         initial_marking = im
+        # if petri net has more than one transition in im
+        if len(im_transitions) > 1:
+            for arc in im_place.out_arcs.copy():
+                if arc.target.label != 'Artificial:Start':
+                    remove_arc(net, arc)
     else:
         # remove all silent border transitions
         out_arcs = im_place.out_arcs.copy()
@@ -126,8 +131,13 @@ def create_fragment(sublog: EventLog,
         # finally remove the initial place
         remove_place(net, im_place)
 
-    if fm_transition == 'Artificial:End':
+    if 'Artificial:End' in fm_transitions:
         final_marking = fm
+        # if petri net has more than one transition in fm
+        if len(fm_transitions) > 1:
+            for arc in fm_place.in_arcs.copy():
+                if arc.source.label != 'Artificial:End':
+                    remove_arc(net, arc)
     else:
         # remove all silent border transitions
         in_arcs = fm_place.in_arcs.copy()

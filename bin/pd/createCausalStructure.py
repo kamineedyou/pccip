@@ -1,6 +1,7 @@
 from typing import Set, Tuple
 from pm4py.objects.log.log import EventLog
 from pccip.bin.pd.c_variants import Variants
+from pccip.bin.algorithm.constants import ARTIFICIAL_START, ARTIFICIAL_END
 
 
 def create_causal_structure(log: EventLog,
@@ -35,3 +36,37 @@ def create_causal_structure(log: EventLog,
         params = {}
 
     return variant(log, params)
+
+
+def create_custom_causal_structure(edges: Set[Tuple[str, str]]) \
+                                                    -> Set[Tuple[str, str]]:
+    """Function to make sure that the starting transition is only
+    ARTIFICIAL_START and that the ending transition is only ARTIFICIAL_END.
+
+    Args:
+        edges (Set[Tuple[str, str]]): Custom causal structure.
+
+    Returns:
+        Set[Tuple[str, str]]: Complete custom causal structure.
+    """
+    # get all start transitions
+    start_t = {x[0] for x in edges
+               if x[0] not in {y[1] for y in edges}}
+    # get all end transitions
+    end_t = {y[1] for y in edges
+             if y[1] not in {x[0] for x in edges}}
+
+    causal = edges
+    # if more than 1 start transition or artificial start in start transitions
+    if len(start_t) > 1 or ARTIFICIAL_START not in start_t:
+        to_add = {(ARTIFICIAL_START, x) for x in start_t
+                  if not x == ARTIFICIAL_START}
+        causal = causal | to_add
+
+    # if more than 1 end transition or artificial end in end transitions
+    if len(end_t) > 1 or ARTIFICIAL_END not in end_t:
+        to_add = {(x, ARTIFICIAL_END) for x in end_t
+                  if not x == ARTIFICIAL_END}
+        causal = causal | to_add
+
+    return causal

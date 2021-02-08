@@ -49,12 +49,15 @@ def create_custom_causal_structure(edges: Set[Tuple[str, str]]) \
     Returns:
         Set[Tuple[str, str]]: Complete custom causal structure.
     """
+    # remove all self loops to make sure to find all start/end activities
+    no_loop_edges = {edge for edge in edges if not edge[0] == edge[1]}
+
     # get all start transitions
-    start_t = {x[0] for x in edges
-               if x[0] not in {y[1] for y in edges}}
+    start_t = {x[0] for x in no_loop_edges
+               if x[0] not in {y[1] for y in no_loop_edges}}
     # get all end transitions
-    end_t = {y[1] for y in edges
-             if y[1] not in {x[0] for x in edges}}
+    end_t = {y[1] for y in no_loop_edges
+             if y[1] not in {x[0] for x in no_loop_edges}}
 
     causal = edges
     # if more than 1 start transition or artificial start in start transitions

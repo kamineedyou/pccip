@@ -14,13 +14,13 @@ class TestNnetFragmnets:
         currentDir = os.path.dirname(os.path.realpath(__file__))
         pathToFile = os.path.join(currentDir, 'figure1.xes')
         log = xes_importer.apply(pathToFile)
-        process_model, initial_marking, final_marking = apply(log)
+        process_model, im, fm = apply(log)
         passage_list = [Passage({('h', 'sink'), ('g', 'sink')}),
                         Passage({('d', 'e'), ('c', 'e'), ('b', 'e')}),
                         Passage({('source', 'a')}),
                         Passage({('e', 'f'), ('e', 'h'), ('e', 'g')})]
 
-        net_fragments_test = net_fragments(passage_list, process_model)
+        net_fragments_test = net_fragments(passage_list, process_model, im, fm)
 
         valid_fragments = []
         filenames = ['test_passage_g_h.pnml']

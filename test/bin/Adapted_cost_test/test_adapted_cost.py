@@ -35,30 +35,33 @@ def test_get_misaligned(net_frag):
     assert result[0] == {'Artificial:Start', 'b', 'a'}
 
 
-currentDir = os.path.dirname(os.path.realpath(__file__))
-pathToLog = os.path.join(currentDir, 'figure8_mod.xes')
-log = xes_importer.apply(pathToLog)
-pathToFile_1 = os.path.join(currentDir, 'f1.pnml')
-pathToFile_2 = os.path.join(currentDir, 'f2.pnml')
-pathToFile_3 = os.path.join(currentDir, 'f3.pnml')
-pathToFile_4 = os.path.join(currentDir, 'f4.pnml')
-pathToFile_5 = os.path.join(currentDir, 'f5.pnml')
-fragments_1, im_1, fm_1 = pnml_importer.apply(pathToFile_1)
-fragments_2, im_2, fm_2 = pnml_importer.apply(pathToFile_2)
-fragments_3, im_3, fm_3 = pnml_importer.apply(pathToFile_3)
-fragments_4, im_4, fm_4 = pnml_importer.apply(pathToFile_4)
-fragments_5, im_5, fm_5 = pnml_importer.apply(pathToFile_5)
-list_frag = [(fragments_1, im_1, fm_1),
-             (fragments_2, im_2, fm_2),
-             (fragments_3, im_3, fm_3),
-             (fragments_4, im_4, fm_4),
-             (fragments_5, im_5, fm_5)]
-for frag in list_frag:
-    frag[0].lvis_labels = [str(acti.label) for acti in frag[0].transitions]
+@pytest.fixture
+def nnfreg():
+    currentDir = os.path.dirname(os.path.realpath(__file__))
+    pathToLog = os.path.join(currentDir, 'figure8_mod.xes')
+    log = xes_importer.apply(pathToLog)
+    pathToFile_1 = os.path.join(currentDir, 'f1.pnml')
+    pathToFile_2 = os.path.join(currentDir, 'f2.pnml')
+    pathToFile_3 = os.path.join(currentDir, 'f3.pnml')
+    pathToFile_4 = os.path.join(currentDir, 'f4.pnml')
+    pathToFile_5 = os.path.join(currentDir, 'f5.pnml')
+    fragments_1, im_1, fm_1 = pnml_importer.apply(pathToFile_1)
+    fragments_2, im_2, fm_2 = pnml_importer.apply(pathToFile_2)
+    fragments_3, im_3, fm_3 = pnml_importer.apply(pathToFile_3)
+    fragments_4, im_4, fm_4 = pnml_importer.apply(pathToFile_4)
+    fragments_5, im_5, fm_5 = pnml_importer.apply(pathToFile_5)
+    list_frag = [(fragments_1, im_1, fm_1),
+                 (fragments_2, im_2, fm_2),
+                 (fragments_3, im_3, fm_3),
+                 (fragments_4, im_4, fm_4),
+                 (fragments_5, im_5, fm_5)]
+
+    return log, list_frag
 
 
-def test_adapted_cost_fun():
-    align_trace, total_cost = Adapted_Cost.adapted_cost_func(log, list_frag)
+def test_adapted_cost_fun(nnfreg):
+    align_trace, total_cost = Adapted_Cost.adapted_cost_func(nnfreg[0],
+                                                             nnfreg[1])
     assert align_trace[0][0]['cost'] == 0
     assert align_trace[1][0]['cost'] == 10000
     assert total_cost[0] == 0

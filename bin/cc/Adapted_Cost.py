@@ -38,6 +38,9 @@ def adapted_cost_func(log: EventLog,
     misaligned_trans = {}
     aligned_traces = {}
     total_cost = {}
+    for frag in net_fragments:
+        frag[0].lvis_labels = [str(acti.label) for acti in
+                               frag[0].transitions if acti.label]
     for i, fragment in enumerate(net_fragments):
         aligned_traces[i] = recompos_maximal.apply_log(log, [fragment])
         misaligned_trans[i] = get_misaligned_trans(aligned_traces[i])

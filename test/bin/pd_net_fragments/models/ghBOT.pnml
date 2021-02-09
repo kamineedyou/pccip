@@ -2,14 +2,19 @@
 <pnml>
   <net id="net1" type="http://www.pnml.org/version-2009/grammar/pnmlcoremodel">
     <page id="n0">
-      <place id="({'g', 'h'}, {'Artificial:End'})">
+      <place id="end19040">
         <name>
-          <text>({'g', 'h'}, {'Artificial:End'})</text>
+          <text>end19040</text>
         </name>
       </place>
-      <transition id="h">
+      <place id="({'g', 'h'}, {'Artificial:End'})19040">
         <name>
-          <text>h</text>
+          <text>({'g', 'h'}, {'Artificial:End'})19040</text>
+        </name>
+      </place>
+      <transition id="Artificial:End">
+        <name>
+          <text>Artificial:End</text>
         </name>
       </transition>
       <transition id="g">
@@ -17,12 +22,19 @@
           <text>g</text>
         </name>
       </transition>
-      <arc id="8768969054678" source="g" target="({'g', 'h'}, {'Artificial:End'})"/>
-      <arc id="8768969054684" source="h" target="({'g', 'h'}, {'Artificial:End'})"/>
+      <transition id="h">
+        <name>
+          <text>h</text>
+        </name>
+      </transition>
+      <arc id="8779732290374" source="h" target="({'g', 'h'}, {'Artificial:End'})19040"/>
+      <arc id="8779732290226" source="Artificial:End" target="end19040"/>
+      <arc id="8779732290356" source="g" target="({'g', 'h'}, {'Artificial:End'})19040"/>
+      <arc id="8779732290392" source="({'g', 'h'}, {'Artificial:End'})19040" target="Artificial:End"/>
     </page>
     <finalmarkings>
       <marking>
-        <place idref="({'g', 'h'}, {'Artificial:End'})">
+        <place idref="end19040">
           <text>1</text>
         </place>
       </marking>

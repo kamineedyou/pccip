@@ -1,79 +1,84 @@
 import pytest
 import os
 import re
+from pm4py.objects.log.importer.xes import importer as xes_importer
 from pm4py.objects.petri.importer import importer as pnml_importer
 from pm4py.objects.petri.petrinet import PetriNet, Marking
-from pccip.bin.pd.logToFragments import merge_fragments
+from pm4py.objects.log.log import Trace
+from pccip.bin.pd.logToFragments import create_fragment
 
 
-class Test_MergeFragments:
+class Test_CreateFragmentInductive:
     @pytest.fixture
-    def startMiddle(self):
-        file_list = ['TOPa.pnml', 'abcdf.pnml']
-        fragment_list = []
+    def inductive_start(self):
+        file_list = ['TOPa.xes']
+        sublog_list = []
         currentDir = os.path.dirname(os.path.realpath(__file__))
         for f in file_list:
-            pathToFile = os.path.join(currentDir, 'models/' + f)
-            fragment_list.append(pnml_importer.apply(pathToFile))
+            pathToFile = os.path.join(currentDir, 'logs/' + f)
+            sublog_list.append(xes_importer.apply(pathToFile))
 
-        pathToFile = os.path.join(currentDir, 'models/TOPabcdf.pnml')
+        pathToFile = os.path.join(currentDir, 'models/inductive_start.pnml')
         expected = pnml_importer.apply(pathToFile)
-        return fragment_list, expected
+
+        return sublog_list, expected
 
     @pytest.fixture
-    def middleEnd(self):
-        file_list = ['efgh.pnml', 'ghBOT.pnml']
-        fragment_list = []
+    def inductive_silent_start(self):
+        file_list = ['bcde.xes']
+        sublog_list = []
         currentDir = os.path.dirname(os.path.realpath(__file__))
         for f in file_list:
-            pathToFile = os.path.join(currentDir, 'models/' + f)
-            fragment_list.append(pnml_importer.apply(pathToFile))
+            pathToFile = os.path.join(currentDir, 'logs/' + f)
+            sublog_list.append(xes_importer.apply(pathToFile))
 
-        pathToFile = os.path.join(currentDir, 'models/efghBOT.pnml')
+        pathToFile = os.path.join(currentDir,
+                                  'models/inductive_silent_start.pnml')
         expected = pnml_importer.apply(pathToFile)
 
-        return fragment_list, expected
+        return sublog_list, expected
 
     @pytest.fixture
-    def middleOnly(self):
-        file_list = ['abcdf.pnml', 'bcde.pnml']
-        fragment_list = []
+    def inductive_silent_end(self):
+        file_list = ['abcdf.xes']
+        sublog_list = []
         currentDir = os.path.dirname(os.path.realpath(__file__))
         for f in file_list:
-            pathToFile = os.path.join(currentDir, 'models/' + f)
-            fragment_list.append(pnml_importer.apply(pathToFile))
+            pathToFile = os.path.join(currentDir, 'logs/' + f)
+            sublog_list.append(xes_importer.apply(pathToFile))
 
-        pathToFile = os.path.join(currentDir, 'models/abcdef.pnml')
+        pathToFile = os.path.join(currentDir,
+                                  'models/inductive_silent_end.pnml')
         expected = pnml_importer.apply(pathToFile)
 
-        return fragment_list, expected
+        return sublog_list, expected
 
     @pytest.fixture
-    def whole(self):
-        file_list = ['TOPa.pnml', 'abcdf.pnml',
-                     'bcde.pnml', 'efgh.pnml', 'ghBOT.pnml']
-        fragment_list = []
+    def inductive_end(self):
+        file_list = ['ghBOT.xes']
+        sublog_list = []
         currentDir = os.path.dirname(os.path.realpath(__file__))
         for f in file_list:
-            pathToFile = os.path.join(currentDir, 'models/' + f)
-            fragment_list.append(pnml_importer.apply(pathToFile))
+            pathToFile = os.path.join(currentDir, 'logs/' + f)
+            sublog_list.append(xes_importer.apply(pathToFile))
 
-        pathToFile = os.path.join(currentDir, 'models/figure1.pnml')
+        pathToFile = os.path.join(currentDir, 'models/inductive_end.pnml')
         expected = pnml_importer.apply(pathToFile)
 
-        return fragment_list, expected
+        return sublog_list, expected
 
-    def test_MergeStartMiddle(self, startMiddle):
-        fragment_list = startMiddle[0]
-        exp_net, exp_im, exp_fm = startMiddle[1]
+    def test_inductive_start(self, inductive_start):
+        sublog = inductive_start[0][0]
+        exp_net, exp_im, exp_fm = inductive_start[1]
         exp_places = [sorted(
-            [x for x in re.split("[^a-zA-Z]*", p.name[:-5])
+            [x for x in re.split("[^a-zA-Z0-9]*", p.name[:-5])
              if x]) for p in exp_net.places]
         exp_transitions = {str(x) for x in exp_net.transitions}
         exp_arcs = [sorted([x for x in re.split("[^a-zA-Z]*", str(a)) if x])
                     for a in exp_net.arcs]
 
-        new_frag, new_im, new_fm = merge_fragments(fragment_list)
+        new_frag, new_im, new_fm = create_fragment(sublog,
+                                                   variant='INDUCTIVE')
 
         for place in new_frag.places:
             place.name = place.name[:-5]
@@ -92,7 +97,7 @@ class Test_MergeFragments:
         assert len(exp_net.places) == len(new_frag.places)
         for place in new_frag.places:
             assert isinstance(place, PetriNet.Place)
-            assert sorted([x for x in re.split("[^a-zA-Z]*",
+            assert sorted([x for x in re.split("[^a-zA-Z0-9]*",
                                                place.name) if x]) in exp_places
 
         # check all arcs
@@ -105,17 +110,18 @@ class Test_MergeFragments:
         assert len(new_im.keys()) == len(exp_im.keys())
         assert len(new_fm.keys()) == len(exp_fm.keys())
 
-    def test_MergeMiddleEnd(self, middleEnd):
-        fragment_list = middleEnd[0]
-        exp_net, exp_im, exp_fm = middleEnd[1]
+    def test_inductive_silent_start(self, inductive_silent_start):
+        sublog = inductive_silent_start[0][0]
+        exp_net, exp_im, exp_fm = inductive_silent_start[1]
         exp_places = [sorted(
-            [x for x in re.split("[^a-zA-Z]*", p.name[:-5])
+            [x for x in re.split("[^a-zA-Z0-9]*", p.name[:-5])
              if x]) for p in exp_net.places]
         exp_transitions = {str(x) for x in exp_net.transitions}
         exp_arcs = [sorted([x for x in re.split("[^a-zA-Z]*", str(a)) if x])
                     for a in exp_net.arcs]
 
-        new_frag, new_im, new_fm = merge_fragments(fragment_list)
+        new_frag, new_im, new_fm = create_fragment(sublog,
+                                                   variant='INDUCTIVE')
 
         for place in new_frag.places:
             place.name = place.name[:-5]
@@ -134,7 +140,7 @@ class Test_MergeFragments:
         assert len(exp_net.places) == len(new_frag.places)
         for place in new_frag.places:
             assert isinstance(place, PetriNet.Place)
-            assert sorted([x for x in re.split("[^a-zA-Z]*",
+            assert sorted([x for x in re.split("[^a-zA-Z0-9]*",
                                                place.name) if x]) in exp_places
 
         # check all arcs
@@ -147,17 +153,18 @@ class Test_MergeFragments:
         assert len(new_im.keys()) == len(exp_im.keys())
         assert len(new_fm.keys()) == len(exp_fm.keys())
 
-    def test_MergeMiddleOnly(self, middleOnly):
-        fragment_list = middleOnly[0]
-        exp_net, exp_im, exp_fm = middleOnly[1]
+    def test_inductive_silent_end(self, inductive_silent_end):
+        sublog = inductive_silent_end[0][0]
+        exp_net, exp_im, exp_fm = inductive_silent_end[1]
         exp_places = [sorted(
-            [x for x in re.split("[^a-zA-Z]*", p.name[:-5])
+            [x for x in re.split("[^a-zA-Z0-9]*", p.name[:-5])
              if x]) for p in exp_net.places]
         exp_transitions = {str(x) for x in exp_net.transitions}
         exp_arcs = [sorted([x for x in re.split("[^a-zA-Z]*", str(a)) if x])
                     for a in exp_net.arcs]
 
-        new_frag, new_im, new_fm = merge_fragments(fragment_list)
+        new_frag, new_im, new_fm = create_fragment(sublog,
+                                                   variant='INDUCTIVE')
 
         for place in new_frag.places:
             place.name = place.name[:-5]
@@ -176,7 +183,7 @@ class Test_MergeFragments:
         assert len(exp_net.places) == len(new_frag.places)
         for place in new_frag.places:
             assert isinstance(place, PetriNet.Place)
-            assert sorted([x for x in re.split("[^a-zA-Z]*",
+            assert sorted([x for x in re.split("[^a-zA-Z0-9]*",
                                                place.name) if x]) in exp_places
 
         # check all arcs
@@ -189,17 +196,18 @@ class Test_MergeFragments:
         assert len(new_im.keys()) == len(exp_im.keys())
         assert len(new_fm.keys()) == len(exp_fm.keys())
 
-    def test_MergeWhole(self, whole):
-        fragment_list = whole[0]
-        exp_net, exp_im, exp_fm = whole[1]
+    def test_inductive_end(self, inductive_end):
+        sublog = inductive_end[0][0]
+        exp_net, exp_im, exp_fm = inductive_end[1]
         exp_places = [sorted(
-            [x for x in re.split("[^a-zA-Z]*", p.name[:-5])
+            [x for x in re.split("[^a-zA-Z0-9]*", p.name[:-5])
              if x]) for p in exp_net.places]
         exp_transitions = {str(x) for x in exp_net.transitions}
         exp_arcs = [sorted([x for x in re.split("[^a-zA-Z]*", str(a)) if x])
                     for a in exp_net.arcs]
 
-        new_frag, new_im, new_fm = merge_fragments(fragment_list)
+        new_frag, new_im, new_fm = create_fragment(sublog,
+                                                   variant='INDUCTIVE')
 
         for place in new_frag.places:
             place.name = place.name[:-5]
@@ -218,7 +226,7 @@ class Test_MergeFragments:
         assert len(exp_net.places) == len(new_frag.places)
         for place in new_frag.places:
             assert isinstance(place, PetriNet.Place)
-            assert sorted([x for x in re.split("[^a-zA-Z]*",
+            assert sorted([x for x in re.split("[^a-zA-Z0-9]*",
                                                place.name) if x]) in exp_places
 
         # check all arcs
@@ -233,5 +241,5 @@ class Test_MergeFragments:
 
     def test_InvalidInput(self):
         with pytest.raises(TypeError):
-            merge_fragments([PetriNet(), PetriNet()])
-            merge_fragments([('PetriNet', 'im', 'fm')])
+            create_fragment('<xml>event log</xml>')
+            create_fragment(Trace())

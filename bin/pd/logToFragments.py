@@ -1,21 +1,26 @@
-from enum import Enum
 from typing import Set, List, Tuple
+from random import randint
 from pm4py.objects.log.log import EventLog, Trace
 from pm4py.objects.petri.petrinet import PetriNet, Marking
-from pm4py.algo.discovery.alpha.algorithm import apply as alpha_algo
 from pm4py.statistics.start_activities.log.get import get_start_activities
 from pm4py.statistics.end_activities.log.get import get_end_activities
 from pm4py.objects.petri.utils import remove_place, remove_transition
 from pm4py.objects.petri.utils import remove_arc, add_arc_from_to
+from pccip.bin.pd.p_variants import Variants
 
 
-def alpha_fragments(sublog: EventLog, parameters: dict = None) -> PetriNet:
-    if parameters is None:
-        parameters = {}
-    return alpha_algo(sublog, parameters=parameters)
+def split_log(sublog: EventLog) -> EventLog:
+    """Function to split looping traces into new traces.
 
+    Args:
+        sublog (EventLog): Sublog to split.
 
-def split_log(sublog: EventLog):
+    Raises:
+        TypeError: Raised when EventLog is of the wrong type.
+
+    Returns:
+        EventLog: New event log that contains no more looping
+    """
     if not isinstance(sublog, EventLog):
         raise TypeError('Invalid Event Log Type')
     start_activities = set(get_start_activities(sublog).keys())
@@ -54,16 +59,34 @@ def split_log(sublog: EventLog):
     return split_log
 
 
-class Variants(Enum):
-    DEFAULT_VARIANT = alpha_fragments
-    ALPHA = alpha_fragments
-
-
 def create_fragment(sublog: EventLog,
                     parameters: dict = None,
-                    variant: Variants = Variants.DEFAULT_VARIANT) -> PetriNet:
+                    variant: str = 'DEFAULT_VARIANT') \
+                        -> Tuple[PetriNet, Marking, Marking]:
+    """Create a net fragment from a sublog.
+
+    Args:
+        sublog (EventLog): Sublog to do process discovery on.
+        parameters (dict, optional): Parameters for the discovery algorithm.
+                                     Defaults to None.
+        variant (str, optional): process discovery algorithm to create net
+                                 fragments from sublogs.
+                                 Variants available: 'ALPHA', 'INDUCTIVE'.
+                                 Defaults to 'DEFAULT_VARIANT'.
+
+    Raises:
+        TypeError: Raised when sublog is of wrong type.
+        TypeError: Raised when the variant is invalid.
+
+    Returns:
+        Tuple[PetriNet, Marking, Marking]: Net fragment from the sublog.
+    """
     if not isinstance(sublog, EventLog):
         raise TypeError('Invalid Event Log Type')
+
+    variant = getattr(Variants, variant.upper(), None)
+    if variant is None:
+        raise TypeError('Invalid input variant (p_algo)')
 
     if parameters is None:
         parameters = {}
@@ -77,44 +100,86 @@ def create_fragment(sublog: EventLog,
     final_marking = Marking()
     im_place = next(iter(im.keys()))
     fm_place = next(iter(fm.keys()))
+    im_transitions = {p.target.label for p in im_place.out_arcs}
+    fm_transitions = {p.source.label for p in fm_place.in_arcs}
 
-    # Create new Marking if fragment is the start fragment
-    # and remove artificial start
-    if len(im_place.out_arcs) == 1:
-        im_transition = next(iter(im_place.out_arcs)).target
-        if im_transition.label == 'Artificial:Start':
-            new_im_place = next(iter(im_transition.out_arcs)).target
-            remove_place(net, im_place)
-            remove_transition(net, im_transition)
-            initial_marking = Marking({new_im_place: 1})
-
-    # Create new Marking if fragment is the end fragment
-    # and remove artificial end
-    if len(fm_place.in_arcs) == 1:
-        fm_transition = next(iter(fm_place.in_arcs)).source
-        if fm_transition.label == 'Artificial:End':
-            new_fm_place = next(iter(fm_transition.in_arcs)).source
-            remove_place(net, fm_place)
-            remove_transition(net, fm_transition)
-            final_marking = Marking({new_fm_place: 1})
+    # add unique identifier to each place to avoid naming collisions
+    # from other fragments
+    identifier = randint(10000, 99999)
+    for place in net.places:
+        place.name = f'{place}{identifier}'
 
     # if not at end, remove the generated start and/or end place
-    if not len(initial_marking):
+    if 'Artificial:Start' in im_transitions:
+        initial_marking = im
+        # if petri net has more than one transition in im
+        if len(im_transitions) > 1:
+            for arc in im_place.out_arcs.copy():
+                if arc.target.label != 'Artificial:Start':
+                    remove_arc(net, arc)
+    else:
+        # remove all silent border transitions
+        out_arcs = im_place.out_arcs.copy()
+        for arc in out_arcs:
+            if arc.target.label is None:
+                # remove all places, only connected to silent transition
+                to_remove_places = {p.target for p in arc.target.out_arcs
+                                    if len(p.target.in_arcs) == 1}
+                for place in to_remove_places:
+                    remove_place(net, place)
+                remove_transition(net, arc.target)
+        # finally remove the initial place
         remove_place(net, im_place)
-    if not len(final_marking):
+
+    if 'Artificial:End' in fm_transitions:
+        final_marking = fm
+        # if petri net has more than one transition in fm
+        if len(fm_transitions) > 1:
+            for arc in fm_place.in_arcs.copy():
+                if arc.source.label != 'Artificial:End':
+                    remove_arc(net, arc)
+    else:
+        # remove all silent border transitions
+        in_arcs = fm_place.in_arcs.copy()
+        for arc in in_arcs:
+            if arc.source.label is None:
+                # remove all places, only connected to silent transition
+                to_remove_places = {p.source for p in arc.source.in_arcs
+                                    if len(p.source.out_arcs) == 1}
+                for place in to_remove_places:
+                    remove_place(net, place)
+                remove_transition(net, arc.source)
+        # finally remove the final place
         remove_place(net, fm_place)
 
     return net, initial_marking, final_marking
 
 
 def merge_fragments(fragments: List[
-                               Tuple[PetriNet, Marking, Marking]]) -> PetriNet:
+                               Tuple[PetriNet, Marking, Marking]]) \
+                                   -> Tuple[PetriNet, Marking, Marking]:
+    """Merge a list of net fragments into a whole complete petri net.
+
+    Args:
+        fragments (List[Tuple[PetriNet, Marking, Marking]]): all fragments
+                                                             to be combined.
+
+    Raises:
+        TypeError: Raised when input fragments are not of correct type.
+        TypeError: Raised when input is not complete.
+
+    Returns:
+        Tuple[PetriNet, Marking, Marking]: Petri Net from combined fragments.
+    """
     if not isinstance(fragments[0], tuple):
         raise TypeError('Please use a List[Tuple[PetriNet, Marking, Marking]]')
     if not isinstance(fragments[0][0], PetriNet) \
        or not isinstance(fragments[0][1], Marking) \
        or not isinstance(fragments[0][2], Marking):
         raise TypeError('Please use Tuple[PetriNet, Marking, Marking]')
+
+    if len(fragments) == 1:
+        return fragments[0]
 
     merged_net = fragments[0][0]
     transitions = {tran.label: tran for tran in merged_net.transitions}
@@ -168,5 +233,11 @@ def merge_fragments(fragments: List[
 
 
 def remove_arc_set(net: PetriNet, arc_set: Set[PetriNet.Arc]) -> None:
+    """Remove a set of arcs from a petri net.
+
+    Args:
+        net (PetriNet): Petri net to remove arcs from.
+        arc_set (Set[PetriNet.Arc]): set of arcs to remove from petri net.
+    """
     for arc in arc_set.copy():
         remove_arc(net, arc)

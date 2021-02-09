@@ -1,6 +1,6 @@
 import pytest
 import os
-from pccip.bin.pd.importLog import importEventLog, WrongEventLogType
+from pccip.bin.pd.importLog import importEventLog
 from pm4py.objects.log.importer.xes import importer as xes_importer
 from pm4py.objects.log.log import EventLog
 
@@ -27,7 +27,7 @@ class Test_ImportLog:
     def test_ImportInvalidEventLog(self, invalidEventLogFileType):
         currentDir = os.path.dirname(os.path.realpath(__file__))
         pathToFile = os.path.join(currentDir, invalidEventLogFileType)
-        with pytest.raises(WrongEventLogType):
+        with pytest.raises(TypeError):
             importEventLog(pathToFile)
 
     @pytest.mark.parametrize('nonExistantFile', ['figureLOST.xes'])

@@ -1,10 +1,21 @@
-from pccip.bin.passages.passage import Passage
+from pccip.bin.passages.passage import Passage, digraph_to_tuple
 from networkx import DiGraph
 from typing import Set, Tuple, Union
 
 
 def algorithm(edges: Union[DiGraph, Set[Tuple[str, str]]],
               silents: Set[str] = []) -> Set[Passage]:
+    """Algorithm to compute the minimal passages in an edge set or a DiGraph.
+
+    Args:
+        edges (Union[DiGraph, Set[Tuple[str, str]]]): Edge set or DiGraph
+            object to create minimal passages out of.
+        silents (Set[str], optional): Set of silent transitions.
+                                      Defaults to [].
+
+    Returns:
+        Set[Passage]: Set of all minimal passages contained in the input edges.
+    """
     passage_set = set()
 
     if isinstance(edges, DiGraph):
@@ -37,6 +48,20 @@ def algorithm(edges: Union[DiGraph, Set[Tuple[str, str]]],
 
 def pi_both(x_activity: str, y_activity: str, edges: Set[Tuple[str, str]],
             silents: Set[str], t_vis: Set[str]) -> Set[Tuple[str, str]]:
+    """Get all edges that have x_activity as the source and all the edges that
+    have y_activity as the target in one for loop. In addition, add all of the
+    edges that hold the same silent transition into the same passage.
+
+    Args:
+        x_activity (str): Transition label x.
+        y_activity (str): Transition albel y.
+        edges (Set[Tuple[str, str]]): Remaining edge set to check.
+        silents (Set[str]): Set of names of silent transitions in the net.
+        t_vis (Set[str]): Set of transitions in the passage.
+
+    Returns:
+        Set[Tuple[str, str]]: Edges to add to the current passage.
+    """
     return {edge for edge in edges
             if edge[0] == x_activity
             or edge[1] == y_activity
@@ -45,21 +70,26 @@ def pi_both(x_activity: str, y_activity: str, edges: Set[Tuple[str, str]],
 
 
 def pi_1(x_activity: str, edges: Set[Tuple[str, str]]) -> Set[Tuple[str, str]]:
+    """Get all edges that have x_activity as the source.
+
+    Args:
+        x_activity (str): Transition label.
+        edges (Set[Tuple[str, str]]): Remaining edge set to check.
+
+    Returns:
+        Set[Tuple[str, str]]: Edges to add to the current passage.
+    """
     return {edge for edge in edges if edge[0] == x_activity}
 
 
 def pi_2(y_activity: str, edges: Set[Tuple[str, str]]) -> Set[Tuple[str, str]]:
+    """Get all edges that have y_activity as the target.
+
+    Args:
+        y_activity (str): Transition label.
+        edges (Set[Tuple[str, str]]): Remaining edge set to check.
+
+    Returns:
+        Set[Tuple[str, str]]: Edges to add to the current passage.
+    """
     return {edge for edge in edges if edge[1] == y_activity}
-
-
-def digraph_to_tuple(digraph: DiGraph):
-    digraph_link = {}
-    tuple_edges = set()
-    for edge in digraph.edges:
-        src = edge[0]
-        tar = edge[1]
-        tuple_edges.add((src.name, tar.name))
-        digraph_link[(src.name, tar.name)] = edge
-        digraph_link[src.name] = src
-        digraph_link[tar.name] = tar
-    return tuple_edges, digraph_link

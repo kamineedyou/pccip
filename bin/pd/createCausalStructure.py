@@ -1,55 +1,71 @@
+from typing import Set, Tuple
 from pm4py.objects.log.log import EventLog
-from pm4py.algo.discovery.dfg import algorithm as dfg_discovery
-from pm4py.algo.discovery.causal import algorithm as causal_discovery
-from pm4py.algo.discovery.causal.variants import heuristic
-from pm4py.algo.discovery.footprints import algorithm as foot_discovery
+from pm4py.statistics.start_activities.log.get import get_start_activities
+from pm4py.statistics.end_activities.log.get import get_end_activities
+from pccip.bin.pd.c_variants import Variants
+from pccip.bin.algorithm.constants import ARTIFICIAL_START, ARTIFICIAL_END
+from pccip.bin.cc.EventLogDecomp import decompose_event_log
 
 
-class Causal_Struct():
-    def __init__(self, successors: set, parallel: set):
-        self.successors = successors
-        self.predecessors = self.generate_predecessors(successors)
-        self.parallel = parallel
+def create_causal_structure(log: EventLog,
+                            variant: str = 'DEFAULT_VARIANT',
+                            params: dict = None) -> Set[Tuple[str, str]]:
+    """Generate the causal structure (sequence edges) from an event log.
 
-    def generate_predecessors(self, successors) -> set:
-        pred = set()
-        for match in successors:
-            pred.add(match[::-1])
+    Args:
+        log (EventLog): Event log to create a causal structure from.
+        variant (str, optional): Causal algorithm variant to create a
+                                 causal structure.
+                                 Variants available: 'ALPHA', 'HEURISTIC'.
+                                 Defaults to 'DEFAULT_VARIANT'.
+        params (dict, optional): Parameters for the discovery algorithm.
+                                 Defaults to None.
 
-        return pred
+    Raises:
+        TypeError: Raised when input is not of type EventLog.
+        TypeError: Raised when the variant is invalid.
 
-    def __eq__(self, obj) -> bool:
-        return isinstance(obj, Causal_Struct) and \
-            self.successors == obj.successors and \
-            self.predecessors == obj.predecessors and \
-            self.parallel == obj.parallel
-
-    def __ne__(self, obj) -> bool:
-        return not self == obj
-
-
-def generateCausalStructure(log: EventLog,
-                            variants: str = 'alpha') -> Causal_Struct:
+    Returns:
+        Set[Tuple[str, str]]: Sequence edges from the entire event log.
+    """
     if not isinstance(log, EventLog):
         raise TypeError('Invalid Log Type')
 
-    causal = None
-    if variants == 'alpha':
-        foot = foot_discovery.apply(log, variant=foot_discovery.
-                                    Variants.ENTIRE_EVENT_LOG)
+    variant = getattr(Variants, variant.upper(), None)
+    if variant is None:
+        raise TypeError('Invalid input variant (c_algo)')
 
-        successors = foot['sequence']
-        parallel = foot['parallel']
+    if params is None:
+        params = {}
 
-        causal = Causal_Struct(successors, parallel)
+    return variant(log, params)
 
-    elif variants == 'heuristic':
-        dfg = dfg_discovery.apply(log)
-        sequence = causal_discovery.apply(dfg, heuristic)
-        successors = {k for k, v in sequence.items() if v >= 0}
 
-        causal = Causal_Struct(successors, set())
-    else:
-        raise TypeError("Variant is not supported.")
+def create_custom_causal_structure(edges: Set[Tuple[str, str]], xes: EventLog)\
+                                                       -> Set[Tuple[str, str]]:
+    """Function to make sure that the starting transition is only
+    ARTIFICIAL_START and that the ending transition is only ARTIFICIAL_END.
+
+    Args:
+        edges (Set[Tuple[str, str]]): Custom causal structure.
+        xes (EventLog): Event Log to be used by algorithm.
+
+    Returns:
+        Set[Tuple[str, str]]: Complete custom causal structure.
+    """
+    visible_activities = list({act for tup in edges for act in tup}
+                              - {ARTIFICIAL_START, ARTIFICIAL_END})
+    filtered_log = decompose_event_log(xes, visible_activities)
+
+    # get all start transitions
+    start_t = {k for k in get_start_activities(filtered_log).keys()}
+    # get all end transitions
+    end_t = {k for k in get_end_activities(filtered_log).keys()}
+
+    # if more than 1 start transition or artificial start in start transitions
+    # and if more than 1 end transition or artificial end in end transitions
+    causal = edges | \
+        {(ARTIFICIAL_START, x) for x in start_t} | \
+        {(x, ARTIFICIAL_END) for x in end_t}
 
     return causal

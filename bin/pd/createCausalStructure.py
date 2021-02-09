@@ -62,8 +62,6 @@ def create_custom_causal_structure(edges: Set[Tuple[str, str]], xes: EventLog)\
     # get all end transitions
     end_t = {k for k in get_end_activities(filtered_log).keys()}
 
-    print(start_t, end_t)
-
     # if more than 1 start transition or artificial start in start transitions
     # and if more than 1 end transition or artificial end in end transitions
     causal = edges | \

@@ -11,33 +11,10 @@ class Passage:
             raise TypeError('Invalid Input Edges Format.')
 
         if isinstance(edges, DiGraph) and digraph_link is None:
-            self.edges, self.digraph_link = self.digraph_to_tuple(edges)
+            self.edges, self.digraph_link = digraph_to_tuple(edges)
         else:
             self.edges = edges
             self.digraph_link = digraph_link
-
-    def digraph_to_tuple(self,
-                         digraph: DiGraph) -> Tuple[Tuple[str, str], dict]:
-        """Function to convert DiGraph object into simple Tuple[str, str]
-        edges. Any result can be linked back using the simple edges as keys
-        in the dictionary.
-
-        Args:
-            digraph (DiGraph): Digraph to convert.
-
-        Returns:
-            Tuple[Tuple[str, str], dict]: Simple edges and linking dictionary.
-        """
-        digraph_link = {}
-        tuple_edges = set()
-        for edge in digraph.edges:
-            src = edge[0]
-            tar = edge[1]
-            tuple_edges.add((src.name, tar.name))
-            digraph_link[(src.name, tar.name)] = edge
-            digraph_link[src.name] = src
-            digraph_link[tar.name] = tar
-        return tuple_edges, digraph_link
 
     def get_digraph_edge(self, edge: Tuple[str, str]):
         """Convienience function to retrieve the DiGraph edge using the simple
@@ -210,3 +187,26 @@ class Passage:
             new_digraph = None
 
         return Passage(new_edges, new_digraph)
+
+
+def digraph_to_tuple(digraph: DiGraph) -> Tuple[Tuple[str, str], dict]:
+    """Function to convert DiGraph object into simple Tuple[str, str]
+    edges. Any result can be linked back using the simple edges as keys
+    in the dictionary.
+
+    Args:
+        digraph (DiGraph): Digraph to convert.
+
+    Returns:
+        Tuple[Tuple[str, str], dict]: Simple edges and linking dictionary.
+    """
+    digraph_link = {}
+    tuple_edges = set()
+    for edge in digraph.edges:
+        src = edge[0]
+        tar = edge[1]
+        tuple_edges.add((src.name, tar.name))
+        digraph_link[(src.name, tar.name)] = edge
+        digraph_link[src.name] = src
+        digraph_link[tar.name] = tar
+    return tuple_edges, digraph_link

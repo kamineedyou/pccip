@@ -1,4 +1,4 @@
-from pccip.bin.passages.passage import Passage
+from pccip.bin.passages.passage import Passage, digraph_to_tuple
 from networkx import DiGraph
 from typing import Set, Tuple, Union
 
@@ -93,26 +93,3 @@ def pi_2(y_activity: str, edges: Set[Tuple[str, str]]) -> Set[Tuple[str, str]]:
         Set[Tuple[str, str]]: Edges to add to the current passage.
     """
     return {edge for edge in edges if edge[1] == y_activity}
-
-
-def digraph_to_tuple(digraph: DiGraph):
-    """Function to convert DiGraph object into simple Tuple[str, str]
-    edges. Any result can be linked back using the simple edges as keys
-    in the dictionary.
-
-    Args:
-        digraph (DiGraph): Digraph to convert.
-
-    Returns:
-        Tuple[Tuple[str, str], dict]: Simple edges and linking dictionary.
-    """
-    digraph_link = {}
-    tuple_edges = set()
-    for edge in digraph.edges:
-        src = edge[0]
-        tar = edge[1]
-        tuple_edges.add((src.name, tar.name))
-        digraph_link[(src.name, tar.name)] = edge
-        digraph_link[src.name] = src
-        digraph_link[tar.name] = tar
-    return tuple_edges, digraph_link

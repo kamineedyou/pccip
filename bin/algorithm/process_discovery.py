@@ -48,7 +48,7 @@ def passage_process_discovery(xes: EventLog,
     if c_custom is None:
         causal = create_causal_structure(ext_log, c_algo, c_params)
     else:
-        causal = create_custom_causal_structure(c_custom)
+        causal = create_custom_causal_structure(c_custom, log)
 
     # generate passages using the causal structure
     passage_set = min_passages(causal)

@@ -6,6 +6,18 @@ from typing import Tuple, List, Set
 
 
 def get_acti(activity: Tuple[str, str]) -> str:
+    """
+    retrieve activities where misalignment occured.
+
+    Parameters
+    ----------
+    activity : Tuple[str, str]
+
+    Returns
+    -------
+    str: misaligned activity
+
+    """
     SKIP = '>>'
     if activity is not None and SKIP in activity:
         if activity[0] != SKIP:
@@ -14,9 +26,20 @@ def get_acti(activity: Tuple[str, str]) -> str:
             return activity[1]
 
 
-# Get all the misaligned transitions and store them in a "lis"
-# So that later we can check whether they are in other net fragments
 def get_misaligned_trans(aligned_traces: List) -> List[Set[str]]:
+    """Get all the misaligned transitions So that later we can
+        check whether they are in other net fragments.
+
+    Parameters
+    ----------
+    aligned_traces : List contains the alignments
+     (ie: after performing alignment)
+
+    Returns
+    -------
+    List[Set[str]]: misaligned activities for each trace
+
+    """
     lis = list()
     for trace in aligned_traces:
         unfited_traces = set()
@@ -34,6 +57,20 @@ def adapted_cost_func(log: EventLog,
                       net_fragments: List[Tuple[PetriNet,
                                                 Marking,
                                                 Marking]]) -> List[dict]:
+    """performing an alignment on top of each net fragment.
+
+    Parameters
+    ----------
+    log : EventLog
+    net_fragments : List[Tuple[PetriNet,Marking,Marking]]
+
+    Returns
+    -------
+    List[dict]
+        list where each dictionary contains alignment information of the
+         corresponding net fragment.
+
+    """
 
     misaligned_trans = {}
     aligned_traces = {}

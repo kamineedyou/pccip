@@ -1,6 +1,8 @@
 import pytest
 import os
 from pccip.bin.pd.createCausalStructure import create_causal_structure
+from pccip.bin.pd.createCausalStructure import create_custom_causal_structure
+from pccip.bin.algorithm.constants import ARTIFICIAL_START, ARTIFICIAL_END
 from pm4py.objects.log.importer.xes import importer as xes_importer
 
 
@@ -10,6 +12,19 @@ class Test_CausalStructure:
         currentDir = os.path.dirname(os.path.realpath(__file__))
         pathToFile = os.path.join(currentDir, 'figure1.xes')
         return xes_importer.apply(pathToFile)
+
+    @pytest.fixture
+    def valid_custom_causal(self):
+        input_edges = {('a', 'b'), ('a', 'c'), ('a', 'd'), ('b', 'e'),
+                       ('c', 'e'), ('d', 'e'), ('e', 'f'), ('f', 'b'),
+                       ('f', 'c'), ('f', 'd'), ('e', 'g'), ('e', 'h')}
+        expected_edges = {(ARTIFICIAL_START, 'a'), ('a', 'b'), ('a', 'c'),
+                          ('a', 'd'), ('b', 'e'), ('c', 'e'), ('d', 'e'),
+                          ('e', 'f'), ('f', 'b'), ('f', 'c'), ('f', 'd'),
+                          ('e', 'g'), ('e', 'h'), ('g', ARTIFICIAL_END),
+                          ('h', ARTIFICIAL_END)}
+
+        return input_edges, expected_edges
 
     def test_ValidLogDefaults(self, validEventLog):
         causal = create_causal_structure(validEventLog)
@@ -46,3 +61,12 @@ class Test_CausalStructure:
         # Use String as opposed to EventLog
         with pytest.raises(TypeError):
             create_causal_structure(validEventLog, variants='fake-variant')
+
+    def test_valid_custom_structure(self, valid_custom_causal):
+        input_edges = valid_custom_causal[0]
+        expected = valid_custom_causal[1]
+
+        test_edges = create_custom_causal_structure(input_edges)
+        # testing the extending of the edges
+        assert len(test_edges) == len(expected)
+        assert test_edges == expected

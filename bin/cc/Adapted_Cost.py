@@ -1,8 +1,8 @@
 from pm4py.algo.conformance.decomp_alignments.variants import recompos_maximal
 from pm4py.objects.log.log import EventLog
 from pm4py.objects.petri.petrinet import PetriNet, Marking
-from typing import Tuple, List, Set
-# Get the misaligned activity from the alignment tuple
+from typing import Tuple, List, Set, Dict
+from pm4py.evaluation.replay_fitness import evaluator as replay_fitness
 
 
 def get_acti(activity: Tuple[str, str]) -> str:
@@ -96,4 +96,31 @@ def adapted_cost_func(log: EventLog,
 
         total_cost[i] = total
 
+    for i in aligned_traces:
+        best_worst_cost = recompos_maximal.get_best_worst_cost(
+                                                net_fragments[i][0],
+                                                net_fragments[i][1],
+                                                net_fragments[i][2])
+
+        for index, align in enumerate(aligned_traces[i]):
+            if align is not None:
+                unfitness_upper_part = align['cost'] // 10000
+                if unfitness_upper_part == 0:
+                    align['fitness'] = 1
+                elif (len(log[index]) + best_worst_cost) > 0:
+                    align['fitness'] = 1 - (
+                            (align['cost'] // 10000) / (len(log[index]) +
+                                                        best_worst_cost))
+                else:
+                    align['fitness'] = 0
+
     return aligned_traces, total_cost
+
+
+def fragment_fitness(aligned_traces: Dict):
+    frag_fitness = {}
+    for i in aligned_traces:
+        frag_fitness[i] = replay_fitness.evaluate(aligned_traces[i],
+                                                  variant=replay_fitness.
+                                                  Variants.ALIGNMENT_BASED)
+    return frag_fitness

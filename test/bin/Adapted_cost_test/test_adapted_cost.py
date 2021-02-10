@@ -66,3 +66,11 @@ def test_adapted_cost_fun(nnfreg):
     assert align_trace[1][0]['cost'] == 10000
     assert total_cost[0] == 0
     assert total_cost[2] == 10000
+
+
+def test_fragment_fitness(nnfreg):
+    align_trace, total_cost = Adapted_Cost.adapted_cost_func(nnfreg[0],
+                                                             nnfreg[1])
+    fragment_fitness = Adapted_Cost.fragment_fitness(align_trace)
+    assert fragment_fitness[0]['averageFitness'] == 1.0
+    assert round(fragment_fitness[1]['averageFitness'], 3) == 0.844

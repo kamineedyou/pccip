@@ -1,13 +1,13 @@
 from typing import Tuple, Set
 from pm4py.objects.petri.petrinet import PetriNet, Marking
 from pm4py.objects.log.log import EventLog
-from pccip.bin.pd.importLog import importEventLog as import_log
-from pccip.bin.pd.extendLog import extendEventLog as extend_log
-from pccip.bin.pd.createCausalStructure import create_causal_structure
-from pccip.bin.pd.createCausalStructure import create_custom_causal_structure
-from pccip.bin.passages.min_passages import algorithm as min_passages
-from pccip.bin.cc.EventLogDecomp import decompose_event_log as log_decomp
-from pccip.bin.pd.logToFragments import create_fragment, merge_fragments
+from bin.pd.importLog import importEventLog as import_log
+from bin.pd.extendLog import extendEventLog as extend_log
+from bin.pd.createCausalStructure import create_causal_structure
+from bin.pd.createCausalStructure import create_custom_causal_structure
+from bin.passages.min_passages import algorithm as min_passages
+from bin.cc.EventLogDecomp import decompose_event_log as log_decomp
+from bin.pd.logToFragments import create_fragment, merge_fragments
 
 
 def passage_process_discovery(xes: EventLog,
@@ -16,7 +16,7 @@ def passage_process_discovery(xes: EventLog,
                               p_algo: str = 'DEFAULT_VARIANT',
                               p_params: dict = None,
                               c_custom: Set[Tuple[str, str]] = None) \
-                                  -> Tuple[PetriNet, Marking, Marking]:
+        -> Tuple[PetriNet, Marking, Marking]:
     """Algorithm that executes decomposed process discovery using passages.
 
     Args:

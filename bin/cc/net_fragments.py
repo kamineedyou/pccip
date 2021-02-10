@@ -1,17 +1,13 @@
-from pccip.bin.passages.passage import Passage
+from bin.passages.passage import Passage
 from pm4py.objects.petri import utils
-from typing import List, Tuple, Type
+from typing import List
 from pm4py.objects.petri.petrinet import PetriNet, Marking
 import re
 import copy
 
-Fragment = Tuple[PetriNet, Marking, Marking]
-result = List[Fragment]
-m = Type[Marking]
-p = Type[List[Passage]]
 
-
-def net_fragments(passages: p, model: PetriNet, im: m, fm: m) -> result:
+def net_fragments(passages: List[Passage], model: PetriNet,
+                  im: Marking, fm: Marking) -> List[PetriNet]:
     net_fragments = list()
     init_marking_name = re.findall(r"'(.*?):", str(im))
     final_markin_name = re.findall(r"'(.*?):", str(fm))

@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<pnml>
+  <net id="net1" type="http://www.pnml.org/version-2009/grammar/pnmlcoremodel">
+    <page id="n0">
+      <place id="({'d'}, {'e'})10989">
+        <name>
+          <text>({'d'}, {'e'})10989</text>
+        </name>
+      </place>
+      <place id="({'b', 'c'}, {'e'})10989">
+        <name>
+          <text>({'b', 'c'}, {'e'})10989</text>
+        </name>
+      </place>
+      <transition id="e">
+        <name>
+          <text>e</text>
+        </name>
+      </transition>
+      <transition id="d">
+        <name>
+          <text>d</text>
+        </name>
+      </transition>
+      <transition id="c">
+        <name>
+          <text>c</text>
+        </name>
+      </transition>
+      <transition id="b">
+        <name>
+          <text>b</text>
+        </name>
+      </transition>
+      <arc id="8761883874190" source="b" target="({'b', 'c'}, {'e'})10989"/>
+      <arc id="8761883874262" source="({'b', 'c'}, {'e'})10989" target="e"/>
+      <arc id="8761883874232" source="c" target="({'b', 'c'}, {'e'})10989"/>
+      <arc id="8761883874172" source="({'d'}, {'e'})10989" target="e"/>
+      <arc id="8761883874142" source="d" target="({'d'}, {'e'})10989"/>
+    </page>
+  </net>
+</pnml>

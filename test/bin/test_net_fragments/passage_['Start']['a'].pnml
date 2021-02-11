@@ -15,7 +15,13 @@
           <text>a</text>
         </name>
       </transition>
-      <arc id="147133823555" source="start" target="a"/>
+      <transition id="Artificial:Start">
+        <name>
+          <text>Artificial:Start</text>
+        </name>
+      </transition>
+      <arc id="126415212581" source="Artificial:Start" target="start"/>
+      <arc id="126415212614" source="start" target="a"/>
     </page>
   </net>
 </pnml>

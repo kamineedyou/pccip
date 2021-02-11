@@ -7,6 +7,11 @@
           <text>end</text>
         </name>
       </place>
+      <transition id="Artificial:End">
+        <name>
+          <text>Artificial:End</text>
+        </name>
+      </transition>
       <transition id="h">
         <name>
           <text>h</text>
@@ -17,8 +22,9 @@
           <text>g</text>
         </name>
       </transition>
-      <arc id="147133823516" source="h" target="end"/>
-      <arc id="147133823510" source="g" target="end"/>
+      <arc id="126415210334" source="g" target="end"/>
+      <arc id="126415206154" source="h" target="end"/>
+      <arc id="126415206358" source="end" target="Artificial:End"/>
     </page>
     <finalmarkings>
       <marking>

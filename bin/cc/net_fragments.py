@@ -5,7 +5,7 @@ from typing import Set, List, Tuple
 from copy import deepcopy
 
 
-def create_net_fragments(passages: Set[Passage]) -> List[PetriNet, Passage]:
+def create_net_fragments(passages: Set[Passage]) -> List[PetriNet]:
     net_fragments = []
 
     for p in passages:

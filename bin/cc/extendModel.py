@@ -1,8 +1,7 @@
 from pm4py.objects.petri.petrinet import PetriNet, Marking
-from pccip.bin.algorithm.constants import ARTIFICIAL_START, ARTIFICIAL_END
+from bin.algorithm.constants import ARTIFICIAL_START, ARTIFICIAL_END
 from pm4py.objects.petri import utils
 from typing import Tuple
-from bin.algorithm.constants import ARTIFICIAL_END, ARTIFICIAL_START
 
 
 class NoInitialMarking(Exception):

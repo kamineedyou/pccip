@@ -1,6 +1,6 @@
 from pm4py.objects.petri.petrinet import PetriNet, Marking
-from pccip.bin.passages.passage import Passage
-from pccip.bin.algorithm.constants import ARTIFICIAL_START, ARTIFICIAL_END
+from bin.passages.passage import Passage
+from bin.algorithm.constants import ARTIFICIAL_START, ARTIFICIAL_END
 from typing import Set, List, Tuple
 from copy import deepcopy
 
@@ -37,7 +37,7 @@ def create_net_fragments(passages: Set[Passage]) -> List[PetriNet]:
 
 
 def clean_fragments(net_fragments: List[Tuple[PetriNet, Passage]]) \
-                                -> List[Tuple[PetriNet, Marking, Marking]]:
+        -> List[Tuple[PetriNet, Marking, Marking]]:
     final_fragments = []
 
     for net, p in net_fragments:

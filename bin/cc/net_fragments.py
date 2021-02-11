@@ -1,50 +1,78 @@
-from pccip.bin.passages.passage import Passage
-from pm4py.objects.petri import utils
-from typing import List, Tuple, Type
 from pm4py.objects.petri.petrinet import PetriNet, Marking
-import re
-import copy
-
-Fragment = Tuple[PetriNet, Marking, Marking]
-result = List[Fragment]
-m = Type[Marking]
-p = Type[List[Passage]]
+from pccip.bin.passages.passage import Passage
+from pccip.bin.algorithm.constants import ARTIFICIAL_START, ARTIFICIAL_END
+from typing import Set, List, Tuple
+from copy import deepcopy
 
 
-def net_fragments(passages: p, model: PetriNet, im: m, fm: m) -> result:
-    net_fragments = list()
-    init_marking_name = re.findall(r"'(.*?):", str(im))
-    final_markin_name = re.findall(r"'(.*?):", str(fm))
-    for passage in passages:
-        x, y = passage.getXY()
-        init_marking = Marking()
-        final_marking = Marking()
-        places = model.places
+def create_net_fragments(passages: Set[Passage]) -> List[PetriNet, Passage]:
+    net_fragments = []
 
-        fragment_net = PetriNet("new_petri_net")
-        for place in places:
-            place_new = copy.deepcopy(place)
+    for p in passages:
+        border_x = p.getBorderX()
+        border_y = p.getBorderY()
+        new_net = PetriNet(name=str(border_x))
+        # iterate through all passage edges.
+        # Each Transition only gets processed once.
+        for edge in p.edges:
+            edge_dict = p.get_digraph_edge(edge)
+            for tran in edge_dict:
+                if tran not in new_net.transitions:
 
-            for arc in place.out_arcs:
-                if arc.target.label in y:
-                    fragment_net.places.add(place_new)
-                    trans_new = copy.deepcopy(arc.target)
-                    fragment_net.transitions.add(trans_new)
-                    utils.add_arc_from_to(place_new, trans_new, fragment_net)
-                    if str(place_new.name) == init_marking_name[0]:
-                        init_marking[place_new] = 1
-                        fragment_net.places.add(place_new)
+                    if tran.name not in border_x:
+                        for arc in tran.in_arcs:
+                            new_net.places.add(arc.source)
+                            new_net.transitions.add(arc.target)
+                            new_net.arcs.add(arc)
 
-            for arc in place.in_arcs:
-                if arc.source.label in x:
-                    fragment_net.places.add(place_new)
-                    trans_new = copy.deepcopy(arc.source)
-                    fragment_net.transitions.add(trans_new)
-                    utils.add_arc_from_to(trans_new, place_new, fragment_net)
-                    if str(place_new.name) == final_markin_name[0]:
-                        final_marking[place_new] = 1
-                        fragment_net.places.add(place_new)
+                    if tran.name not in border_y:
+                        for arc in tran.out_arcs:
+                            new_net.places.add(arc.target)
+                            new_net.transitions.add(arc.source)
+                            new_net.arcs.add(arc)
 
-        net_fragments.append((fragment_net, init_marking, final_marking))
+        net_fragments.append((deepcopy(new_net), p))
 
     return net_fragments
+
+
+def clean_fragments(net_fragments: List[Tuple[PetriNet, Passage]]) \
+                                -> List[Tuple[PetriNet, Marking, Marking]]:
+    final_fragments = []
+
+    for net, p in net_fragments:
+        border_x = p.getBorderX()
+        border_y = p.getBorderY()
+
+        for tran in net.transitions:
+            if tran.name in border_x and tran.name != ARTIFICIAL_START:
+                tran.in_arcs.clear()
+            elif tran.name in border_y and tran.name != ARTIFICIAL_END:
+                tran.out_arcs.clear()
+
+        im_tran = {tran for tran in net.transitions
+                   if tran.name == ARTIFICIAL_START}
+        fm_tran = {tran for tran in net.transitions
+                   if tran.name == ARTIFICIAL_END}
+
+        if im_tran:
+            im_dict = {}
+            for arc in next(iter(im_tran)).out_arcs:
+                im_dict[arc.target] = 1
+
+            im = Marking(im_dict)
+        else:
+            im = Marking()
+
+        if fm_tran:
+            fm_dict = {}
+            for arc in next(iter(fm_tran)).in_arcs:
+                fm_dict[arc.source] = 1
+
+            fm = Marking(fm_dict)
+        else:
+            fm = Marking()
+
+        final_fragments.append((net, im, fm))
+
+    return final_fragments

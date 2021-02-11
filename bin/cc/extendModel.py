@@ -1,4 +1,5 @@
 from pm4py.objects.petri.petrinet import PetriNet, Marking
+from pccip.bin.algorithm.constants import ARTIFICIAL_START, ARTIFICIAL_END
 from pm4py.objects.petri import utils
 from typing import Tuple
 
@@ -21,8 +22,8 @@ def extendModel(net: PetriNet,
     if not final_marking:
         raise NoFinalMarking("No final marking defined")
 
-    t_bot = PetriNet.Transition("BOT", "BOT")
-    t_top = PetriNet.Transition("TOP", "TOP")
+    t_bot = PetriNet.Transition(ARTIFICIAL_END, ARTIFICIAL_END)
+    t_top = PetriNet.Transition(ARTIFICIAL_START, ARTIFICIAL_START)
     net.transitions.add(t_bot)
     net.transitions.add(t_top)
     for currentSource in initial_marking:

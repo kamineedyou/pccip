@@ -1,6 +1,7 @@
 from pccip.bin.cc.extendModel import NoFinalMarking
 from pccip.bin.cc.extendModel import NoInitialMarking
 from pccip.bin.cc.extendModel import extendModel
+from pccip.bin.algorithm.constants import ARTIFICIAL_START
 from pm4py.objects.petri.petrinet import PetriNet, Marking
 from pm4py.objects.petri import utils
 import pytest
@@ -41,7 +42,7 @@ class TestExtendModel:
             print((place.name))
             if place.name == "source":
                 for arc in place.in_arcs:
-                    assert "TOP" == arc.source.name
+                    assert ARTIFICIAL_START == arc.source.name
 
     def test_ExtendNotWorkflowModel(self):
         net = PetriNet("NotWorkflowNet")
@@ -81,7 +82,7 @@ class TestExtendModel:
             print((place.name))
             if place.name == "source":
                 for arc in place.in_arcs:
-                    assert "TOP" == arc.source.name
+                    assert ARTIFICIAL_START == arc.source.name
 
     def test_NoInitialMarking(self):
         net = PetriNet("NotWorkflowNet")

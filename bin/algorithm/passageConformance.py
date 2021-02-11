@@ -21,6 +21,7 @@ def passage_decompose_conformanceChecking(net: PetriNet,
     passages = algorithm(skeletonGraph, silentTransOfExtended)
     fragments = net_fragments(passages, net, initMarking, finalMarking)
     print("works")
+    print(fragments)
     fragment_cost = adapted_cost_func(log, fragments)
     overall_fitness = fragment_fitness(fragment_cost)
     return overall_fitness

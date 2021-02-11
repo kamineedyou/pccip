@@ -33,7 +33,7 @@ def create_net_fragments(passages: Set[Passage]) -> List[PetriNet, Passage]:
 
         net_fragments.append((deepcopy(new_net), p))
 
-    return net_fragments
+    return clean_fragments(net_fragments)
 
 
 def clean_fragments(net_fragments: List[Tuple[PetriNet, Passage]]) \

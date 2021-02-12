@@ -14,10 +14,10 @@ class Test_conformance_passages:
         logPath = "logs/roadtraffic50traces.xes"
         pathToLog = path.join(currentDir, logPath)
 
-        (net, init, final) = import_petri_net(pathToModel)
+        net, init, final = import_petri_net(pathToModel)
         log = log_importer.apply(pathToLog)
 
-        return (net, init, final, log)
+        return net, init, final, log
 
     def test_alpha_model(self, alpha_model):
         print("Give Path to PNML Model")

@@ -131,7 +131,8 @@ def overall_fitness(log: EventLog, aligned_traces: Dict):
                 count += 1
                 passed_traces[trace] = count
 
-        if passed_traces[trace] == len(aligned_traces):
+        if trace in passed_traces.keys() and \
+           passed_traces[trace] == len(aligned_traces):
             overall += 1
 
     return overall / len(log)

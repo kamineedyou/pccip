@@ -1,6 +1,6 @@
 from pm4py.objects.petri.petrinet import PetriNet, Marking
-from passage_decomp.passages.passage import Passage
-from passage_decomp.algorithm.constants import ARTIFICIAL_START, ARTIFICIAL_END
+from pccip.passage_decomp.passages.passage import Passage
+from pccip.passage_decomp.algorithm.constants import ARTIFICIAL_START, ARTIFICIAL_END
 from typing import Set, List, Tuple
 from copy import deepcopy
 

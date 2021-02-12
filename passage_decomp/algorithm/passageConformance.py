@@ -1,9 +1,9 @@
-from passage_decomp.cc.extendModel import extendModel
-from passage_decomp.utils.transformSkeleton import petriNetIntoSkeleton
-from passage_decomp.passages.min_passages import algorithm
+from pccip.passage_decomp.cc.extendModel import extendModel
+from pccip.passage_decomp.utils.transformSkeleton import petriNetIntoSkeleton
+from pccip.passage_decomp.passages.min_passages import algorithm
 from pm4py.objects.petri.petrinet import PetriNet, Marking
-from passage_decomp.cc.net_fragments import create_net_fragments
-from passage_decomp.cc.Adapted_Cost import adapted_cost_func, fragment_fitness
+from pccip.passage_decomp.cc.net_fragments import create_net_fragments
+from pccip.passage_decomp.cc.Adapted_Cost import adapted_cost_func, fragment_fitness
 from pm4py.objects.log.log import EventLog
 
 

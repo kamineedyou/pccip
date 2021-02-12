@@ -1,8 +1,8 @@
 import pytest
 import os
 from networkx import DiGraph
-from passage_decomp.passages.passage import Passage
-from passage_decomp.passages.min_passages import algorithm, pi_1, pi_2, pi_both
+from pccip.passage_decomp.passages.passage import Passage
+from pccip.passage_decomp.passages.min_passages import algorithm, pi_1, pi_2, pi_both
 from pm4py.objects.petri.importer import importer as pn_importer
 
 

@@ -4,7 +4,7 @@ from pm4py.objects.log.importer.xes import importer as xes_importer
 from pm4py.algo.discovery.inductive import algorithm as inductive_miner
 from pm4py.algo.conformance.alignments import algorithm as alignments
 from pm4py.objects.petri.importer import importer as pnml_importer
-from passage_decomp.cc import Adapted_Cost
+from pccip.passage_decomp.cc import Adapted_Cost
 
 
 @pytest.mark.parametrize(('tupl, result'),

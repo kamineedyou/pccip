@@ -1,7 +1,7 @@
 import pytest
 import os
 from networkx import DiGraph
-from passage_decomp.passages.passage import Passage
+from pccip.passage_decomp.passages.passage import Passage
 from pm4py.objects.petri.petrinet import PetriNet
 from pm4py.objects.petri.importer import importer as pn_importer
 

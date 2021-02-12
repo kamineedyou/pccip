@@ -2,9 +2,9 @@ from typing import Set, Tuple
 from pm4py.objects.log.log import EventLog
 from pm4py.statistics.start_activities.log.get import get_start_activities
 from pm4py.statistics.end_activities.log.get import get_end_activities
-from passage_decomp.pd.c_variants import Variants
-from passage_decomp.algorithm.constants import ARTIFICIAL_START, ARTIFICIAL_END
-from passage_decomp.cc.EventLogDecomp import decompose_event_log
+from pccip.passage_decomp.pd.c_variants import Variants
+from pccip.passage_decomp.algorithm.constants import ARTIFICIAL_START, ARTIFICIAL_END
+from pccip.passage_decomp.cc.EventLogDecomp import decompose_event_log
 
 
 def create_causal_structure(log: EventLog,

@@ -1,6 +1,6 @@
 import pytest
 import os
-from passage_decomp.pd.importLog import importEventLog
+from pccip.passage_decomp.pd.importLog import importEventLog
 from pm4py.objects.log.importer.xes import importer as xes_importer
 from pm4py.objects.log.log import EventLog
 

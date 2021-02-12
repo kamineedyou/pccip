@@ -6,7 +6,7 @@ from pm4py.statistics.start_activities.log.get import get_start_activities
 from pm4py.statistics.end_activities.log.get import get_end_activities
 from pm4py.objects.petri.utils import remove_place, remove_transition
 from pm4py.objects.petri.utils import remove_arc, add_arc_from_to
-from passage_decomp.pd.p_variants import Variants
+from pccip.passage_decomp.pd.p_variants import Variants
 
 
 def split_log(sublog: EventLog) -> EventLog:

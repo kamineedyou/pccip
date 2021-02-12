@@ -1,5 +1,5 @@
 from pm4py.objects.petri.petrinet import PetriNet, Marking
-from passage_decomp.algorithm.constants import ARTIFICIAL_START, ARTIFICIAL_END
+from pccip.passage_decomp.algorithm.constants import ARTIFICIAL_START, ARTIFICIAL_END
 from pm4py.objects.petri import utils
 from typing import Tuple
 

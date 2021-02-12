@@ -1,8 +1,8 @@
 import pytest
 import os
-from passage_decomp.pd.createCausalStructure import create_causal_structure
-from passage_decomp.pd.createCausalStructure import create_custom_causal_structure
-from passage_decomp.algorithm.constants import ARTIFICIAL_START, ARTIFICIAL_END
+from pccip.passage_decomp.pd.createCausalStructure import create_causal_structure
+from pccip.passage_decomp.pd.createCausalStructure import create_custom_causal_structure
+from pccip.passage_decomp.algorithm.constants import ARTIFICIAL_START, ARTIFICIAL_END
 from pm4py.objects.log.importer.xes import importer as xes_importer
 
 

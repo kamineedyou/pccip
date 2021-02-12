@@ -1,4 +1,4 @@
-from passage_decomp.passages.passage import Passage, digraph_to_tuple
+from pccip.passage_decomp.passages.passage import Passage, digraph_to_tuple
 from networkx import DiGraph
 from typing import Set, Tuple, Union
 

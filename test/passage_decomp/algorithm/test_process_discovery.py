@@ -3,7 +3,7 @@ import os
 from pm4py.objects.petri.importer import importer as pnml_importer
 from pm4py.objects.log.importer.xes import importer as log_importer
 from pm4py.objects.petri.petrinet import PetriNet, Marking
-from passage_decomp.algorithm.process_discovery import passage_process_discovery
+from pccip.passage_decomp.algorithm.process_discovery import passage_process_discovery
 from pm4py.algo.discovery.footprints.algorithm import apply as footprints
 
 

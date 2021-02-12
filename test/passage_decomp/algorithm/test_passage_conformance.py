@@ -1,8 +1,8 @@
-from passage_decomp.cc.importModel import importPetriNet
+from pccip.passage_decomp.cc.importModel import importPetriNet
 from pytest import fixture
 from os import path
 from pm4py.objects.log.importer.xes import importer as log_importer
-from passage_decomp.algorithm.passageConformance import passage_decompose_conformanceChecking
+from pccip.passage_decomp.algorithm.passageConformance import passage_decompose_conformanceChecking
 
 
 class Test_conformance_passages:

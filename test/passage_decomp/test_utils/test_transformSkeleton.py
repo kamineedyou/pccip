@@ -1,4 +1,4 @@
-from passage_decomp.utils.transformSkeleton import petriNetIntoSkeleton
+from pccip.passage_decomp.utils.transformSkeleton import petriNetIntoSkeleton
 from pm4py.objects.petri.petrinet import PetriNet, Marking
 from pm4py.objects.petri import utils
 

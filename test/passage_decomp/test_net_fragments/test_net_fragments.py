@@ -1,12 +1,12 @@
-from pccip.bin.cc.net_fragments import create_net_fragments
+from pccip.passage_decomp.cc.net_fragments import create_net_fragments
 import os
 from pm4py.objects.log.importer.xes import importer as xes_importer
 from pm4py.algo.discovery.alpha.algorithm import apply
 from pm4py.objects.petri.importer import importer as pnml_importer
 from pm4py.objects.petri.petrinet import PetriNet
-from pccip.bin.cc.extendModel import extendModel
-from pccip.bin.utils.transformSkeleton import petriNetIntoSkeleton
-from pccip.bin.passages.min_passages import algorithm
+from pccip.passage_decomp.cc.extendModel import extendModel
+from pccip.passage_decomp.utils.transformSkeleton import petriNetIntoSkeleton
+from pccip.passage_decomp.passages.min_passages import algorithm
 
 
 class TestNnetFragmnets:

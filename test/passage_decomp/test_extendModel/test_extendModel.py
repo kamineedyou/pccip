@@ -1,7 +1,7 @@
-from passage_decomp.cc.extendModel import NoFinalMarking
-from passage_decomp.cc.extendModel import NoInitialMarking
-from passage_decomp.cc.extendModel import extendModel
-from passage_decomp.algorithm.constants import ARTIFICIAL_START
+from pccip.passage_decomp.cc.extendModel import NoFinalMarking
+from pccip.passage_decomp.cc.extendModel import NoInitialMarking
+from pccip.passage_decomp.cc.extendModel import extendModel
+from pccip.passage_decomp.algorithm.constants import ARTIFICIAL_START
 from pm4py.objects.petri.petrinet import PetriNet, Marking
 from pm4py.objects.petri import utils
 import pytest

@@ -1,4 +1,4 @@
-from passage_decomp.cc.importModel import importPetriNet, WrongPetriNetModelType
+from pccip.passage_decomp.cc.importModel import importPetriNet, WrongPetriNetModelType
 import os
 import pytest
 

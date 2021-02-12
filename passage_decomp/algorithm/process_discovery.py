@@ -61,7 +61,7 @@ def passage_process_discovery(xes: EventLog,
     # generate fragments based off of each sublog
     fragments = []
     for sublog in sublogs:
-        fragments.append(create_fragment(sublog, variant=p_algo))
+        fragments.append(create_fragment(sublog, p_algo, p_params))
 
     # merge the fragments to create the final petri net
     result_net, result_im, result_fm = merge_fragments(fragments)

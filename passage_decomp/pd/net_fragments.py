@@ -60,19 +60,19 @@ def split_log(sublog: EventLog) -> EventLog:
 
 
 def create_fragment(sublog: EventLog,
-                    parameters: dict = None,
-                    variant: str = 'DEFAULT_VARIANT') \
+                    variant: str = 'DEFAULT_VARIANT',
+                    parameters: dict = None) \
         -> Tuple[PetriNet, Marking, Marking]:
     """Create a net fragment from a sublog.
 
     Args:
         sublog (EventLog): Sublog to do process discovery on.
-        parameters (dict, optional): Parameters for the discovery algorithm.
-                                     Defaults to None.
         variant (str, optional): process discovery algorithm to create net
                                  fragments from sublogs.
                                  Variants available: 'ALPHA', 'INDUCTIVE'.
                                  Defaults to 'DEFAULT_VARIANT'.
+        parameters (dict, optional): Parameters for the discovery algorithm.
+                                     Defaults to None.
 
     Raises:
         TypeError: Raised when sublog is of wrong type.

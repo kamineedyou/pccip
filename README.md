@@ -44,7 +44,8 @@ You can check if the quality is sufficcient with the following command.
 ```bash
 flake8 --statistics
 ```
-
+##Documentation
+The documentation can be found in https://kamineedyou.github.io/
 ## Contributing
 
 Make a feature branch from dev (git flow feature start MYFEATURE ) and do a merge request with dev. If the code is reviewed by another person it will be pushed into

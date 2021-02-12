@@ -19,10 +19,11 @@ pip install -r requirements.txt
 ```
 
 ## Usage
-Import the functions from the bin folder
+
+Import the functions from the passage_decomp folder
 
 ```python
-from pccip.bin.cc.importModel import importPetriNet
+from passage_decomp.cc.importModel import importPetriNet
 pathToFile="example.pnml"
 (net, initial_marking, final_marking) = importPetriNet(pathToFile)
 ```
@@ -36,14 +37,17 @@ And will be only accepted if the coverage is 100%
 ```bash
 pytest -v --cov=test/
 ```
+
 The code quality wil be evaluated with the flake8 linter in the CircleCI pipeline.
 You can check if the quality is sufficcient with the following command.
 
 ```bash
 flake8 --statistics
 ```
-
+##Documentation
+The documentation can be found in https://kamineedyou.github.io/
 ## Contributing
+
 Make a feature branch from dev (git flow feature start MYFEATURE ) and do a merge request with dev. If the code is reviewed by another person it will be pushed into
 dev. At the end of the sprint we merge dev if we all agree into main.
 

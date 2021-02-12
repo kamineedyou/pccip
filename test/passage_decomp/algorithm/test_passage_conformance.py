@@ -1,4 +1,3 @@
-from pccip.passage_decomp.cc.import_model import import_petri_net
 from pytest import fixture
 import pm4py
 from os import path
@@ -9,9 +8,7 @@ from pccip.passage_decomp.algorithm.conformance_checking import passage_conforma
 class Test_conformance_passages:
     @fixture
     def alpha_model(self):
-        # modelPath = "models/alphamodel.pnml"
         currentDir = path.dirname(path.realpath(__file__))
-        # pathToModel = path.join(currentDir, modelPath)
         logPath = "logs/roadtraffic50traces.xes"
         pathToLog = path.join(currentDir, logPath)
 

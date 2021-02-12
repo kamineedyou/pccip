@@ -4,7 +4,7 @@ from pm4py.objects.log.importer.xes import importer as xes_importer
 from pm4py.algo.discovery.inductive import algorithm as inductive_miner
 from pm4py.algo.conformance.alignments import algorithm as alignments
 from pm4py.objects.petri.importer import importer as pnml_importer
-from pccip.passage_decomp.cc import Adapted_Cost
+from pccip.passage_decomp.cc import adapted_cost
 
 
 @pytest.mark.parametrize(('tupl, result'),
@@ -12,7 +12,7 @@ from pccip.passage_decomp.cc import Adapted_Cost
                           (('a', '>>'), 'a'),
                           (('a', None), None)])
 def test_Get_Acti(tupl, result):
-    assert Adapted_Cost.get_acti(tupl) == result
+    assert adapted_cost.get_acti(tupl) == result
 
 
 @pytest.fixture
@@ -31,7 +31,7 @@ def net_frag():
 
 
 def test_get_misaligned(net_frag):
-    result = Adapted_Cost.get_misaligned_trans(net_frag)
+    result = adapted_cost.get_misaligned_trans(net_frag)
     assert result[0] == {'Artificial:Start', 'b', 'a'}
 
 
@@ -60,7 +60,7 @@ def nnfreg():
 
 
 def test_adapted_cost_fun(nnfreg):
-    align_trace, total_cost = Adapted_Cost.adapted_cost_func(nnfreg[0],
+    align_trace, total_cost = adapted_cost.adapted_cost_func(nnfreg[0],
                                                              nnfreg[1])
     assert align_trace[0][0]['cost'] == 0
     assert align_trace[1][0]['cost'] == 10000
@@ -69,8 +69,8 @@ def test_adapted_cost_fun(nnfreg):
 
 
 def test_fragment_fitness(nnfreg):
-    align_trace, total_cost = Adapted_Cost.adapted_cost_func(nnfreg[0],
+    align_trace, total_cost = adapted_cost.adapted_cost_func(nnfreg[0],
                                                              nnfreg[1])
-    fragment_fitness = Adapted_Cost.fragment_fitness(align_trace)
+    fragment_fitness = adapted_cost.fragment_fitness(align_trace)
     assert fragment_fitness[0]['averageFitness'] == 1.0
     assert round(fragment_fitness[1]['averageFitness'], 3) == 0.844

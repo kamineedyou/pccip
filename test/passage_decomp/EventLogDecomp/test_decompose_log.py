@@ -1,5 +1,5 @@
 import os
-from pccip.passage_decomp.cc.EventLogDecomp import decompose_event_log
+from pccip.passage_decomp.cc.log_decomp import decompose_event_log
 from pm4py.objects.log.importer.xes import importer as xes_importer
 
 

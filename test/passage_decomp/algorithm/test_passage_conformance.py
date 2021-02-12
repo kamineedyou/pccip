@@ -1,4 +1,4 @@
-from pccip.passage_decomp.cc.importModel import importPetriNet
+from pccip.passage_decomp.cc.import_model import importPetriNet
 from pytest import fixture
 from os import path
 from pm4py.objects.log.importer.xes import importer as log_importer

@@ -4,8 +4,8 @@ from pm4py.objects.log.importer.xes import importer as xes_importer
 from pm4py.algo.discovery.alpha.algorithm import apply
 from pm4py.objects.petri.importer import importer as pnml_importer
 from pm4py.objects.petri.petrinet import PetriNet
-from pccip.passage_decomp.cc.extendModel import extendModel
-from pccip.passage_decomp.utils.transformSkeleton import petriNetIntoSkeleton
+from pccip.passage_decomp.cc.extend_model import extendModel
+from pccip.passage_decomp.utils.transform_skeleton import petriNetIntoSkeleton
 from pccip.passage_decomp.passages.min_passages import algorithm
 
 

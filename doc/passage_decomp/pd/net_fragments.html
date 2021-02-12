@@ -1,0 +1,647 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.9.2" />
+<title>passage_decomp.pd.net_fragments API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>passage_decomp.pd.net_fragments</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">from typing import Set, List, Tuple
+from random import randint
+from pm4py.objects.log.log import EventLog, Trace
+from pm4py.objects.petri.petrinet import PetriNet, Marking
+from pm4py.statistics.start_activities.log.get import get_start_activities
+from pm4py.statistics.end_activities.log.get import get_end_activities
+from pm4py.objects.petri.utils import remove_place, remove_transition
+from pm4py.objects.petri.utils import remove_arc, add_arc_from_to
+from pccip.passage_decomp.pd.p_variants import Variants
+
+
+def split_log(sublog: EventLog) -&gt; EventLog:
+    &#34;&#34;&#34;Function to split looping traces into new traces.
+
+    Args:
+        sublog (EventLog): Sublog to split.
+
+    Raises:
+        TypeError: Raised when EventLog is of the wrong type.
+
+    Returns:
+        EventLog: New event log that contains no more looping
+    &#34;&#34;&#34;
+    if not isinstance(sublog, EventLog):
+        raise TypeError(&#39;Invalid Event Log Type&#39;)
+    start_activities = set(get_start_activities(sublog).keys())
+    end_activities = set(get_end_activities(sublog).keys())
+    split_log = EventLog()
+
+    for trace in sublog:
+        last_loop = 0
+        prev_event = None
+        for index, event in enumerate(trace):
+            curr_event = event[&#39;concept:name&#39;]
+            if index &lt; len(trace) - 1:
+                next_event = trace[index+1][&#39;concept:name&#39;]
+            else:
+                next_event = None
+            # if event is a starting activity, not at the start of the trace
+            # and the previous event was not a starting event (parallel),
+            # split the log
+            if curr_event in start_activities \
+                and index &gt; last_loop \
+                    and prev_event not in start_activities:
+                split_log.append(Trace(trace[last_loop:index]))
+                last_loop = index
+            # if event is a ending activity, not at the end of the trace
+            # and the next event is not a ending event (parallel),
+            # split the log
+            elif curr_event in end_activities \
+                and index &lt; len(trace) - 1 \
+                    and next_event not in end_activities:
+                split_log.append(Trace(trace[last_loop:index+1]))
+                last_loop = index + 1
+            prev_event = curr_event
+        # add the rest of the trace as a trace
+        split_log.append(Trace(trace[last_loop:]))
+
+    return split_log
+
+
+def create_fragment(sublog: EventLog,
+                    variant: str = &#39;DEFAULT_VARIANT&#39;,
+                    parameters: dict = None) \
+        -&gt; Tuple[PetriNet, Marking, Marking]:
+    &#34;&#34;&#34;Create a net fragment from a sublog.
+
+    Args:
+        sublog (EventLog): Sublog to do process discovery on.
+        variant (str, optional): process discovery algorithm to create net
+                                 fragments from sublogs.
+                                 Variants available: &#39;ALPHA&#39;, &#39;INDUCTIVE&#39;.
+                                 Defaults to &#39;DEFAULT_VARIANT&#39;.
+        parameters (dict, optional): Parameters for the discovery algorithm.
+                                     Defaults to None.
+
+    Raises:
+        TypeError: Raised when sublog is of wrong type.
+        TypeError: Raised when the variant is invalid.
+
+    Returns:
+        Tuple[PetriNet, Marking, Marking]: Net fragment from the sublog.
+    &#34;&#34;&#34;
+    if not isinstance(sublog, EventLog):
+        raise TypeError(&#39;Invalid Event Log Type&#39;)
+
+    variant = getattr(Variants, variant.upper(), None)
+    if variant is None:
+        raise TypeError(&#39;Invalid input variant (p_algo)&#39;)
+
+    if parameters is None:
+        parameters = {}
+
+    # create new log by splitting the input sublog
+    new_log = split_log(sublog)
+    # use the p-algo to create a new fragment
+    net, im, fm = variant(sublog=new_log, parameters=parameters)
+
+    initial_marking = Marking()
+    final_marking = Marking()
+    im_place = next(iter(im.keys()))
+    fm_place = next(iter(fm.keys()))
+    im_transitions = {p.target.label for p in im_place.out_arcs}
+    fm_transitions = {p.source.label for p in fm_place.in_arcs}
+
+    # add unique identifier to each place to avoid naming collisions
+    # from other fragments
+    identifier = randint(10000, 99999)
+    for place in net.places:
+        place.name = f&#39;{place}{identifier}&#39;
+
+    # if not at end, remove the generated start and/or end place
+    if &#39;Artificial:Start&#39; in im_transitions:
+        initial_marking = im
+        # if petri net has more than one transition in im
+        if len(im_transitions) &gt; 1:
+            for arc in im_place.out_arcs.copy():
+                if arc.target.label != &#39;Artificial:Start&#39;:
+                    remove_arc(net, arc)
+    else:
+        # remove all silent border transitions
+        out_arcs = im_place.out_arcs.copy()
+        for arc in out_arcs:
+            if arc.target.label is None:
+                # remove all places, only connected to silent transition
+                to_remove_places = {p.target for p in arc.target.out_arcs
+                                    if len(p.target.in_arcs) == 1}
+                for place in to_remove_places:
+                    remove_place(net, place)
+                remove_transition(net, arc.target)
+        # finally remove the initial place
+        remove_place(net, im_place)
+
+    if &#39;Artificial:End&#39; in fm_transitions:
+        final_marking = fm
+        # if petri net has more than one transition in fm
+        if len(fm_transitions) &gt; 1:
+            for arc in fm_place.in_arcs.copy():
+                if arc.source.label != &#39;Artificial:End&#39;:
+                    remove_arc(net, arc)
+    else:
+        # remove all silent border transitions
+        in_arcs = fm_place.in_arcs.copy()
+        for arc in in_arcs:
+            if arc.source.label is None:
+                # remove all places, only connected to silent transition
+                to_remove_places = {p.source for p in arc.source.in_arcs
+                                    if len(p.source.out_arcs) == 1}
+                for place in to_remove_places:
+                    remove_place(net, place)
+                remove_transition(net, arc.source)
+        # finally remove the final place
+        remove_place(net, fm_place)
+
+    return net, initial_marking, final_marking
+
+
+def merge_fragments(fragments: List[
+        Tuple[PetriNet, Marking, Marking]]) \
+        -&gt; Tuple[PetriNet, Marking, Marking]:
+    &#34;&#34;&#34;Merge a list of net fragments into a whole complete petri net.
+
+    Args:
+        fragments (List[Tuple[PetriNet, Marking, Marking]]): all fragments
+                                                             to be combined.
+
+    Raises:
+        TypeError: Raised when input fragments are not of correct type.
+        TypeError: Raised when input is not complete.
+
+    Returns:
+        Tuple[PetriNet, Marking, Marking]: Petri Net from combined fragments.
+    &#34;&#34;&#34;
+    if not isinstance(fragments[0], tuple):
+        raise TypeError(&#39;Please use a List[Tuple[PetriNet, Marking, Marking]]&#39;)
+    if not isinstance(fragments[0][0], PetriNet) \
+       or not isinstance(fragments[0][1], Marking) \
+       or not isinstance(fragments[0][2], Marking):
+        raise TypeError(&#39;Please use Tuple[PetriNet, Marking, Marking]&#39;)
+
+    if len(fragments) == 1:
+        return fragments[0]
+
+    merged_net = fragments[0][0]
+    transitions = {tran.label: tran for tran in merged_net.transitions}
+    net_list = [net[0] for net in fragments[1:]]
+    # for each fragment in the list
+    for net in net_list:
+        # for each transition in the fragment
+        for transition in net.transitions:
+            in_arcs_src = {arc.source for arc in transition.in_arcs}
+            out_arcs_tar = {arc.target for arc in transition.out_arcs}
+            # if transition has already been added, alter edges
+            if transition.label in transitions:
+                # if transition comes after the merge transition
+                for place in in_arcs_src:
+                    remove_arc_set(net, transition.in_arcs)
+                    merged_net.places.add(place)
+                    add_arc_from_to(place,
+                                    transitions[transition.label],
+                                    merged_net)
+                # if trannsition comes before the merge transition
+                for place in out_arcs_tar:
+                    remove_arc_set(net, transition.out_arcs)
+                    merged_net.places.add(place)
+                    add_arc_from_to(transitions[transition.label],
+                                    place,
+                                    merged_net)
+            else:
+                # if transition does not yet exist, simply add
+                merged_net.transitions.add(transition)
+                transitions[transition.label] = transition
+        # add all the arcs and places from the current fragment to the merge
+        merged_net.places.update(net.places)
+        merged_net.arcs.update(net.arcs)
+
+    # collect all of the non-empty initial and final marking
+    initial_marking_set = {im[1] for im in fragments if not len(im[1]) == 0}
+    final_marking_set = {im[2] for im in fragments if not len(im[2]) == 0}
+
+    initial_marking = Marking()
+    final_marking = Marking()
+
+    # add all the initial and final markings from the fragments
+    if initial_marking_set:
+        for marking in initial_marking_set:
+            initial_marking = initial_marking + marking
+    if final_marking_set:
+        for marking in final_marking_set:
+            final_marking = final_marking + marking
+
+    return merged_net, initial_marking, final_marking
+
+
+def remove_arc_set(net: PetriNet, arc_set: Set[PetriNet.Arc]) -&gt; None:
+    &#34;&#34;&#34;Remove a set of arcs from a petri net.
+
+    Args:
+        net (PetriNet): Petri net to remove arcs from.
+        arc_set (Set[PetriNet.Arc]): set of arcs to remove from petri net.
+    &#34;&#34;&#34;
+    for arc in arc_set.copy():
+        remove_arc(net, arc)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="passage_decomp.pd.net_fragments.create_fragment"><code class="name flex">
+<span>def <span class="ident">create_fragment</span></span>(<span>sublog: pm4py.objects.log.log.EventLog, variant: str = 'DEFAULT_VARIANT', parameters: dict = None) ‑> Tuple[pm4py.objects.petri.petrinet.PetriNet, pm4py.objects.petri.petrinet.Marking, pm4py.objects.petri.petrinet.Marking]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Create a net fragment from a sublog.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>sublog</code></strong> :&ensp;<code>EventLog</code></dt>
+<dd>Sublog to do process discovery on.</dd>
+<dt><strong><code>variant</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>process discovery algorithm to create net
+fragments from sublogs.
+Variants available: 'ALPHA', 'INDUCTIVE'.
+Defaults to 'DEFAULT_VARIANT'.</dd>
+<dt><strong><code>parameters</code></strong> :&ensp;<code>dict</code>, optional</dt>
+<dd>Parameters for the discovery algorithm.
+Defaults to None.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>TypeError</code></dt>
+<dd>Raised when sublog is of wrong type.</dd>
+<dt><code>TypeError</code></dt>
+<dd>Raised when the variant is invalid.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Tuple[PetriNet, Marking, Marking]</code></dt>
+<dd>Net fragment from the sublog.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_fragment(sublog: EventLog,
+                    variant: str = &#39;DEFAULT_VARIANT&#39;,
+                    parameters: dict = None) \
+        -&gt; Tuple[PetriNet, Marking, Marking]:
+    &#34;&#34;&#34;Create a net fragment from a sublog.
+
+    Args:
+        sublog (EventLog): Sublog to do process discovery on.
+        variant (str, optional): process discovery algorithm to create net
+                                 fragments from sublogs.
+                                 Variants available: &#39;ALPHA&#39;, &#39;INDUCTIVE&#39;.
+                                 Defaults to &#39;DEFAULT_VARIANT&#39;.
+        parameters (dict, optional): Parameters for the discovery algorithm.
+                                     Defaults to None.
+
+    Raises:
+        TypeError: Raised when sublog is of wrong type.
+        TypeError: Raised when the variant is invalid.
+
+    Returns:
+        Tuple[PetriNet, Marking, Marking]: Net fragment from the sublog.
+    &#34;&#34;&#34;
+    if not isinstance(sublog, EventLog):
+        raise TypeError(&#39;Invalid Event Log Type&#39;)
+
+    variant = getattr(Variants, variant.upper(), None)
+    if variant is None:
+        raise TypeError(&#39;Invalid input variant (p_algo)&#39;)
+
+    if parameters is None:
+        parameters = {}
+
+    # create new log by splitting the input sublog
+    new_log = split_log(sublog)
+    # use the p-algo to create a new fragment
+    net, im, fm = variant(sublog=new_log, parameters=parameters)
+
+    initial_marking = Marking()
+    final_marking = Marking()
+    im_place = next(iter(im.keys()))
+    fm_place = next(iter(fm.keys()))
+    im_transitions = {p.target.label for p in im_place.out_arcs}
+    fm_transitions = {p.source.label for p in fm_place.in_arcs}
+
+    # add unique identifier to each place to avoid naming collisions
+    # from other fragments
+    identifier = randint(10000, 99999)
+    for place in net.places:
+        place.name = f&#39;{place}{identifier}&#39;
+
+    # if not at end, remove the generated start and/or end place
+    if &#39;Artificial:Start&#39; in im_transitions:
+        initial_marking = im
+        # if petri net has more than one transition in im
+        if len(im_transitions) &gt; 1:
+            for arc in im_place.out_arcs.copy():
+                if arc.target.label != &#39;Artificial:Start&#39;:
+                    remove_arc(net, arc)
+    else:
+        # remove all silent border transitions
+        out_arcs = im_place.out_arcs.copy()
+        for arc in out_arcs:
+            if arc.target.label is None:
+                # remove all places, only connected to silent transition
+                to_remove_places = {p.target for p in arc.target.out_arcs
+                                    if len(p.target.in_arcs) == 1}
+                for place in to_remove_places:
+                    remove_place(net, place)
+                remove_transition(net, arc.target)
+        # finally remove the initial place
+        remove_place(net, im_place)
+
+    if &#39;Artificial:End&#39; in fm_transitions:
+        final_marking = fm
+        # if petri net has more than one transition in fm
+        if len(fm_transitions) &gt; 1:
+            for arc in fm_place.in_arcs.copy():
+                if arc.source.label != &#39;Artificial:End&#39;:
+                    remove_arc(net, arc)
+    else:
+        # remove all silent border transitions
+        in_arcs = fm_place.in_arcs.copy()
+        for arc in in_arcs:
+            if arc.source.label is None:
+                # remove all places, only connected to silent transition
+                to_remove_places = {p.source for p in arc.source.in_arcs
+                                    if len(p.source.out_arcs) == 1}
+                for place in to_remove_places:
+                    remove_place(net, place)
+                remove_transition(net, arc.source)
+        # finally remove the final place
+        remove_place(net, fm_place)
+
+    return net, initial_marking, final_marking</code></pre>
+</details>
+</dd>
+<dt id="passage_decomp.pd.net_fragments.merge_fragments"><code class="name flex">
+<span>def <span class="ident">merge_fragments</span></span>(<span>fragments: List[Tuple[pm4py.objects.petri.petrinet.PetriNet, pm4py.objects.petri.petrinet.Marking, pm4py.objects.petri.petrinet.Marking]]) ‑> Tuple[pm4py.objects.petri.petrinet.PetriNet, pm4py.objects.petri.petrinet.Marking, pm4py.objects.petri.petrinet.Marking]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Merge a list of net fragments into a whole complete petri net.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>fragments</code></strong> :&ensp;<code>List[Tuple[PetriNet, Marking, Marking]]</code></dt>
+<dd>all fragments
+to be combined.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>TypeError</code></dt>
+<dd>Raised when input fragments are not of correct type.</dd>
+<dt><code>TypeError</code></dt>
+<dd>Raised when input is not complete.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Tuple[PetriNet, Marking, Marking]</code></dt>
+<dd>Petri Net from combined fragments.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def merge_fragments(fragments: List[
+        Tuple[PetriNet, Marking, Marking]]) \
+        -&gt; Tuple[PetriNet, Marking, Marking]:
+    &#34;&#34;&#34;Merge a list of net fragments into a whole complete petri net.
+
+    Args:
+        fragments (List[Tuple[PetriNet, Marking, Marking]]): all fragments
+                                                             to be combined.
+
+    Raises:
+        TypeError: Raised when input fragments are not of correct type.
+        TypeError: Raised when input is not complete.
+
+    Returns:
+        Tuple[PetriNet, Marking, Marking]: Petri Net from combined fragments.
+    &#34;&#34;&#34;
+    if not isinstance(fragments[0], tuple):
+        raise TypeError(&#39;Please use a List[Tuple[PetriNet, Marking, Marking]]&#39;)
+    if not isinstance(fragments[0][0], PetriNet) \
+       or not isinstance(fragments[0][1], Marking) \
+       or not isinstance(fragments[0][2], Marking):
+        raise TypeError(&#39;Please use Tuple[PetriNet, Marking, Marking]&#39;)
+
+    if len(fragments) == 1:
+        return fragments[0]
+
+    merged_net = fragments[0][0]
+    transitions = {tran.label: tran for tran in merged_net.transitions}
+    net_list = [net[0] for net in fragments[1:]]
+    # for each fragment in the list
+    for net in net_list:
+        # for each transition in the fragment
+        for transition in net.transitions:
+            in_arcs_src = {arc.source for arc in transition.in_arcs}
+            out_arcs_tar = {arc.target for arc in transition.out_arcs}
+            # if transition has already been added, alter edges
+            if transition.label in transitions:
+                # if transition comes after the merge transition
+                for place in in_arcs_src:
+                    remove_arc_set(net, transition.in_arcs)
+                    merged_net.places.add(place)
+                    add_arc_from_to(place,
+                                    transitions[transition.label],
+                                    merged_net)
+                # if trannsition comes before the merge transition
+                for place in out_arcs_tar:
+                    remove_arc_set(net, transition.out_arcs)
+                    merged_net.places.add(place)
+                    add_arc_from_to(transitions[transition.label],
+                                    place,
+                                    merged_net)
+            else:
+                # if transition does not yet exist, simply add
+                merged_net.transitions.add(transition)
+                transitions[transition.label] = transition
+        # add all the arcs and places from the current fragment to the merge
+        merged_net.places.update(net.places)
+        merged_net.arcs.update(net.arcs)
+
+    # collect all of the non-empty initial and final marking
+    initial_marking_set = {im[1] for im in fragments if not len(im[1]) == 0}
+    final_marking_set = {im[2] for im in fragments if not len(im[2]) == 0}
+
+    initial_marking = Marking()
+    final_marking = Marking()
+
+    # add all the initial and final markings from the fragments
+    if initial_marking_set:
+        for marking in initial_marking_set:
+            initial_marking = initial_marking + marking
+    if final_marking_set:
+        for marking in final_marking_set:
+            final_marking = final_marking + marking
+
+    return merged_net, initial_marking, final_marking</code></pre>
+</details>
+</dd>
+<dt id="passage_decomp.pd.net_fragments.remove_arc_set"><code class="name flex">
+<span>def <span class="ident">remove_arc_set</span></span>(<span>net: pm4py.objects.petri.petrinet.PetriNet, arc_set: Set[pm4py.objects.petri.petrinet.PetriNet.Arc]) ‑> NoneType</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Remove a set of arcs from a petri net.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>net</code></strong> :&ensp;<code>PetriNet</code></dt>
+<dd>Petri net to remove arcs from.</dd>
+<dt><strong><code>arc_set</code></strong> :&ensp;<code>Set[PetriNet.Arc]</code></dt>
+<dd>set of arcs to remove from petri net.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def remove_arc_set(net: PetriNet, arc_set: Set[PetriNet.Arc]) -&gt; None:
+    &#34;&#34;&#34;Remove a set of arcs from a petri net.
+
+    Args:
+        net (PetriNet): Petri net to remove arcs from.
+        arc_set (Set[PetriNet.Arc]): set of arcs to remove from petri net.
+    &#34;&#34;&#34;
+    for arc in arc_set.copy():
+        remove_arc(net, arc)</code></pre>
+</details>
+</dd>
+<dt id="passage_decomp.pd.net_fragments.split_log"><code class="name flex">
+<span>def <span class="ident">split_log</span></span>(<span>sublog: pm4py.objects.log.log.EventLog) ‑> pm4py.objects.log.log.EventLog</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Function to split looping traces into new traces.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>sublog</code></strong> :&ensp;<code>EventLog</code></dt>
+<dd>Sublog to split.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>TypeError</code></dt>
+<dd>Raised when EventLog is of the wrong type.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>EventLog</code></dt>
+<dd>New event log that contains no more looping</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def split_log(sublog: EventLog) -&gt; EventLog:
+    &#34;&#34;&#34;Function to split looping traces into new traces.
+
+    Args:
+        sublog (EventLog): Sublog to split.
+
+    Raises:
+        TypeError: Raised when EventLog is of the wrong type.
+
+    Returns:
+        EventLog: New event log that contains no more looping
+    &#34;&#34;&#34;
+    if not isinstance(sublog, EventLog):
+        raise TypeError(&#39;Invalid Event Log Type&#39;)
+    start_activities = set(get_start_activities(sublog).keys())
+    end_activities = set(get_end_activities(sublog).keys())
+    split_log = EventLog()
+
+    for trace in sublog:
+        last_loop = 0
+        prev_event = None
+        for index, event in enumerate(trace):
+            curr_event = event[&#39;concept:name&#39;]
+            if index &lt; len(trace) - 1:
+                next_event = trace[index+1][&#39;concept:name&#39;]
+            else:
+                next_event = None
+            # if event is a starting activity, not at the start of the trace
+            # and the previous event was not a starting event (parallel),
+            # split the log
+            if curr_event in start_activities \
+                and index &gt; last_loop \
+                    and prev_event not in start_activities:
+                split_log.append(Trace(trace[last_loop:index]))
+                last_loop = index
+            # if event is a ending activity, not at the end of the trace
+            # and the next event is not a ending event (parallel),
+            # split the log
+            elif curr_event in end_activities \
+                and index &lt; len(trace) - 1 \
+                    and next_event not in end_activities:
+                split_log.append(Trace(trace[last_loop:index+1]))
+                last_loop = index + 1
+            prev_event = curr_event
+        # add the rest of the trace as a trace
+        split_log.append(Trace(trace[last_loop:]))
+
+    return split_log</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="passage_decomp.pd" href="index.html">passage_decomp.pd</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="passage_decomp.pd.net_fragments.create_fragment" href="#passage_decomp.pd.net_fragments.create_fragment">create_fragment</a></code></li>
+<li><code><a title="passage_decomp.pd.net_fragments.merge_fragments" href="#passage_decomp.pd.net_fragments.merge_fragments">merge_fragments</a></code></li>
+<li><code><a title="passage_decomp.pd.net_fragments.remove_arc_set" href="#passage_decomp.pd.net_fragments.remove_arc_set">remove_arc_set</a></code></li>
+<li><code><a title="passage_decomp.pd.net_fragments.split_log" href="#passage_decomp.pd.net_fragments.split_log">split_log</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.2</a>.</p>
+</footer>
+</body>
+</html>

@@ -1,5 +1,5 @@
-from pccip.passage_decomp.cc.extend_model import extendModel
-from pccip.passage_decomp.utils.transform_skeleton import petriNetIntoSkeleton
+from pccip.passage_decomp.cc.extend_model import extend_model
+from pccip.passage_decomp.utils.transform_skeleton import petri_to_skeleton
 from pccip.passage_decomp.passages.min_passages import algorithm
 from pm4py.objects.petri.petrinet import PetriNet, Marking
 from pccip.passage_decomp.cc.net_fragments import create_net_fragments
@@ -11,9 +11,9 @@ def passage_decompose_conformanceChecking(net: PetriNet,
                                           initMarking: Marking,
                                           finalMarking: Marking,
                                           log: EventLog):
-    (extendedNet, extendedInitMarking, extendedFinalMarking) = extendModel(
+    (extendedNet, extendedInitMarking, extendedFinalMarking) = extend_model(
         net, initMarking, finalMarking)
-    skeletonGraph = petriNetIntoSkeleton(extendedNet)
+    skeletonGraph = petri_to_skeleton(extendedNet)
     transitionsOfExtendedNet = extendedNet.transitions
     silentTransOfExtended = [
         silentTrans for silentTrans

@@ -5,7 +5,7 @@ class WrongPetriNetModelType(Exception):
     pass
 
 
-def importPetriNet(modelPath: str) -> tuple:
+def import_petri_net(modelPath: str) -> tuple:
     'This function can only import pnml petri nets'
     if ".pnml" not in modelPath:
         raise WrongPetriNetModelType(

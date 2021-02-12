@@ -12,9 +12,9 @@ class NoFinalMarking(Exception):
     pass
 
 
-def extendModel(net: PetriNet,
-                initial_marking: Marking,
-                final_marking: Marking) -> Tuple[PetriNet, Marking, Marking]:
+def extend_model(net: PetriNet,
+                 initial_marking: Marking,
+                 final_marking: Marking) -> Tuple[PetriNet, Marking, Marking]:
     "Returnds the extended petrinet Model"
     if not initial_marking:
         raise NoInitialMarking("No initial marking defined")

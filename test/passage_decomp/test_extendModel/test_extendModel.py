@@ -1,6 +1,6 @@
 from pccip.passage_decomp.cc.extend_model import NoFinalMarking
 from pccip.passage_decomp.cc.extend_model import NoInitialMarking
-from pccip.passage_decomp.cc.extend_model import extendModel
+from pccip.passage_decomp.cc.extend_model import extend_model
 from pccip.passage_decomp.algorithm.constants import ARTIFICIAL_START
 from pm4py.objects.petri.petrinet import PetriNet, Marking
 from pm4py.objects.petri import utils
@@ -34,7 +34,7 @@ class TestExtendModel:
         initial_marking[source] = 1
         final_marking = Marking()
         final_marking[sink] = 1
-        (netEx, initial_markingEx, final_markingEx) = extendModel(
+        (netEx, initial_markingEx, final_markingEx) = extend_model(
             net, initial_marking, final_marking)
         places = netEx.places
 
@@ -74,7 +74,7 @@ class TestExtendModel:
         initial_marking[source2] = 1
         final_marking = Marking()
         final_marking[sink] = 1
-        (netEx, initial_markingEx, final_markingEx) = extendModel(
+        (netEx, initial_markingEx, final_markingEx) = extend_model(
             net, initial_marking, final_marking)
         places = netEx.places
 
@@ -113,7 +113,7 @@ class TestExtendModel:
         final_marking = Marking()
         final_marking[sink] = 1
         with pytest.raises(NoInitialMarking):
-            extendModel(net, initial_marking, final_marking)
+            extend_model(net, initial_marking, final_marking)
 
     def test_NoFinalMarking(self):
         net = PetriNet("NotWorkflowNet")
@@ -145,4 +145,4 @@ class TestExtendModel:
         initial_marking[source2] = 1
         final_marking = Marking()
         with pytest.raises(NoFinalMarking):
-            extendModel(net, initial_marking, final_marking)
+            extend_model(net, initial_marking, final_marking)

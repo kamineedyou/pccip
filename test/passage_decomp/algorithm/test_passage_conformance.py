@@ -1,4 +1,4 @@
-from pccip.passage_decomp.cc.import_model import importPetriNet
+from pccip.passage_decomp.cc.import_model import import_petri_net
 from pytest import fixture
 from os import path
 from pm4py.objects.log.importer.xes import importer as log_importer
@@ -14,7 +14,7 @@ class Test_conformance_passages:
         logPath = "logs/roadtraffic50traces.xes"
         pathToLog = path.join(currentDir, logPath)
 
-        (net, init, final) = importPetriNet(pathToModel)
+        (net, init, final) = import_petri_net(pathToModel)
         log = log_importer.apply(pathToLog)
 
         return (net, init, final, log)

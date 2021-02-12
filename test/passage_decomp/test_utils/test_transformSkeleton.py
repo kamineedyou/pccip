@@ -1,4 +1,4 @@
-from pccip.passage_decomp.utils.transform_skeleton import petriNetIntoSkeleton
+from pccip.passage_decomp.utils.transform_skeleton import petri_to_skeleton
 from pm4py.objects.petri.petrinet import PetriNet, Marking
 from pm4py.objects.petri import utils
 
@@ -35,5 +35,5 @@ class TestSkeleton:
         initial_marking[source2] = 1
         final_marking = Marking()
         final_marking[sink] = 1
-        skeleton = petriNetIntoSkeleton(net)
+        skeleton = petri_to_skeleton(net)
         assert set(skeleton.edges) == set([(t_1, t_2)])

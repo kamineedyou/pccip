@@ -4,7 +4,7 @@ from pccip.passage_decomp.passages.min_passages import min_passages
 from pm4py.objects.petri.petrinet import PetriNet, Marking
 from pccip.passage_decomp.cc.net_fragments import create_net_fragments
 from pccip.passage_decomp.cc.adapted_cost import adapted_cost_func,\
-                                                fragment_fitness, overall_fitness
+    fragment_fitness, overall_fitness
 from pm4py.objects.log.log import EventLog
 
 
@@ -12,6 +12,17 @@ def passage_conformance_checking(net: PetriNet,
                                  init_marking: Marking,
                                  final_marking: Marking,
                                  log: EventLog):
+    """Conformance checking decomposition with passages
+
+    Args:
+        net (PetriNet): Petrinet
+        init_marking (Marking): Initial Marking
+        final_marking (Marking): Final Marking
+        log (EventLog): Eventlog to check the model with
+
+    Returns:
+        [type]: Fitness of every fragment and overall Fitness
+    """
 
     # extend the input model
     ext_net, ext_im, ext_fm = extend_model(net, init_marking, final_marking)

@@ -15,7 +15,20 @@ class NoFinalMarking(Exception):
 def extend_model(net: PetriNet,
                  initial_marking: Marking,
                  final_marking: Marking) -> Tuple[PetriNet, Marking, Marking]:
-    "Returnds the extended petrinet Model"
+    """This function extends the given petri net with an Bot and Top transition
+
+    Args:
+        net (PetriNet): [description]
+        initial_marking (Marking): [description]
+        final_marking (Marking): [description]
+
+    Raises:
+        NoInitialMarking: No initial marking is given
+        NoFinalMarking: No final marking is given
+
+    Returns:
+        Tuple[PetriNet, Marking, Marking]: Return petri net with extended transition
+    """
     if not initial_marking:
         raise NoInitialMarking("No initial marking defined")
 

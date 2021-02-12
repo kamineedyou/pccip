@@ -6,6 +6,14 @@ from copy import deepcopy
 
 
 def create_net_fragments(passages: Set[Passage]) -> List[PetriNet]:
+    """[summary]
+
+    Args:
+        passages (Set[Passage]): Set of passages that are converted into fragments
+
+    Returns:
+        List[PetriNet]: Fragment nets
+    """
     net_fragments = []
 
     for p in passages:

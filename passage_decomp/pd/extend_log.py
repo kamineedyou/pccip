@@ -1,5 +1,6 @@
 import datetime
 from pm4py.objects.log.log import Event, EventLog
+from pccip.passage_decomp.algorithm.constants import ARTIFICIAL_START, ARTIFICIAL_END
 
 
 def generate_start_event() -> Event:
@@ -8,7 +9,7 @@ def generate_start_event() -> Event:
     Returns:
         Event: Artificial start event.
     """
-    start = {'concept:name': 'Artificial:Start',
+    start = {'concept:name': ARTIFICIAL_START,
              'lifecycle:transition': 'complete',
              'time:timestamp':
                  datetime.datetime(1, 1, 1, 0, 0,
@@ -25,7 +26,7 @@ def generate_end_event() -> Event:
     Returns:
         Event: Artificial end event.
     """
-    end = {'concept:name': 'Artificial:End',
+    end = {'concept:name': ARTIFICIAL_END,
            'lifecycle:transition': 'complete',
            'time:timestamp':
                datetime.datetime(9999, 12, 31, 0, 0,

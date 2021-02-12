@@ -74,7 +74,6 @@ def adapted_cost_func(log: EventLog,
 
     misaligned_trans = {}
     aligned_traces = {}
-    total_cost = {}
     for frag in net_fragments:
         frag[0].lvis_labels = [str(acti.label) for acti in
                                frag[0].transitions if acti.label]
@@ -82,7 +81,6 @@ def adapted_cost_func(log: EventLog,
         aligned_traces[i] = recompos_maximal.apply_log(log, [fragment])
         misaligned_trans[i] = get_misaligned_trans(aligned_traces[i])
         for trace in range(len(misaligned_trans[i])):
-            total = 0
             count_trace = 0
             for j in range(len(net_fragments)):
                 count_trace = len(
@@ -91,10 +89,6 @@ def adapted_cost_func(log: EventLog,
 
             if count_trace != 0:
                 aligned_traces[i][trace]['cost'] /= count_trace
-
-            total += aligned_traces[i][trace]['cost']
-
-        total_cost[i] = total
 
     for i in aligned_traces:
         best_worst_cost = recompos_maximal.get_best_worst_cost(
@@ -114,7 +108,7 @@ def adapted_cost_func(log: EventLog,
                 else:
                     align['fitness'] = 0
 
-    return aligned_traces, total_cost
+    return aligned_traces
 
 
 def fragment_fitness(aligned_traces: Dict):
@@ -124,3 +118,19 @@ def fragment_fitness(aligned_traces: Dict):
                                                   variant=replay_fitness.
                                                   Variants.ALIGNMENT_BASED)
     return frag_fitness
+
+
+def overall_fitness(log: EventLog, aligned_traces: Dict):
+    passed_traces = {}
+    overall = 0
+    for trace in range(len(log)):
+        count = 0
+        for frag in range(len(aligned_traces)):
+            if aligned_traces[frag][trace]['fitness'] == 1 and \
+                        aligned_traces[frag][trace]['alignment']:
+                count += 1
+                passed_traces[trace] = count
+
+        if passed_traces[trace] == len(aligned_traces):
+            overall += 1
+    return overall

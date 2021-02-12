@@ -9,8 +9,8 @@ from pccip.passage_decomp.cc import adapted_cost
 
 @pytest.mark.parametrize(('tupl, result'),
                          [(('a', 'b'), None),
-                          (('a', '>>'), 'a'),
-                          (('a', None), None)])
+                         (('a', '>>'), 'a'),
+                         (('a', None), None)])
 def test_Get_Acti(tupl, result):
     assert adapted_cost.get_acti(tupl) == result
 
@@ -24,9 +24,9 @@ def net_frag():
     log_2 = xes_importer.apply(pathToFile_2)
     net, initial_marking, final_marking = inductive_miner.apply(log_1)
     aligned_transition = alignments.apply_log(
-        log_2,
-        net, initial_marking, final_marking
-    )
+                log_2,
+                net, initial_marking, final_marking
+                )
     return aligned_transition
 
 
@@ -60,17 +60,18 @@ def nnfreg():
 
 
 def test_adapted_cost_fun(nnfreg):
-    align_trace, total_cost = adapted_cost.adapted_cost_func(nnfreg[0],
-                                                             nnfreg[1])
+    align_trace = adapted_cost.adapted_cost_func(nnfreg[0], nnfreg[1])
     assert align_trace[0][0]['cost'] == 0
     assert align_trace[1][0]['cost'] == 10000
-    assert total_cost[0] == 0
-    assert total_cost[2] == 10000
 
 
 def test_fragment_fitness(nnfreg):
-    align_trace, total_cost = adapted_cost.adapted_cost_func(nnfreg[0],
-                                                             nnfreg[1])
+    align_trace = adapted_cost.adapted_cost_func(nnfreg[0], nnfreg[1])
     fragment_fitness = adapted_cost.fragment_fitness(align_trace)
     assert fragment_fitness[0]['averageFitness'] == 1.0
     assert round(fragment_fitness[1]['averageFitness'], 3) == 0.844
+
+
+def test_overall_fit(nnfreg):
+    align_trace = adapted_cost.adapted_cost_func(nnfreg[0], nnfreg[1])
+    assert adapted_cost.overall_fitness(nnfreg[0], align_trace) == 0

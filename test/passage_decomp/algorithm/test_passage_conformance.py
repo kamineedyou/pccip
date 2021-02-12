@@ -2,7 +2,7 @@ from pccip.passage_decomp.cc.import_model import import_petri_net
 from pytest import fixture
 from os import path
 from pm4py.objects.log.importer.xes import importer as log_importer
-from pccip.passage_decomp.algorithm.passageConformance import passage_decompose_conformanceChecking
+from pccip.passage_decomp.algorithm.conformance_checking import passage_conformance_checking
 
 
 class Test_conformance_passages:
@@ -25,7 +25,7 @@ class Test_conformance_passages:
         init_marking = alpha_model[1]
         final_marking = alpha_model[2]
         log = alpha_model[3]
-        num = passage_decompose_conformanceChecking(
+        num = passage_conformance_checking(
             net, init_marking, final_marking, log)
 
         assert num == 1

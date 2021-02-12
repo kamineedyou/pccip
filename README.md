@@ -76,12 +76,3 @@ Make a feature branch from dev (git flow feature start MYFEATURE ) and do a merg
 dev. At the end of the sprint we merge dev if we all agree into main.
 
 To able to do a pull request the code should be according to the code quality chapter.
-
-##Documentation
-The documentation can be found in https://kamineedyou.github.io/
-## Contributing
-
-Make a feature branch from dev (git flow feature start MYFEATURE ) and do a merge request with dev. If the code is reviewed by another person it will be pushed into
-dev. At the end of the sprint we merge dev if we all agree into main.
-
-To able to do a pull request the code should be according to the code quality chapter.

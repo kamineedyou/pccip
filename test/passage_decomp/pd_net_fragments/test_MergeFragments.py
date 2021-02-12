@@ -3,7 +3,7 @@ import os
 import re
 from pm4py.objects.petri.importer import importer as pnml_importer
 from pm4py.objects.petri.petrinet import PetriNet, Marking
-from pccip.passage_decomp.pd.logToFragments import merge_fragments
+from pccip.passage_decomp.pd.net_fragments import merge_fragments
 
 
 class Test_MergeFragments:

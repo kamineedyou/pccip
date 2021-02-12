@@ -1,13 +1,13 @@
 from typing import Tuple, Set
 from pm4py.objects.petri.petrinet import PetriNet, Marking
 from pm4py.objects.log.log import EventLog
-from pccip.passage_decomp.pd.importLog import importEventLog as import_log
-from pccip.passage_decomp.pd.extendLog import extendEventLog as extend_log
-from pccip.passage_decomp.pd.createCausalStructure import create_causal_structure
-from pccip.passage_decomp.pd.createCausalStructure import create_custom_causal_structure
+from pccip.passage_decomp.pd.import_log import importEventLog as import_log
+from pccip.passage_decomp.pd.extend_log import extendEventLog as extend_log
+from pccip.passage_decomp.pd.causal_structure import create_causal_structure
+from pccip.passage_decomp.pd.causal_structure import create_custom_causal_structure
 from pccip.passage_decomp.passages.min_passages import algorithm as min_passages
 from pccip.passage_decomp.cc.EventLogDecomp import decompose_event_log as log_decomp
-from pccip.passage_decomp.pd.logToFragments import create_fragment, merge_fragments
+from pccip.passage_decomp.pd.net_fragments import create_fragment, merge_fragments
 
 
 def passage_process_discovery(xes: EventLog,

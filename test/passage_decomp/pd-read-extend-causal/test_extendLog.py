@@ -1,7 +1,7 @@
 import pytest
 import os
 from pm4py.objects.log.importer.xes import importer as xes_importer
-from pccip.passage_decomp.pd.extendLog import extendEventLog
+from pccip.passage_decomp.pd.extend_log import extendEventLog
 
 
 class Test_ExtendLog:

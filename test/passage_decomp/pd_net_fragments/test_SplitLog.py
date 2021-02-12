@@ -2,7 +2,7 @@ import pytest
 import os
 from pm4py.objects.log.importer.xes import importer as xes_importer
 from pm4py.objects.log.log import EventLog, Trace
-from pccip.passage_decomp.pd.logToFragments import split_log
+from pccip.passage_decomp.pd.net_fragments import split_log
 
 
 class Test_SplitLog:

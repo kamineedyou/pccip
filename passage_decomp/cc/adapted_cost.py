@@ -46,7 +46,7 @@ def get_misaligned_trans(aligned_traces: List) -> List[Set[str]]:
         if trace['cost'] != 0:
             for alig in trace['alignment']:
                 if get_acti(alig) is not None \
-                                  and get_acti(alig) not in unfited_traces:
+                        and get_acti(alig) not in unfited_traces:
                     unfited_traces.add(get_acti(alig))
         if unfited_traces not in lis:
             lis.append(unfited_traces)
@@ -92,9 +92,9 @@ def adapted_cost_func(log: EventLog,
 
     for i in aligned_traces:
         best_worst_cost = recompos_maximal.get_best_worst_cost(
-                                                net_fragments[i][0],
-                                                net_fragments[i][1],
-                                                net_fragments[i][2])
+            net_fragments[i][0],
+            net_fragments[i][1],
+            net_fragments[i][2])
 
         for index, align in enumerate(aligned_traces[i]):
             if align is not None:
@@ -103,8 +103,8 @@ def adapted_cost_func(log: EventLog,
                     align['fitness'] = 1
                 elif (len(log[index]) + best_worst_cost) > 0:
                     align['fitness'] = 1 - (
-                            (align['cost'] // 10000) / (len(log[index]) +
-                                                        best_worst_cost))
+                        (align['cost'] // 10000) / (len(log[index]) +
+                                                    best_worst_cost))
                 else:
                     align['fitness'] = 0
 
@@ -112,6 +112,14 @@ def adapted_cost_func(log: EventLog,
 
 
 def fragment_fitness(aligned_traces: Dict):
+    """Calculate the fitness of each fragment of given dict of alignment information
+
+    Args:
+        aligned_traces (Dict): alignment information generated from adapted_cost_func
+
+    Returns:
+        [type]:fitness of each fragment
+    """
     frag_fitness = {}
     for i in aligned_traces:
         frag_fitness[i] = replay_fitness.evaluate(aligned_traces[i],
@@ -121,13 +129,22 @@ def fragment_fitness(aligned_traces: Dict):
 
 
 def overall_fitness(log: EventLog, aligned_traces: Dict):
+    """[summary]
+
+    Args:
+        log (EventLog): Evenlog from alignment
+        aligned_traces (Dict): Aligned traces
+
+    Returns:
+        [type]: Fitness
+    """
     passed_traces = {}
     overall = 0
     for trace in range(len(log)):
         count = 0
         for frag in range(len(aligned_traces)):
             if aligned_traces[frag][trace]['fitness'] == 1 and \
-                        aligned_traces[frag][trace]['alignment']:
+                    aligned_traces[frag][trace]['alignment']:
                 count += 1
                 passed_traces[trace] = count
 

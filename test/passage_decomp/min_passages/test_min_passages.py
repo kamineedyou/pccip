@@ -2,7 +2,7 @@ import pytest
 import os
 from networkx import DiGraph
 from pccip.passage_decomp.passages.passage import Passage
-from pccip.passage_decomp.passages.min_passages import algorithm, pi_1, pi_2, pi_both
+from pccip.passage_decomp.passages.min_passages import min_passages, pi_1, pi_2, pi_both
 from pm4py.objects.petri.importer import importer as pn_importer
 
 
@@ -81,7 +81,7 @@ class Test_Min_Passages:
         assert pi_both('s', 'z', edge_set, [], []) == set()
 
     def test_ValidCausalPassages(self, validCausal, validCausal2):
-        passage_set = algorithm(validCausal[0])
+        passage_set = min_passages(validCausal[0])
         assert len(passage_set) == 5
         assert len(validCausal[1] | passage_set) == 5
 
@@ -91,7 +91,7 @@ class Test_Min_Passages:
         for passage in passage_set:
             assert isinstance(passage, Passage)
 
-        passage_set2 = algorithm(validCausal2[0])
+        passage_set2 = min_passages(validCausal2[0])
         assert len(passage_set2) == 4
         assert len(validCausal2[1] | passage_set2) == 4
 
@@ -104,7 +104,7 @@ class Test_Min_Passages:
     def test_DiGraphInput(self, validDiGraph):
         exp_getX = validDiGraph[1]['getX']
         exp_getY = validDiGraph[1]['getY']
-        passage_set = algorithm(validDiGraph[0])
+        passage_set = min_passages(validDiGraph[0])
         assert len(passage_set) == 3
         assert len(passage_set) == len(exp_getX)
 

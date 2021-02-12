@@ -1,6 +1,6 @@
 from pccip.passage_decomp.cc.extend_model import extend_model
 from pccip.passage_decomp.utils.transform_skeleton import petri_to_skeleton
-from pccip.passage_decomp.passages.min_passages import algorithm
+from pccip.passage_decomp.passages.min_passages import min_passages
 from pm4py.objects.petri.petrinet import PetriNet, Marking
 from pccip.passage_decomp.cc.net_fragments import create_net_fragments
 from pccip.passage_decomp.cc.adapted_cost import adapted_cost_func, fragment_fitness
@@ -16,14 +16,14 @@ def passage_conformance_checking(net: PetriNet,
     ext_net, ext_im, ext_fm = extend_model(net, init_marking, final_marking)
 
     # generate the skeleton
-    skeletonGraph = petri_to_skeleton(ext_net)
+    skeleton = petri_to_skeleton(ext_net)
 
     # get all silent transition names in the petri net
     silent_names = [silent.name for silent in ext_net.transitions
                     if not silent.label]
 
     # generate all the minimal passages
-    passages = algorithm(skeletonGraph, silent_names)
+    passages = min_passages(skeleton, silent_names)
 
     # decompose initial petri net into net fragments
     fragments = create_net_fragments(passages)

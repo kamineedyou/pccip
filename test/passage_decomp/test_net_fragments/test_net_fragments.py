@@ -6,7 +6,7 @@ from pm4py.objects.petri.importer import importer as pnml_importer
 from pm4py.objects.petri.petrinet import PetriNet
 from pccip.passage_decomp.cc.extend_model import extend_model
 from pccip.passage_decomp.utils.transform_skeleton import petri_to_skeleton
-from pccip.passage_decomp.passages.min_passages import algorithm
+from pccip.passage_decomp.passages.min_passages import min_passages
 
 
 class TestNnetFragmnets:
@@ -24,7 +24,7 @@ class TestNnetFragmnets:
         silentTransOfExtended = [
             silentTrans for silentTrans
             in transitionsOfExtendedNet if silentTrans.label is None]
-        passages = algorithm(skeletonGraph, silentTransOfExtended)
+        passages = min_passages(skeletonGraph, silentTransOfExtended)
         fragments_test = create_net_fragments(passages)
         passages = list(passages)
         true = True

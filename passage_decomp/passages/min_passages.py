@@ -3,8 +3,8 @@ from networkx import DiGraph
 from typing import Set, Tuple, Union
 
 
-def algorithm(edges: Union[DiGraph, Set[Tuple[str, str]]],
-              silents: Set[str] = []) -> Set[Passage]:
+def min_passages(edges: Union[DiGraph, Set[Tuple[str, str]]],
+                 silents: Set[str] = []) -> Set[Passage]:
     """Algorithm to compute the minimal passages in an edge set or a DiGraph.
 
     Args:

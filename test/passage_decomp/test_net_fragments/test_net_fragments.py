@@ -7,6 +7,7 @@ from pm4py.objects.petri.petrinet import PetriNet
 from pccip.passage_decomp.cc.extend_model import extend_model
 from pccip.passage_decomp.utils.transform_skeleton import petri_to_skeleton
 from pccip.passage_decomp.passages.min_passages import min_passages
+from pccip.passage_decomp.algorithm.constants import ARTIFICIAL_START, ARTIFICIAL_END
 
 
 class TestNnetFragmnets:
@@ -15,31 +16,40 @@ class TestNnetFragmnets:
 
         currentDir = os.path.dirname(os.path.realpath(__file__))
         pathToFile = os.path.join(currentDir, 'figure1.xes')
+
         log = xes_importer.apply(pathToFile)
+
         process_model, im, fm = apply(log)
+
         extendedNet, extendedInitMarking, extendedFinalMarking = extend_model(
             process_model, im, fm)
+
         skeletonGraph = petri_to_skeleton(extendedNet)
+
         transitionsOfExtendedNet = extendedNet.transitions
+
         silentTransOfExtended = [
             silentTrans for silentTrans
             in transitionsOfExtendedNet if silentTrans.label is None]
+
         passages = min_passages(skeletonGraph, silentTransOfExtended)
+
         fragments_test = create_net_fragments(passages)
+
         passages = list(passages)
-        true = True
+
         for cnt, fragment_tuple_test in enumerate(fragments_test):
             x, y = passages[cnt].getXY()
             x = list(x)
-            if "Artificial:Start" in x:
-                idx = x.index("Artificial:Start")
+            if ARTIFICIAL_START in x:
+                idx = x.index(ARTIFICIAL_START)
                 print(idx)
                 x[idx] = "Start"
             x = sorted(x)
 
             y = list(y)
-            if "Artificial:End" in y:
-                idx = y.index("Artificial:End")
+            if ARTIFICIAL_END in y:
+                idx = y.index(ARTIFICIAL_END)
                 print(idx)
                 y[idx] = "End"
 
@@ -78,4 +88,4 @@ class TestNnetFragmnets:
                         if arc_sink_test == arc_sink_vaild:
                             found = True
                             break
-                assert found == true
+                assert found

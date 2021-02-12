@@ -3,7 +3,8 @@ from pccip.passage_decomp.utils.transform_skeleton import petri_to_skeleton
 from pccip.passage_decomp.passages.min_passages import min_passages
 from pm4py.objects.petri.petrinet import PetriNet, Marking
 from pccip.passage_decomp.cc.net_fragments import create_net_fragments
-from pccip.passage_decomp.cc.adapted_cost import adapted_cost_func, fragment_fitness
+from pccip.passage_decomp.cc.adapted_cost import adapted_cost_func,\
+                                                fragment_fitness, overall_fitness
 from pm4py.objects.log.log import EventLog
 
 
@@ -29,9 +30,12 @@ def passage_conformance_checking(net: PetriNet,
     fragments = create_net_fragments(passages)
 
     # perform alignment cost check with the input log on the fragments
-    fragment_alignment = adapted_cost_func(log, fragments)[0]
+    fragment_alignment = adapted_cost_func(log, fragments)
 
-    # generate return value
-    overall_fitness = fragment_fitness(fragment_alignment)
+    # generate fitness for each net fragment
+    fragm_fitness = fragment_fitness(fragment_alignment)
 
-    return overall_fitness
+    # get the overall fitness
+    over_fitness = overall_fitness(log, fragment_alignment)
+
+    return fragm_fitness, over_fitness

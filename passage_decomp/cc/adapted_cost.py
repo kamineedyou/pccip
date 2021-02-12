@@ -133,4 +133,5 @@ def overall_fitness(log: EventLog, aligned_traces: Dict):
 
         if passed_traces[trace] == len(aligned_traces):
             overall += 1
-    return overall
+
+    return overall / len(log)

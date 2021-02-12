@@ -20,13 +20,37 @@ pip install -r requirements.txt
 
 ## Usage
 
-Import the functions from the passage_decomp folder
+Import the functions from the passage_decomp folder and have fun!
 
 ```python
-from passage_decomp.cc.importModel import importPetriNet
-pathToFile="example.pnml"
-(net, initial_marking, final_marking) = importPetriNet(pathToFile)
+import pm4py
+from pccip.passage_decomp.algorithm.process_discovery import passage_process_discovery
+from pccip.passage_decomp.algorithm.conformance_checking import passage_conformance_checking
+from pccip.passage_decomp.cc.import_model import import_petri_net
+from pccip.passage_decomp.pd.import_log import import_log
+
+log_path = 'example_log.xes'
+model_path = 'example_model.pnml'
+
+
+# Process Discovery
+new_net, new_im, new_fm = passage_process_discovery(log_path)
+pm4py.view_petri_net(new_net, new_im, new_fm)
+
+# Conformance Checking
+net, im, fm = import_petri_net(model_path)
+log = import_log(log_path)
+
+local_fitness, global_fitness = passage_conformance_checking(net, im, fm, log)
+
+for k, v in local_fitness.items():
+    print(f'Passage {k+1}: Fitting Trace %age: {v["percFitTraces"]}, Avg. Fitness: {v["averageFitness"]}')
+
+print(f'The global fitness value of the petri net: {global_fitness}')
+
 ```
+
+For more information on the code and to see exactly what each step of the algorithm does, feel free to take a look at the tutorial notebook found under the **tutorial** folder.
 
 ## Code quality
 
@@ -44,7 +68,7 @@ You can check if the quality is sufficcient with the following command.
 ```bash
 flake8 --statistics
 ```
-##Documentation
+## Documentation
 The documentation can be found in https://kamineedyou.github.io/
 ## Contributing
 

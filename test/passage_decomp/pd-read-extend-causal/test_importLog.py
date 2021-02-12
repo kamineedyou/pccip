@@ -1,6 +1,6 @@
 import pytest
 import os
-from pccip.passage_decomp.pd.import_log import importEventLog
+from pccip.passage_decomp.pd.import_log import import_log
 from pm4py.objects.log.importer.xes import importer as xes_importer
 from pm4py.objects.log.log import EventLog
 
@@ -16,11 +16,11 @@ class Test_ImportLog:
     def test_ImportEventLogXESFile(self, filePath):
         currentDir = os.path.dirname(os.path.realpath(__file__))
         pathToFile = os.path.join(currentDir, filePath)
-        xes = importEventLog(pathToFile)
+        xes = import_log(pathToFile)
         assert isinstance(xes, EventLog)
 
     def test_ImportEventLogPython(self, validEventLog):
-        xes = importEventLog(validEventLog)
+        xes = import_log(validEventLog)
         assert isinstance(xes, EventLog)
 
     @pytest.mark.parametrize('invalidEventLogFileType', ['figure2.txt'])
@@ -28,11 +28,11 @@ class Test_ImportLog:
         currentDir = os.path.dirname(os.path.realpath(__file__))
         pathToFile = os.path.join(currentDir, invalidEventLogFileType)
         with pytest.raises(TypeError):
-            importEventLog(pathToFile)
+            import_log(pathToFile)
 
     @pytest.mark.parametrize('nonExistantFile', ['figureLOST.xes'])
     def test_ImportNonExistantFile(self, nonExistantFile):
         currentDir = os.path.dirname(os.path.realpath(__file__))
         pathToFile = os.path.join(currentDir, nonExistantFile)
         with pytest.raises(FileNotFoundError):
-            importEventLog(pathToFile)
+            import_log(pathToFile)

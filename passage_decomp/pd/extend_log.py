@@ -2,7 +2,7 @@ import datetime
 from pm4py.objects.log.log import Event, EventLog
 
 
-def generateStartEvent() -> Event:
+def generate_start_event() -> Event:
     """Generate an artificial start event.
 
     Returns:
@@ -19,7 +19,7 @@ def generateStartEvent() -> Event:
     return Event(start)
 
 
-def generateEndEvent() -> Event:
+def generate_end_event() -> Event:
     """Generate an artificial end event.
 
     Returns:
@@ -36,7 +36,7 @@ def generateEndEvent() -> Event:
     return Event(end)
 
 
-def extendEventLog(log: EventLog) -> EventLog:
+def extend_log(log: EventLog) -> EventLog:
     """Extend all traces in anevent log with an artificial start and
     end activity.
 
@@ -52,8 +52,8 @@ def extendEventLog(log: EventLog) -> EventLog:
     if not isinstance(log, EventLog):
         raise TypeError("Invalid log type")
 
-    start = generateStartEvent()
-    end = generateEndEvent()
+    start = generate_start_event()
+    end = generate_end_event()
     for trace in log:
         trace.insert(0, start)
         trace.append(end)

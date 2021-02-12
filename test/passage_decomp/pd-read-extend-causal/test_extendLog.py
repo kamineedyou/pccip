@@ -1,7 +1,7 @@
 import pytest
 import os
 from pm4py.objects.log.importer.xes import importer as xes_importer
-from pccip.passage_decomp.pd.extend_log import extendEventLog
+from pccip.passage_decomp.pd.extend_log import extend_log
 
 
 class Test_ExtendLog:
@@ -12,7 +12,7 @@ class Test_ExtendLog:
         return xes_importer.apply(pathToFile)
 
     def test_ExtendValidLog(self, validEventLog):
-        ext_log = extendEventLog(validEventLog)
+        ext_log = extend_log(validEventLog)
         # Check if all the traces have both the added activities
         for trace in ext_log:
             assert trace[0]['concept:name'] == 'Artificial:Start'
@@ -21,4 +21,4 @@ class Test_ExtendLog:
     def test_ExtendInvalidLog(self):
         # Use String as opposed to EventLog
         with pytest.raises(TypeError):
-            extendEventLog("Process Model")
+            extend_log("Process Model")

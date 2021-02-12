@@ -3,7 +3,7 @@ from pm4py.objects.log.log import EventLog
 from typing import Union
 
 
-def importEventLog(xes: Union[EventLog, str]) -> EventLog:
+def import_log(xes: Union[EventLog, str]) -> EventLog:
     """Import event log from file or return EventLog object if it was used
     as parameter.
 

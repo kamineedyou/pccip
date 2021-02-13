@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<pnml>
+  <net id="net1" type="http://www.pnml.org/version-2009/grammar/pnmlcoremodel">
+    <page id="n0">
+      <place id="end92904">
+        <name>
+          <text>end92904</text>
+        </name>
+      </place>
+      <place id="({'h', 'g'}, {'Artificial:End'})92904">
+        <name>
+          <text>({'h', 'g'}, {'Artificial:End'})92904</text>
+        </name>
+      </place>
+      <transition id="Artificial:End">
+        <name>
+          <text>Artificial:End</text>
+        </name>
+      </transition>
+      <transition id="h">
+        <name>
+          <text>h</text>
+        </name>
+      </transition>
+      <transition id="g">
+        <name>
+          <text>g</text>
+        </name>
+      </transition>
+      <arc id="8761883875467" source="h" target="({'h', 'g'}, {'Artificial:End'})92904"/>
+      <arc id="8761883875473" source="g" target="({'h', 'g'}, {'Artificial:End'})92904"/>
+      <arc id="8761883875479" source="({'h', 'g'}, {'Artificial:End'})92904" target="Artificial:End"/>
+      <arc id="8761883875455" source="Artificial:End" target="end92904"/>
+    </page>
+    <finalmarkings>
+      <marking>
+        <place idref="end92904">
+          <text>1</text>
+        </place>
+      </marking>
+    </finalmarkings>
+  </net>
+</pnml>

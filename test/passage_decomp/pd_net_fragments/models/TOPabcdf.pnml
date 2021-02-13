@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<pnml>
+  <net id="net1" type="http://www.pnml.org/version-2009/grammar/pnmlcoremodel">
+    <page id="n0">
+      <place id="({'a', 'f'}, {'d'})12345">
+        <name>
+          <text>({'a', 'f'}, {'d'})12345</text>
+        </name>
+      </place>
+      <place id="start29133">
+        <name>
+          <text>start29133</text>
+        </name>
+        <initialMarking>
+          <text>1</text>
+        </initialMarking>
+      </place>
+      <place id="({'a', 'f'}, {'b', 'c'})12345">
+        <name>
+          <text>({'a', 'f'}, {'b', 'c'})12345</text>
+        </name>
+      </place>
+      <place id="({'Artificial:Start'}, {'a'})29133">
+        <name>
+          <text>({'Artificial:Start'}, {'a'})29133</text>
+        </name>
+      </place>
+      <transition id="f">
+        <name>
+          <text>f</text>
+        </name>
+      </transition>
+      <transition id="Artificial:Start">
+        <name>
+          <text>Artificial:Start</text>
+        </name>
+      </transition>
+      <transition id="c">
+        <name>
+          <text>c</text>
+        </name>
+      </transition>
+      <transition id="a">
+        <name>
+          <text>a</text>
+        </name>
+      </transition>
+      <transition id="d">
+        <name>
+          <text>d</text>
+        </name>
+      </transition>
+      <transition id="b">
+        <name>
+          <text>b</text>
+        </name>
+      </transition>
+      <arc id="8782625600516" source="({'Artificial:Start'}, {'a'})29133" target="a"/>
+      <arc id="8782625600570" source="({'a', 'f'}, {'b', 'c'})12345" target="c"/>
+      <arc id="8782625600585" source="a" target="({'a', 'f'}, {'b', 'c'})12345"/>
+      <arc id="8782625600588" source="f" target="({'a', 'f'}, {'d'})12345"/>
+      <arc id="8782625600594" source="f" target="({'a', 'f'}, {'b', 'c'})12345"/>
+      <arc id="8782625588372" source="Artificial:Start" target="({'Artificial:Start'}, {'a'})29133"/>
+      <arc id="8782625600600" source="({'a', 'f'}, {'d'})12345" target="d"/>
+      <arc id="8782625588345" source="a" target="({'a', 'f'}, {'d'})12345"/>
+      <arc id="8782625588474" source="start29133" target="Artificial:Start"/>
+      <arc id="8782625600606" source="({'a', 'f'}, {'b', 'c'})12345" target="b"/>
+    </page>
+  </net>
+</pnml>

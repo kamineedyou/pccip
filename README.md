@@ -44,7 +44,7 @@ log = import_log(log_path)
 local_fitness, global_fitness = passage_conformance_checking(log, net, im, fm)
 
 for k in local_fitness:
-    print(f'Passage {k+1}: with local alignment transition costs of: {local_fitness[k]["costs"]}')
+    print(f'Passage {k+1}: with local alignment costs of: {local_fitness[k]["costs"]}')
 
 print(f'Global fitness: {global_fitness["fitness"]}')
 print(f'Perfectly fitting traces %age: {global_fitness["percFitTraces"]*100}%')

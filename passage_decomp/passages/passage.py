@@ -1,4 +1,4 @@
-from typing import Tuple, Set, Union, List
+from typing import Tuple, Set, Union
 from networkx import DiGraph
 
 
@@ -126,7 +126,7 @@ class Passage:
 
         return x_set, y_set
 
-    def getTVis(self, silents: Set[str] = set()) -> List[str]:
+    def getTVis(self, silents: Set[str] = set()) -> Set[str]:
         """Get a list of visible transitions in the passage.
 
         Args:
@@ -138,7 +138,7 @@ class Passage:
         """
         t_vis_set = {x[0] for x in self.edges} | {y[1] for y in self.edges}
         t_vis_set = t_vis_set - silents
-        return list(t_vis_set)
+        return t_vis_set
 
     def __repr__(self) -> str:
         x = sorted(list(self.getX()))

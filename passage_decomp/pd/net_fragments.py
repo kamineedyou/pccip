@@ -155,8 +155,7 @@ def create_fragment(sublog: EventLog,
     return net, initial_marking, final_marking
 
 
-def merge_fragments(fragments: List[
-        Tuple[PetriNet, Marking, Marking]]) \
+def merge_fragments(fragments: List[Tuple[PetriNet, Marking, Marking]]) \
         -> Tuple[PetriNet, Marking, Marking]:
     """Merge a list of net fragments into a whole complete petri net.
 
@@ -191,7 +190,7 @@ def merge_fragments(fragments: List[
             in_arcs_src = {arc.source for arc in transition.in_arcs}
             out_arcs_tar = {arc.target for arc in transition.out_arcs}
             # if transition has already been added, alter edges
-            if transition.label in transitions:
+            if transition.label in transitions and transition.label:
                 # if transition comes after the merge transition
                 for place in in_arcs_src:
                     remove_arc_set(net, transition.in_arcs)

@@ -28,7 +28,7 @@ def efficient_log_decomp(log: EventLog, passage_set: Set[Passage]) -> EventLog:
 
     Args:
         log (EventLog): given eventlog
-        events (List[str]): activites to project
+        passage_set (List[Passage]): passages connected to the log
 
     Returns:
         EventLog: Projected eventlog

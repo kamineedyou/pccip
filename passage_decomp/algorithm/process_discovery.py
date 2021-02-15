@@ -6,7 +6,7 @@ from pccip.passage_decomp.pd.extend_log import extend_log
 from pccip.passage_decomp.pd.causal_structure import create_causal_structure
 from pccip.passage_decomp.pd.causal_structure import create_custom_causal_structure
 from pccip.passage_decomp.passages.min_passages import min_passages
-from pccip.passage_decomp.cc.log_decomp import efficient_log_decomp, decompose_event_log
+from pccip.passage_decomp.cc.log_decomp import decompose_event_log
 from pccip.passage_decomp.pd.net_fragments import create_fragment, merge_fragments
 
 

@@ -21,7 +21,7 @@ def split_log(sublog: EventLog) -> EventLog:
     Returns:
         EventLog: New event log that contains no more looping
     """
-    if not isinstance(sublog, EventLog):
+    if not isinstance(sublog, EventLog) and not isinstance(sublog, list):
         raise TypeError('Invalid Event Log Type')
     start_activities = set(get_start_activities(sublog).keys())
     end_activities = set(get_end_activities(sublog).keys())
@@ -81,7 +81,7 @@ def create_fragment(sublog: EventLog,
     Returns:
         Tuple[PetriNet, Marking, Marking]: Net fragment from the sublog.
     """
-    if not isinstance(sublog, EventLog):
+    if not isinstance(sublog, EventLog) and not isinstance(sublog, list):
         raise TypeError('Invalid Event Log Type')
 
     variant = getattr(Variants, variant.upper(), None)

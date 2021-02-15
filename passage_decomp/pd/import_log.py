@@ -1,6 +1,7 @@
 from pm4py.objects.log.importer.xes import importer as xes_importer
 from pm4py.objects.log.log import EventLog
 from typing import Union
+from copy import deepcopy
 
 
 def import_log(xes: Union[EventLog, str]) -> EventLog:
@@ -22,7 +23,7 @@ def import_log(xes: Union[EventLog, str]) -> EventLog:
         raise TypeError("Invalid Event Log Type or Path")
 
     if isinstance(xes, EventLog):
-        return xes
+        return deepcopy(xes)
 
     if ".xes" not in xes:
         raise TypeError("Log type is not supported")

@@ -4,6 +4,7 @@ from pccip.passage_decomp.passages.min_passages import min_passages
 from pm4py.objects.petri.petrinet import PetriNet, Marking
 from pccip.passage_decomp.cc.net_fragments import create_net_fragments
 from pccip.passage_decomp.cc.adapted_cost import passage_alignment, get_global_fitness
+from pccip.passage_decomp.cc.import_model import fix_transition_conflict
 from pm4py.objects.log.log import EventLog
 from typing import Tuple
 
@@ -23,6 +24,8 @@ def passage_conformance_checking(log: EventLog,
     Returns:
         Tuple[dict, dict]: local alignments and global fitness values
     """
+    # check if input model/log already have artificial start/end activities
+    fix_transition_conflict(net, log)
 
     # extend the input model
     ext_net, ext_im, ext_fm = extend_model(net, init_marking, final_marking)

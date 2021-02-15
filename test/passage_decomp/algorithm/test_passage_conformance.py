@@ -2,6 +2,7 @@ from pytest import fixture
 import pm4py
 from os import path
 from pm4py.objects.log.importer.xes import importer as log_importer
+from pm4py.objects.petri.importer.importer import apply as import_petri_net
 from pccip.passage_decomp.algorithm.conformance_checking import passage_conformance_checking
 
 
@@ -25,6 +26,16 @@ class Test_conformance_passages:
         # net, init, final = import_petri_net(pathToModel)
         log = log_importer.apply(pathToLog)
         net, init, final = pm4py.discover_petri_net_inductive(log, 0.2)
+
+        return net, init, final, log
+
+    @fixture
+    def already_extended_input(self):
+        currentDir = path.dirname(path.realpath(__file__))
+        path_to_log = path.join(currentDir, "logs/figure1_extended.xes")
+        path_to_model = path.join(currentDir, "models/figure1_extended.pnml")
+        net, init, final = import_petri_net(path_to_model)
+        log = log_importer.apply(path_to_log)
 
         return net, init, final, log
 
@@ -56,3 +67,19 @@ class Test_conformance_passages:
             total_cost += sum(local_align[f]['costs'].values())
 
         assert total_cost == 7
+
+    def test_already_extended_input(self, already_extended_input):
+        net, init_marking, final_marking = already_extended_input[:3]
+        log = already_extended_input[3]
+        local_align, global_fitness = passage_conformance_checking(
+            log, net, init_marking, final_marking)
+
+        assert global_fitness['fitness'] == 1.0
+        assert global_fitness['percFitTraces'] == 1.0
+        assert len(local_align) == 7
+
+        total_cost = 0
+        for f in local_align:
+            total_cost += sum(local_align[f]['costs'].values())
+
+        assert total_cost == 0

@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<pnml>
+  <net id="net1" type="http://www.pnml.org/version-2009/grammar/pnmlcoremodel">
+    <page id="n0">
+      <place id="({'d'}, {'e'})">
+        <name>
+          <text>({'d'}, {'e'})</text>
+        </name>
+      </place>
+      <place id="({'c', 'b'}, {'e'})">
+        <name>
+          <text>({'c', 'b'}, {'e'})</text>
+        </name>
+      </place>
+      <transition id="d">
+        <name>
+          <text>d</text>
+        </name>
+      </transition>
+      <transition id="c">
+        <name>
+          <text>c</text>
+        </name>
+      </transition>
+      <transition id="e">
+        <name>
+          <text>e</text>
+        </name>
+      </transition>
+      <transition id="b">
+        <name>
+          <text>b</text>
+        </name>
+      </transition>
+      <arc id="8790042976037" source="({'c', 'b'}, {'e'})" target="e"/>
+      <arc id="8790042973416" source="d" target="({'d'}, {'e'})"/>
+      <arc id="8790042976073" source="c" target="({'c', 'b'}, {'e'})"/>
+      <arc id="8790042976055" source="({'d'}, {'e'})" target="e"/>
+      <arc id="8790042976091" source="b" target="({'c', 'b'}, {'e'})"/>
+    </page>
+  </net>
+</pnml>

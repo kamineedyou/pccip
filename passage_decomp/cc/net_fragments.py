@@ -5,7 +5,8 @@ from typing import Set, List, Tuple
 from copy import deepcopy
 
 
-def create_net_fragments(passages: Set[Passage]) -> List[PetriNet]:
+def create_net_fragments(passages: Set[Passage]) \
+        -> List[Tuple[PetriNet, Marking, Marking]]:
     """[summary]
 
     Args:

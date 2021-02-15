@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<pnml>
+  <net id="net1" type="http://www.pnml.org/version-2009/grammar/pnmlcoremodel">
+    <page id="n0">
+      <place id="source">
+        <name>
+          <text>source</text>
+        </name>
+        <initialMarking>
+          <text>1</text>
+        </initialMarking>
+      </place>
+      <transition id="13b28c89-d08f-4147-b366-00b96e2efe3a">
+        <name>
+          <text>a</text>
+        </name>
+      </transition>
+      <transition id="Artificial:Start">
+        <name>
+          <text>Artificial:Start</text>
+        </name>
+      </transition>
+      <arc id="8791022867204" source="Artificial:Start" target="source"/>
+      <arc id="8791022867237" source="source" target="13b28c89-d08f-4147-b366-00b96e2efe3a"/>
+    </page>
+  </net>
+</pnml>

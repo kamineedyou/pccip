@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<pnml>
+  <net id="net1" type="http://www.pnml.org/version-2009/grammar/pnmlcoremodel">
+    <page id="n0">
+      <place id="p_9">
+        <name>
+          <text>p_9</text>
+        </name>
+      </place>
+      <place id="p_11">
+        <name>
+          <text>p_11</text>
+        </name>
+      </place>
+      <transition id="5787d04d-74eb-4215-acc7-c3f49661d263">
+        <name>
+          <text>d</text>
+        </name>
+      </transition>
+      <transition id="d415701f-5fe7-4710-adba-ca4def38cc58">
+        <name>
+          <text>e</text>
+        </name>
+      </transition>
+      <transition id="4f80219c-11a6-4289-a5de-47467a8f798d">
+        <name>
+          <text>b</text>
+        </name>
+      </transition>
+      <transition id="5ee4a8ce-8553-4546-9580-f1f4afad0031">
+        <name>
+          <text>c</text>
+        </name>
+      </transition>
+      <arc id="8791022851265" source="5ee4a8ce-8553-4546-9580-f1f4afad0031" target="p_11"/>
+      <arc id="8791022847937" source="p_9" target="d415701f-5fe7-4710-adba-ca4def38cc58"/>
+      <arc id="8791022847748" source="p_11" target="d415701f-5fe7-4710-adba-ca4def38cc58"/>
+      <arc id="8791022851313" source="4f80219c-11a6-4289-a5de-47467a8f798d" target="p_11"/>
+      <arc id="8791022851289" source="5787d04d-74eb-4215-acc7-c3f49661d263" target="p_9"/>
+    </page>
+  </net>
+</pnml>

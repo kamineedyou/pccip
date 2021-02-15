@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<pnml>
+  <net id="net1" type="http://www.pnml.org/version-2009/grammar/pnmlcoremodel">
+    <page id="n0">
+      <place id="sink">
+        <name>
+          <text>sink</text>
+        </name>
+      </place>
+      <transition id="aa8566af-f963-4530-bc1a-77b942963ac3">
+        <name>
+          <text>g</text>
+        </name>
+      </transition>
+      <transition id="48b4a8a7-8faa-4967-ba19-2ce356040ff9">
+        <name>
+          <text>h</text>
+        </name>
+      </transition>
+      <transition id="Artificial:End">
+        <name>
+          <text>Artificial:End</text>
+        </name>
+      </transition>
+      <arc id="8791022862906" source="sink" target="Artificial:End"/>
+      <arc id="8791022868234" source="aa8566af-f963-4530-bc1a-77b942963ac3" target="sink"/>
+      <arc id="8791022867342" source="48b4a8a7-8faa-4967-ba19-2ce356040ff9" target="sink"/>
+    </page>
+    <finalmarkings>
+      <marking>
+        <place idref="sink">
+          <text>1</text>
+        </place>
+      </marking>
+    </finalmarkings>
+  </net>
+</pnml>

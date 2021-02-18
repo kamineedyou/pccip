@@ -116,15 +116,20 @@ def create_fragment(sublog: EventLog,
         if len(im_transitions) > 1:
             for arc in im_place.out_arcs.copy():
                 if arc.target.label != 'Artificial:Start':
-                    remove_arc(net, arc)
+                    if not arc.target.label:
+                        remove_transition(net, arc.target)
+                    else:
+                        remove_arc(net, arc)
     else:
         # remove all silent border transitions
         out_arcs = im_place.out_arcs.copy()
+
         for arc in out_arcs:
             if arc.target.label is None:
                 # remove all places, only connected to silent transition
                 to_remove_places = {p.target for p in arc.target.out_arcs
                                     if len(p.target.in_arcs) == 1}
+
                 for place in to_remove_places:
                     remove_place(net, place)
                 remove_transition(net, arc.target)
@@ -137,7 +142,10 @@ def create_fragment(sublog: EventLog,
         if len(fm_transitions) > 1:
             for arc in fm_place.in_arcs.copy():
                 if arc.source.label != 'Artificial:End':
-                    remove_arc(net, arc)
+                    if not arc.source.label:
+                        remove_transition(net, arc.source)
+                    else:
+                        remove_arc(net, arc)
     else:
         # remove all silent border transitions
         in_arcs = fm_place.in_arcs.copy()
@@ -151,6 +159,11 @@ def create_fragment(sublog: EventLog,
                 remove_transition(net, arc.source)
         # finally remove the final place
         remove_place(net, fm_place)
+
+    # remove any remaining border silent transitions
+    for t in net.transitions.copy():
+        if not t.label and (len(t.in_arcs) == 0 or len(t.out_arcs) == 0):
+            remove_transition(net, t)
 
     return net, initial_marking, final_marking
 

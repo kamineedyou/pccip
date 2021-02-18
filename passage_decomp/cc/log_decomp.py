@@ -9,7 +9,7 @@ def decompose_event_log(log: EventLog, events: Set[str]) -> EventLog:
 
     Args:
         log (EventLog): given eventlog
-        events (List[str]): activites to project
+        events (Set[str]): activites to project
 
     Returns:
         EventLog: Projected eventlog
@@ -31,7 +31,7 @@ def efficient_log_decomp(log: EventLog, passage_set: Set[Passage]) -> EventLog:
         passage_set (List[Passage]): passages connected to the log
 
     Returns:
-        EventLog: Projected eventlog
+        EventLog: Projected event log
     """
     sublogs = {}
     for i, passage in enumerate(passage_set):
@@ -51,7 +51,8 @@ def efficient_log_decomp(log: EventLog, passage_set: Set[Passage]) -> EventLog:
     for sublog_index in sublogs:
         event_log = EventLog()
         for trace in sublogs[sublog_index]['log']:
-            event_log.append(trace)
+            if trace:
+                event_log.append(trace)
         event_logs.append(event_log)
 
     return event_logs

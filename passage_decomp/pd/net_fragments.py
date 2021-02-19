@@ -121,19 +121,7 @@ def create_fragment(sublog: EventLog,
                     else:
                         remove_arc(net, arc)
     else:
-        # remove all silent border transitions
-        out_arcs = im_place.out_arcs.copy()
-
-        for arc in out_arcs:
-            if arc.target.label is None:
-                # remove all places, only connected to silent transition
-                to_remove_places = {p.target for p in arc.target.out_arcs
-                                    if len(p.target.in_arcs) == 1}
-
-                for place in to_remove_places:
-                    remove_place(net, place)
-                remove_transition(net, arc.target)
-        # finally remove the initial place
+        # remove the initial place
         remove_place(net, im_place)
 
     if 'Artificial:End' in fm_transitions:
@@ -147,23 +135,23 @@ def create_fragment(sublog: EventLog,
                     else:
                         remove_arc(net, arc)
     else:
-        # remove all silent border transitions
-        in_arcs = fm_place.in_arcs.copy()
-        for arc in in_arcs:
-            if arc.source.label is None:
-                # remove all places, only connected to silent transition
-                to_remove_places = {p.source for p in arc.source.in_arcs
-                                    if len(p.source.out_arcs) == 1}
-                for place in to_remove_places:
-                    remove_place(net, place)
-                remove_transition(net, arc.source)
-        # finally remove the final place
+        # remove the final place
         remove_place(net, fm_place)
 
-    # remove any remaining border silent transitions
-    for t in net.transitions.copy():
-        if not t.label and (len(t.in_arcs) == 0 or len(t.out_arcs) == 0):
-            remove_transition(net, t)
+    # remove any remaining border silent transitions / lost places
+    tp_before = 1
+    tp_after = 0
+    while tp_before != tp_after:
+        tp_before = len(net.transitions) + len(net.places)
+        for t in net.transitions.copy():
+            if not t.label and (len(t.in_arcs) == 0 or len(t.out_arcs) == 0):
+                remove_transition(net, t)
+        for p in net.places.copy():
+            if p not in initial_marking and \
+                p not in final_marking and \
+                    (len(p.in_arcs) == 0 or len(p.out_arcs) == 0):
+                remove_place(net, p)
+        tp_after = len(net.transitions) + len(net.places)
 
     return net, initial_marking, final_marking
 

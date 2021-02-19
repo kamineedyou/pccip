@@ -56,7 +56,9 @@ def extend_log(log: EventLog) -> EventLog:
     start = generate_start_event()
     end = generate_end_event()
     for trace in log:
-        trace.insert(0, start)
-        trace.append(end)
+        if trace[0]['concept:name'] is not ARTIFICIAL_START:
+            trace.insert(0, start)
+        if trace[-1]['concept:name'] is not ARTIFICIAL_END:
+            trace.append(end)
 
     return log

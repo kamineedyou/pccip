@@ -27,6 +27,7 @@ def passage_alignment(fragments: List[Tuple[PetriNet, Marking, Marking]],
     """
     # prepare local alignment object
     local_alignment = {}
+    remove_empty_traces(log)
     for i, fragment in enumerate(fragments):
         local_alignment[i] = {}
         local_alignment[i]['unfit_traces'] = set()
@@ -49,7 +50,7 @@ def passage_alignment(fragments: List[Tuple[PetriNet, Marking, Marking]],
         for event in trace:
             for f in local_alignment:
                 # if activitiy is contained in passage, append the event
-                if event['concept:name'] in local_alignment[f]['costs'].keys():
+                if event['concept:name'] in local_alignment[f]['costs']:
                     local_alignment[f]['sublog'][i].append(event)
 
     # compute the local alignments
@@ -386,3 +387,12 @@ def contains_skip(activity: Tuple[str, str]) -> str:
             return activity[1]
 
     return None
+
+
+def remove_empty_traces(log: EventLog) -> None:
+    """Remove all empty traces in event log (in place).
+
+    Args:
+        log (EventLog): target event log to filter
+    """
+    log._list = [trace for i, trace in enumerate(log) if trace]

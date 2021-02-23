@@ -1,8 +1,7 @@
 from typing import Tuple, List
 from pm4py.objects.log.log import EventLog, Trace
 from pm4py.objects.petri.petrinet import PetriNet, Marking
-from pm4py.algo.conformance.alignments.variants.dijkstra_less_memory import get_best_worst_cost
-from pm4py.algo.conformance.alignments.algorithm import apply_trace, VERSION_DIJKSTRA_NO_HEURISTICS
+from pm4py.algo.conformance.alignments.algorithm import apply_trace, VERSION_DIJKSTRA_LESS_MEMORY
 
 
 def passage_alignment(fragments: List[Tuple[PetriNet, Marking, Marking]],
@@ -44,7 +43,6 @@ def passage_alignment(fragments: List[Tuple[PetriNet, Marking, Marking]],
 
     # count how many times each transition appears in the fragments
     transition_trace_counter = count_transition_trace(local_alignment)
-
     # prepare sublogs
     for i, trace in enumerate(log):
         for event in trace:
@@ -191,15 +189,14 @@ def get_alignment(sublog: List[Trace],
         trace = sublog[trace_id]['trace']
         if trace:
             trace_align = apply_trace(trace, net, im, fm,
-                                      variant=VERSION_DIJKSTRA_NO_HEURISTICS)
+                                      variant=VERSION_DIJKSTRA_LESS_MEMORY)
             sublog[trace_id]['alignment'] = trace_align['alignment']
         else:
             sublog[trace_id]['alignment'] = None
 
 
 def get_global_fitness(local_align: dict,
-                       log: EventLog,
-                       whole_model: Tuple[PetriNet, Marking, Marking]) -> dict:
+                       log: EventLog, best_worst_cost: int) -> dict:
     """Calculates the global alignment fitness value using all of the costs
     from the adapted local alignments. In addition, return the percentage of
     fitting traces.
@@ -217,7 +214,6 @@ def get_global_fitness(local_align: dict,
     trace_number = len(log)
     event_number = get_event_count(log)
     empty_trace_number = entire_trace_gone_number(local_align)
-    best_worst_cost = get_minimum_distance(whole_model)
     passage_costs = sum_costs(local_align) + \
         account_missing_labels(local_align, event_number) + \
         (best_worst_cost * empty_trace_number)
@@ -276,17 +272,28 @@ def alignments_denominator(trace_number: int,
     return event_number + (trace_number * best_worst_distance)
 
 
-def get_minimum_distance(petri: Tuple[PetriNet, Marking, Marking]) -> int:
+def get_minimum_distance(net: PetriNet, im: Marking, fm: Marking) -> int:
     """Get the minimum number of model moves in order to go through
     the entire petri net (from initial marking to final marking).
 
     Args:
-        petri (Tuple[PetriNet, Marking, Marking]): Petri net to traverse.
+        net (PetriNet): Petri net to traverse.
+        im (Marking): initial marking
+        fm (Marking): final marking
 
     Returns:
         int: Minimum number of model moves to get to the final marking.
     """
-    return get_best_worst_cost(petri[0], petri[1], petri[2])
+    align = apply_trace(Trace(), net, im, fm,
+                        variant=VERSION_DIJKSTRA_LESS_MEMORY)
+    cost = 0
+    SKIP = '>>'
+    for match in align['alignment']:
+        if (match[0] is not None and match[1] == SKIP) \
+           or (match[1] is not None and match[0] == SKIP):
+            cost += 1
+
+    return cost
 
 
 def get_event_count(log: EventLog) -> int:

@@ -5,6 +5,7 @@ from pm4py.objects.petri.petrinet import PetriNet, Marking
 from pccip.passage_decomp.cc.net_fragments import create_net_fragments
 from pccip.passage_decomp.cc.adapted_cost import passage_alignment, get_global_fitness
 from pccip.passage_decomp.cc.import_model import fix_transition_conflict
+from pccip.passage_decomp.cc.adapted_cost import get_minimum_distance
 from pm4py.objects.log.log import EventLog
 from typing import Tuple
 
@@ -27,6 +28,9 @@ def passage_conformance_checking(log: EventLog,
     # check if input model/log already have artificial start/end activities
     fix_transition_conflict(net, log)
 
+    # get best worst cost for the petri net
+    best_worst_cost = get_minimum_distance(net, init_marking, final_marking)
+
     # extend the input model
     ext_net, ext_im, ext_fm = extend_model(net, init_marking, final_marking)
 
@@ -47,7 +51,6 @@ def passage_conformance_checking(log: EventLog,
     local_align = passage_alignment(fragments, log)
 
     # calculate global statistics over all passages
-    global_fitness = get_global_fitness(local_align, log,
-                                        (net, init_marking, final_marking))
+    global_fitness = get_global_fitness(local_align, log, best_worst_cost)
 
     return local_align, global_fitness

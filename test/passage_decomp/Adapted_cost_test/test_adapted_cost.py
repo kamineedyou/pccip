@@ -104,15 +104,15 @@ def test_perfect_log(figure1_perfect):
     model = figure1_perfect[2]
 
     local_align = adapted_cost.passage_alignment(fragments, log)
-    global_align = adapted_cost.get_global_fitness(local_align, log, model)
-
     assert len(local_align) == 5
 
     # alignment denominator
     trace_count = len(log)
     event_dict = adapted_cost.get_event_count(log)
     event_number = sum(event_dict.values())
-    best_worst_cost = adapted_cost.get_minimum_distance(model)
+    best_worst_cost = adapted_cost.get_minimum_distance(model[0],
+                                                        model[1],
+                                                        model[2])
     alignment_denominator = adapted_cost.alignments_denominator(trace_count,
                                                                 event_number,
                                                                 best_worst_cost)
@@ -130,6 +130,8 @@ def test_perfect_log(figure1_perfect):
     assert alignment_numerator == 0
 
     # global check
+    global_align = adapted_cost.get_global_fitness(local_align, log,
+                                                   best_worst_cost)
     assert global_align['fitness'] == 1.0
     assert global_align['percFitTraces'] == 1.0
 
@@ -140,15 +142,15 @@ def test_many_small_log_problems(figure1_many_small_trace_problems):
     model = figure1_many_small_trace_problems[2]
 
     local_align = adapted_cost.passage_alignment(fragments, log)
-    global_align = adapted_cost.get_global_fitness(local_align, log, model)
-
     assert len(local_align) == 5
 
     # alignment denominator
     trace_count = len(log)
     event_dict = adapted_cost.get_event_count(log)
     event_number = sum(event_dict.values())
-    best_worst_cost = adapted_cost.get_minimum_distance(model)
+    best_worst_cost = adapted_cost.get_minimum_distance(model[0],
+                                                        model[1],
+                                                        model[2])
     alignment_denominator = adapted_cost.alignments_denominator(trace_count,
                                                                 event_number,
                                                                 best_worst_cost)
@@ -162,11 +164,13 @@ def test_many_small_log_problems(figure1_many_small_trace_problems):
     empty_trace_cost = best_worst_cost * empty_trace_number
     alignment_numerator = align_cost_sum + missing_labels + empty_trace_cost
 
-    assert align_cost_sum == 11
-    assert alignment_numerator == 11
+    assert align_cost_sum == 11.5
+    assert alignment_numerator == 11.5
 
     # global check
-    assert global_align['fitness'] == 0.9197080291970803
+    global_align = adapted_cost.get_global_fitness(local_align, log,
+                                                   best_worst_cost)
+    assert global_align['fitness'] == 0.916058394160584
     assert global_align['percFitTraces'] == 0.7272727272727273
 
 
@@ -176,15 +180,15 @@ def test_log_one_bad_trace_36times(figure1_only_one_bad_trace_36times):
     model = figure1_only_one_bad_trace_36times[2]
 
     local_align = adapted_cost.passage_alignment(fragments, log)
-    global_align = adapted_cost.get_global_fitness(local_align, log, model)
-
     assert len(local_align) == 5
 
     # alignment denominator
     trace_count = len(log)
     event_dict = adapted_cost.get_event_count(log)
     event_number = sum(event_dict.values())
-    best_worst_cost = adapted_cost.get_minimum_distance(model)
+    best_worst_cost = adapted_cost.get_minimum_distance(model[0],
+                                                        model[1],
+                                                        model[2])
     alignment_denominator = adapted_cost.alignments_denominator(trace_count,
                                                                 event_number,
                                                                 best_worst_cost)
@@ -202,6 +206,8 @@ def test_log_one_bad_trace_36times(figure1_only_one_bad_trace_36times):
     assert alignment_numerator == 324
 
     # global check
+    global_align = adapted_cost.get_global_fitness(local_align, log,
+                                                   best_worst_cost)
     assert global_align['fitness'] == 0.5263157894736843
     assert global_align['percFitTraces'] == 0.0
 
@@ -212,15 +218,15 @@ def test_completely_different_log(figure1_completely_different_event_log):
     model = figure1_completely_different_event_log[2]
 
     local_align = adapted_cost.passage_alignment(fragments, log)
-    global_align = adapted_cost.get_global_fitness(local_align, log, model)
-
     assert len(local_align) == 5
 
     # alignment denominator
     trace_count = len(log)
     event_dict = adapted_cost.get_event_count(log)
     event_number = sum(event_dict.values())
-    best_worst_cost = adapted_cost.get_minimum_distance(model)
+    best_worst_cost = adapted_cost.get_minimum_distance(model[0],
+                                                        model[1],
+                                                        model[2])
     alignment_denominator = adapted_cost.alignments_denominator(trace_count,
                                                                 event_number,
                                                                 best_worst_cost)
@@ -238,6 +244,8 @@ def test_completely_different_log(figure1_completely_different_event_log):
     assert alignment_numerator == 456
 
     # global check
+    global_align = adapted_cost.get_global_fitness(local_align, log,
+                                                   best_worst_cost)
     assert global_align['fitness'] == 0.0
     assert global_align['percFitTraces'] == 0.0
 
@@ -248,15 +256,15 @@ def test_inductive_bad(figure1_inductive_bad):
     model = figure1_inductive_bad[2]
 
     local_align = adapted_cost.passage_alignment(fragments, log)
-    global_align = adapted_cost.get_global_fitness(local_align, log, model)
-
     assert len(local_align) == 5
 
     # alignment denominator
     trace_count = len(log)
     event_dict = adapted_cost.get_event_count(log)
     event_number = sum(event_dict.values())
-    best_worst_cost = adapted_cost.get_minimum_distance(model)
+    best_worst_cost = adapted_cost.get_minimum_distance(model[0],
+                                                        model[1],
+                                                        model[2])
     alignment_denominator = adapted_cost.alignments_denominator(trace_count,
                                                                 event_number,
                                                                 best_worst_cost)
@@ -270,9 +278,11 @@ def test_inductive_bad(figure1_inductive_bad):
     empty_trace_cost = best_worst_cost * empty_trace_number
     alignment_numerator = align_cost_sum + missing_labels + empty_trace_cost
 
-    assert align_cost_sum == 11
-    assert alignment_numerator == 11
+    assert align_cost_sum == 11.5
+    assert alignment_numerator == 11.5
 
     # global check
-    assert global_align['fitness'] == 0.9197080291970803
+    global_align = adapted_cost.get_global_fitness(local_align, log,
+                                                   best_worst_cost)
+    assert global_align['fitness'] == 0.916058394160584
     assert global_align['percFitTraces'] == 0.7272727272727273

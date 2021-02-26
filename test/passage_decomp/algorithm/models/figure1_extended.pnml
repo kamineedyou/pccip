@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<pnml>
+  <net id="net1" type="http://www.pnml.org/version-2009/grammar/pnmlcoremodel">
+    <page id="n0">
+      <place id="({'e'}, {'g', 'f', 'h'})22416">
+        <name>
+          <text>({'e'}, {'g', 'f', 'h'})22416</text>
+        </name>
+      </place>
+      <place id="end28607">
+        <name>
+          <text>end28607</text>
+        </name>
+      </place>
+      <place id="({'Artificial:Start'}, {'a'})36528">
+        <name>
+          <text>({'Artificial:Start'}, {'a'})36528</text>
+        </name>
+      </place>
+      <place id="({'a', 'f'}, {'d'})83314">
+        <name>
+          <text>({'a', 'f'}, {'d'})83314</text>
+        </name>
+      </place>
+      <place id="({'a', 'f'}, {'c', 'b'})83314">
+        <name>
+          <text>({'a', 'f'}, {'c', 'b'})83314</text>
+        </name>
+      </place>
+      <place id="({'d'}, {'e'})55313">
+        <name>
+          <text>({'d'}, {'e'})55313</text>
+        </name>
+      </place>
+      <place id="start36528">
+        <name>
+          <text>start36528</text>
+        </name>
+        <initialMarking>
+          <text>1</text>
+        </initialMarking>
+      </place>
+      <place id="({'g', 'h'}, {'Artificial:End'})28607">
+        <name>
+          <text>({'g', 'h'}, {'Artificial:End'})28607</text>
+        </name>
+      </place>
+      <place id="({'c', 'b'}, {'e'})55313">
+        <name>
+          <text>({'c', 'b'}, {'e'})55313</text>
+        </name>
+      </place>
+      <transition id="e">
+        <name>
+          <text>e</text>
+        </name>
+      </transition>
+      <transition id="c">
+        <name>
+          <text>c</text>
+        </name>
+      </transition>
+      <transition id="b">
+        <name>
+          <text>b</text>
+        </name>
+      </transition>
+      <transition id="Artificial:End">
+        <name>
+          <text>Artificial:End</text>
+        </name>
+      </transition>
+      <transition id="d">
+        <name>
+          <text>d</text>
+        </name>
+      </transition>
+      <transition id="h">
+        <name>
+          <text>h</text>
+        </name>
+      </transition>
+      <transition id="g">
+        <name>
+          <text>g</text>
+        </name>
+      </transition>
+      <transition id="Artificial:Start">
+        <name>
+          <text>Artificial:Start</text>
+        </name>
+      </transition>
+      <transition id="a">
+        <name>
+          <text>a</text>
+        </name>
+      </transition>
+      <transition id="f">
+        <name>
+          <text>f</text>
+        </name>
+      </transition>
+      <arc id="8771956525888" source="Artificial:Start" target="({'Artificial:Start'}, {'a'})36528"/>
+      <arc id="8771956524292" source="({'e'}, {'g', 'f', 'h'})22416" target="g"/>
+      <arc id="8771956524295" source="({'e'}, {'g', 'f', 'h'})22416" target="f"/>
+      <arc id="8771956525448" source="h" target="({'g', 'h'}, {'Artificial:End'})28607"/>
+      <arc id="8771956528135" source="Artificial:End" target="end28607"/>
+      <arc id="8771956525834" source="start36528" target="Artificial:Start"/>
+      <arc id="8771956527755" source="d" target="({'d'}, {'e'})55313"/>
+      <arc id="8771956527818" source="({'c', 'b'}, {'e'})55313" target="e"/>
+      <arc id="8771956524499" source="e" target="({'e'}, {'g', 'f', 'h'})22416"/>
+      <arc id="8771956524310" source="({'e'}, {'g', 'f', 'h'})22416" target="h"/>
+      <arc id="8771956527830" source="a" target="({'a', 'f'}, {'c', 'b'})83314"/>
+      <arc id="8771956518807" source="f" target="({'a', 'f'}, {'d'})83314"/>
+      <arc id="8771956517145" source="a" target="({'a', 'f'}, {'d'})83314"/>
+      <arc id="8771956527704" source="({'a', 'f'}, {'c', 'b'})83314" target="b"/>
+      <arc id="8771956527644" source="({'a', 'f'}, {'d'})83314" target="d"/>
+      <arc id="8771956525918" source="({'Artificial:Start'}, {'a'})36528" target="a"/>
+      <arc id="8771956528159" source="({'g', 'h'}, {'Artificial:End'})28607" target="Artificial:End"/>
+      <arc id="8771956527782" source="({'d'}, {'e'})55313" target="e"/>
+      <arc id="8771956527848" source="f" target="({'a', 'f'}, {'c', 'b'})83314"/>
+      <arc id="8771956525550" source="g" target="({'g', 'h'}, {'Artificial:End'})28607"/>
+      <arc id="8771956527791" source="b" target="({'c', 'b'}, {'e'})55313"/>
+      <arc id="8771956527800" source="c" target="({'c', 'b'}, {'e'})55313"/>
+      <arc id="8771956524538" source="({'a', 'f'}, {'c', 'b'})83314" target="c"/>
+    </page>
+    <finalmarkings>
+      <marking>
+        <place idref="end28607">
+          <text>1</text>
+        </place>
+      </marking>
+    </finalmarkings>
+  </net>
+</pnml>

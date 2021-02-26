@@ -41,12 +41,13 @@ pm4py.view_petri_net(new_net, new_im, new_fm)
 net, im, fm = import_petri_net(model_path)
 log = import_log(log_path)
 
-local_fitness, global_fitness = passage_conformance_checking(net, im, fm, log)
+local_fitness, global_fitness = passage_conformance_checking(log, net, im, fm)
 
-for k, v in local_fitness.items():
-    print(f'Passage {k+1}: Fitting Trace %age: {v["percFitTraces"]}, Avg. Fitness: {v["averageFitness"]}')
+for k in local_fitness:
+    print(f'Passage {k+1}: with local alignment costs of: {local_fitness[k]["costs"]}')
 
-print(f'The global fitness value of the petri net: {global_fitness}')
+print(f'Global fitness: {global_fitness["fitness"]}')
+print(f'Perfectly fitting traces %age: {global_fitness["percFitTraces"]*100}%')
 
 ```
 

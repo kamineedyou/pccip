@@ -21,7 +21,7 @@ def split_log(sublog: EventLog) -> EventLog:
     Returns:
         EventLog: New event log that contains no more looping
     """
-    if not isinstance(sublog, EventLog):
+    if not isinstance(sublog, EventLog) and not isinstance(sublog, list):
         raise TypeError('Invalid Event Log Type')
     start_activities = set(get_start_activities(sublog).keys())
     end_activities = set(get_end_activities(sublog).keys())
@@ -81,7 +81,7 @@ def create_fragment(sublog: EventLog,
     Returns:
         Tuple[PetriNet, Marking, Marking]: Net fragment from the sublog.
     """
-    if not isinstance(sublog, EventLog):
+    if not isinstance(sublog, EventLog) and not isinstance(sublog, list):
         raise TypeError('Invalid Event Log Type')
 
     variant = getattr(Variants, variant.upper(), None)
@@ -116,19 +116,12 @@ def create_fragment(sublog: EventLog,
         if len(im_transitions) > 1:
             for arc in im_place.out_arcs.copy():
                 if arc.target.label != 'Artificial:Start':
-                    remove_arc(net, arc)
+                    if not arc.target.label:
+                        remove_transition(net, arc.target)
+                    else:
+                        remove_arc(net, arc)
     else:
-        # remove all silent border transitions
-        out_arcs = im_place.out_arcs.copy()
-        for arc in out_arcs:
-            if arc.target.label is None:
-                # remove all places, only connected to silent transition
-                to_remove_places = {p.target for p in arc.target.out_arcs
-                                    if len(p.target.in_arcs) == 1}
-                for place in to_remove_places:
-                    remove_place(net, place)
-                remove_transition(net, arc.target)
-        # finally remove the initial place
+        # remove the initial place
         remove_place(net, im_place)
 
     if 'Artificial:End' in fm_transitions:
@@ -137,26 +130,33 @@ def create_fragment(sublog: EventLog,
         if len(fm_transitions) > 1:
             for arc in fm_place.in_arcs.copy():
                 if arc.source.label != 'Artificial:End':
-                    remove_arc(net, arc)
+                    if not arc.source.label:
+                        remove_transition(net, arc.source)
+                    else:
+                        remove_arc(net, arc)
     else:
-        # remove all silent border transitions
-        in_arcs = fm_place.in_arcs.copy()
-        for arc in in_arcs:
-            if arc.source.label is None:
-                # remove all places, only connected to silent transition
-                to_remove_places = {p.source for p in arc.source.in_arcs
-                                    if len(p.source.out_arcs) == 1}
-                for place in to_remove_places:
-                    remove_place(net, place)
-                remove_transition(net, arc.source)
-        # finally remove the final place
+        # remove the final place
         remove_place(net, fm_place)
+
+    # remove any remaining border silent transitions / lost places
+    tp_before = 1
+    tp_after = 0
+    while tp_before != tp_after:
+        tp_before = len(net.transitions) + len(net.places)
+        for t in net.transitions.copy():
+            if not t.label and (len(t.in_arcs) == 0 or len(t.out_arcs) == 0):
+                remove_transition(net, t)
+        for p in net.places.copy():
+            if p not in initial_marking and \
+                p not in final_marking and \
+                    (len(p.in_arcs) == 0 or len(p.out_arcs) == 0):
+                remove_place(net, p)
+        tp_after = len(net.transitions) + len(net.places)
 
     return net, initial_marking, final_marking
 
 
-def merge_fragments(fragments: List[
-        Tuple[PetriNet, Marking, Marking]]) \
+def merge_fragments(fragments: List[Tuple[PetriNet, Marking, Marking]]) \
         -> Tuple[PetriNet, Marking, Marking]:
     """Merge a list of net fragments into a whole complete petri net.
 
@@ -191,7 +191,7 @@ def merge_fragments(fragments: List[
             in_arcs_src = {arc.source for arc in transition.in_arcs}
             out_arcs_tar = {arc.target for arc in transition.out_arcs}
             # if transition has already been added, alter edges
-            if transition.label in transitions:
+            if transition.label in transitions and transition.label:
                 # if transition comes after the merge transition
                 for place in in_arcs_src:
                     remove_arc_set(net, transition.in_arcs)

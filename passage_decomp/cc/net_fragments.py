@@ -5,7 +5,8 @@ from typing import Set, List, Tuple
 from copy import deepcopy
 
 
-def create_net_fragments(passages: Set[Passage]) -> List[PetriNet]:
+def create_net_fragments(passages: Set[Passage]) \
+        -> List[Tuple[PetriNet, Marking, Marking]]:
     """[summary]
 
     Args:
@@ -26,6 +27,9 @@ def create_net_fragments(passages: Set[Passage]) -> List[PetriNet]:
             edge_dict = p.get_digraph_edge(edge)
             for tran in edge_dict:
                 if tran not in new_net.transitions:
+
+                    if not tran.in_arcs and not tran.out_arcs:
+                        new_net.transitions.add(tran)
 
                     if tran.name not in border_x:
                         for arc in tran.in_arcs:

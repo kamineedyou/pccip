@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<pnml>
+  <net id="net1" type="http://www.pnml.org/version-2009/grammar/pnmlcoremodel">
+    <page id="n0">
+      <place id="({'e'}, {'f', 'h', 'g'})">
+        <name>
+          <text>({'e'}, {'f', 'h', 'g'})</text>
+        </name>
+      </place>
+      <place id="({'d'}, {'e'})">
+        <name>
+          <text>({'d'}, {'e'})</text>
+        </name>
+      </place>
+      <place id="end">
+        <name>
+          <text>end</text>
+        </name>
+      </place>
+      <place id="({'f', 'a'}, {'c', 'b'})">
+        <name>
+          <text>({'f', 'a'}, {'c', 'b'})</text>
+        </name>
+      </place>
+      <place id="({'f', 'a'}, {'d'})">
+        <name>
+          <text>({'f', 'a'}, {'d'})</text>
+        </name>
+      </place>
+      <place id="start">
+        <name>
+          <text>start</text>
+        </name>
+        <initialMarking>
+          <text>1</text>
+        </initialMarking>
+      </place>
+      <place id="({'c', 'b'}, {'e'})">
+        <name>
+          <text>({'c', 'b'}, {'e'})</text>
+        </name>
+      </place>
+      <transition id="a">
+        <name>
+          <text>a</text>
+        </name>
+      </transition>
+      <transition id="c">
+        <name>
+          <text>c</text>
+        </name>
+      </transition>
+      <transition id="h">
+        <name>
+          <text>h</text>
+        </name>
+      </transition>
+      <transition id="d">
+        <name>
+          <text>d</text>
+        </name>
+      </transition>
+      <transition id="f">
+        <name>
+          <text>f</text>
+        </name>
+      </transition>
+      <transition id="g">
+        <name>
+          <text>g</text>
+        </name>
+      </transition>
+      <transition id="b">
+        <name>
+          <text>b</text>
+        </name>
+      </transition>
+      <transition id="e">
+        <name>
+          <text>e</text>
+        </name>
+      </transition>
+      <arc id="8792437601675" source="d" target="({'d'}, {'e'})"/>
+      <arc id="8792437593227" source="b" target="({'c', 'b'}, {'e'})"/>
+      <arc id="8792437601549" source="({'d'}, {'e'})" target="e"/>
+      <arc id="8792437601437" source="({'f', 'a'}, {'c', 'b'})" target="c"/>
+      <arc id="8792437601696" source="h" target="end"/>
+      <arc id="8792437601449" source="a" target="({'f', 'a'}, {'c', 'b'})"/>
+      <arc id="8792437601455" source="({'f', 'a'}, {'c', 'b'})" target="b"/>
+      <arc id="8792437593137" source="({'c', 'b'}, {'e'})" target="e"/>
+      <arc id="8792437591745" source="({'e'}, {'f', 'h', 'g'})" target="h"/>
+      <arc id="8792437593287" source="a" target="({'f', 'a'}, {'d'})"/>
+      <arc id="8792437591628" source="({'e'}, {'f', 'h', 'g'})" target="g"/>
+      <arc id="8792437503314" source="({'e'}, {'f', 'h', 'g'})" target="f"/>
+      <arc id="8792437593302" source="({'f', 'a'}, {'d'})" target="d"/>
+      <arc id="8792437601112" source="start" target="a"/>
+      <arc id="8792437593188" source="c" target="({'c', 'b'}, {'e'})"/>
+      <arc id="8792437601395" source="f" target="({'f', 'a'}, {'c', 'b'})"/>
+      <arc id="8792437591796" source="f" target="({'f', 'a'}, {'d'})"/>
+      <arc id="8792437601527" source="e" target="({'e'}, {'f', 'h', 'g'})"/>
+      <arc id="8792437601786" source="g" target="end"/>
+    </page>
+    <finalmarkings>
+      <marking>
+        <place idref="end">
+          <text>1</text>
+        </place>
+      </marking>
+    </finalmarkings>
+  </net>
+</pnml>

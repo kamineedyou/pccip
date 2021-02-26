@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<pnml>
+  <net id="net1" type="http://www.pnml.org/version-2009/grammar/pnmlcoremodel">
+    <page id="n0">
+      <place id="p_5">
+        <name>
+          <text>p_5</text>
+        </name>
+      </place>
+      <place id="p_8">
+        <name>
+          <text>p_8</text>
+        </name>
+      </place>
+      <place id="p_10">
+        <name>
+          <text>p_10</text>
+        </name>
+      </place>
+      <transition id="13b28c89-d08f-4147-b366-00b96e2efe3a">
+        <name>
+          <text>a</text>
+        </name>
+      </transition>
+      <transition id="5787d04d-74eb-4215-acc7-c3f49661d263">
+        <name>
+          <text>d</text>
+        </name>
+      </transition>
+      <transition id="a5a8bb77-289d-4325-9e4e-aa796ebd4fae">
+        <name>
+          <text>f</text>
+        </name>
+      </transition>
+      <transition id="tauSplit_3">
+        <name>
+          <text>tauSplit_3</text>
+        </name>
+        <toolspecific tool="ProM" version="6.4" activity="$invisible$" localNodeID="e05773f0-73a3-43b6-8360-d9c62c813f8a"/>
+      </transition>
+      <transition id="5ee4a8ce-8553-4546-9580-f1f4afad0031">
+        <name>
+          <text>c</text>
+        </name>
+      </transition>
+      <transition id="4f80219c-11a6-4289-a5de-47467a8f798d">
+        <name>
+          <text>b</text>
+        </name>
+      </transition>
+      <arc id="8791022864680" source="p_10" target="5ee4a8ce-8553-4546-9580-f1f4afad0031"/>
+      <arc id="8791022864394" source="a5a8bb77-289d-4325-9e4e-aa796ebd4fae" target="p_5"/>
+      <arc id="8791022864746" source="p_8" target="5787d04d-74eb-4215-acc7-c3f49661d263"/>
+      <arc id="8791022860653" source="p_5" target="tauSplit_3"/>
+      <arc id="8791022860788" source="13b28c89-d08f-4147-b366-00b96e2efe3a" target="p_5"/>
+      <arc id="8791022864628" source="p_10" target="4f80219c-11a6-4289-a5de-47467a8f798d"/>
+      <arc id="8791022847799" source="tauSplit_3" target="p_8"/>
+      <arc id="8791022864668" source="tauSplit_3" target="p_10"/>
+    </page>
+  </net>
+</pnml>

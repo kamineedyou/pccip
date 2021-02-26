@@ -1,8 +1,6 @@
 import os
 import pytest
 from pm4py.objects.log.importer.xes import importer as xes_importer
-from pm4py.algo.discovery.inductive import algorithm as inductive_miner
-from pm4py.algo.conformance.alignments import algorithm as alignments
 from pm4py.objects.petri.importer import importer as pnml_importer
 from pccip.passage_decomp.cc import adapted_cost
 
@@ -12,66 +10,279 @@ from pccip.passage_decomp.cc import adapted_cost
                          (('a', '>>'), 'a'),
                          (('a', None), None)])
 def test_Get_Acti(tupl, result):
-    assert adapted_cost.get_acti(tupl) == result
+    assert adapted_cost.contains_skip(tupl) == result
 
 
 @pytest.fixture
-def net_frag():
-    currentDir = os.path.dirname(os.path.realpath(__file__))
-    pathToFile_1 = os.path.join(currentDir, 'figure8_mod_orig.xes')
-    pathToFile_2 = os.path.join(currentDir, 'figure8_mod.xes')
-    log_1 = xes_importer.apply(pathToFile_1)
-    log_2 = xes_importer.apply(pathToFile_2)
-    net, initial_marking, final_marking = inductive_miner.apply(log_1)
-    aligned_transition = alignments.apply_log(
-                log_2,
-                net, initial_marking, final_marking
-                )
-    return aligned_transition
+def figure1_perfect():
+    pwd_path = os.path.dirname(os.path.realpath(__file__))
+    log_path = os.path.join(pwd_path, 'figure1.xes')
+    log = xes_importer.apply(log_path)
 
+    whole_model_path = os.path.join(pwd_path, 'figure1.pnml')
+    whole_model = pnml_importer.apply(whole_model_path)
 
-def test_get_misaligned(net_frag):
-    result = adapted_cost.get_misaligned_trans(net_frag)
-    assert result[0] == {'Artificial:Start', 'b', 'a'}
+    fragments = []
+    for i in range(5):
+        fragment_path = os.path.join(pwd_path, f'fragment{i}.pnml')
+        fragments.append(pnml_importer.apply(fragment_path))
+
+    return log, fragments, whole_model
 
 
 @pytest.fixture
-def nnfreg():
-    currentDir = os.path.dirname(os.path.realpath(__file__))
-    pathToLog = os.path.join(currentDir, 'figure8_mod.xes')
-    log = xes_importer.apply(pathToLog)
-    pathToFile_1 = os.path.join(currentDir, 'f1.pnml')
-    pathToFile_2 = os.path.join(currentDir, 'f2.pnml')
-    pathToFile_3 = os.path.join(currentDir, 'f3.pnml')
-    pathToFile_4 = os.path.join(currentDir, 'f4.pnml')
-    pathToFile_5 = os.path.join(currentDir, 'f5.pnml')
-    fragments_1, im_1, fm_1 = pnml_importer.apply(pathToFile_1)
-    fragments_2, im_2, fm_2 = pnml_importer.apply(pathToFile_2)
-    fragments_3, im_3, fm_3 = pnml_importer.apply(pathToFile_3)
-    fragments_4, im_4, fm_4 = pnml_importer.apply(pathToFile_4)
-    fragments_5, im_5, fm_5 = pnml_importer.apply(pathToFile_5)
-    list_frag = [(fragments_1, im_1, fm_1),
-                 (fragments_2, im_2, fm_2),
-                 (fragments_3, im_3, fm_3),
-                 (fragments_4, im_4, fm_4),
-                 (fragments_5, im_5, fm_5)]
+def figure1_many_small_trace_problems():
+    pwd_path = os.path.dirname(os.path.realpath(__file__))
+    log_path = os.path.join(pwd_path, 'figure1_bad.xes')
+    log = xes_importer.apply(log_path)
 
-    return log, list_frag
+    whole_model_path = os.path.join(pwd_path, 'figure1.pnml')
+    whole_model = pnml_importer.apply(whole_model_path)
+
+    fragments = []
+    for i in range(5):
+        fragment_path = os.path.join(pwd_path, f'fragment{i}.pnml')
+        fragments.append(pnml_importer.apply(fragment_path))
+
+    return log, fragments, whole_model
 
 
-def test_adapted_cost_fun(nnfreg):
-    align_trace = adapted_cost.adapted_cost_func(nnfreg[0], nnfreg[1])
-    assert align_trace[0][0]['cost'] == 0
-    assert align_trace[1][0]['cost'] == 10000
+@pytest.fixture
+def figure1_only_one_bad_trace_36times():
+    pwd_path = os.path.dirname(os.path.realpath(__file__))
+    log_path = os.path.join(pwd_path, 'figure1_one_bad_trace.xes')
+    log = xes_importer.apply(log_path)
+
+    whole_model_path = os.path.join(pwd_path, 'figure1.pnml')
+    whole_model = pnml_importer.apply(whole_model_path)
+
+    fragments = []
+    for i in range(5):
+        fragment_path = os.path.join(pwd_path, f'fragment{i}.pnml')
+        fragments.append(pnml_importer.apply(fragment_path))
+
+    return log, fragments, whole_model
 
 
-def test_fragment_fitness(nnfreg):
-    align_trace = adapted_cost.adapted_cost_func(nnfreg[0], nnfreg[1])
-    fragment_fitness = adapted_cost.fragment_fitness(align_trace)
-    assert fragment_fitness[0]['averageFitness'] == 1.0
-    assert round(fragment_fitness[1]['averageFitness'], 3) == 0.844
+@pytest.fixture
+def figure1_completely_different_event_log():
+    pwd_path = os.path.dirname(os.path.realpath(__file__))
+    log_path = os.path.join(pwd_path, 'roadtraffic50traces.xes')
+    log = xes_importer.apply(log_path)
+
+    whole_model_path = os.path.join(pwd_path, 'figure1.pnml')
+    whole_model = pnml_importer.apply(whole_model_path)
+
+    fragments = []
+    for i in range(5):
+        fragment_path = os.path.join(pwd_path, f'fragment{i}.pnml')
+        fragments.append(pnml_importer.apply(fragment_path))
+
+    return log, fragments, whole_model
 
 
-def test_overall_fit(nnfreg):
-    align_trace = adapted_cost.adapted_cost_func(nnfreg[0], nnfreg[1])
-    assert adapted_cost.overall_fitness(nnfreg[0], align_trace) == 0
+@pytest.fixture
+def figure1_inductive_bad():
+    pwd_path = os.path.dirname(os.path.realpath(__file__))
+    log_path = os.path.join(pwd_path, 'figure1_bad.xes')
+    log = xes_importer.apply(log_path)
+
+    whole_model_path = os.path.join(pwd_path, 'figure1.pnml')
+    whole_model = pnml_importer.apply(whole_model_path)
+
+    fragments = []
+    for i in range(5):
+        fragment_path = os.path.join(pwd_path, f'fragment{i}_inductive.pnml')
+        fragments.append(pnml_importer.apply(fragment_path))
+
+    return log, fragments, whole_model
+
+
+def test_perfect_log(figure1_perfect):
+    log = figure1_perfect[0]
+    fragments = figure1_perfect[1]
+    model = figure1_perfect[2]
+
+    local_align = adapted_cost.passage_alignment(fragments, log)
+    assert len(local_align) == 5
+
+    # alignment denominator
+    trace_count = len(log)
+    event_dict = adapted_cost.get_event_count(log)
+    event_number = sum(event_dict.values())
+    best_worst_cost = adapted_cost.get_minimum_distance(model[0],
+                                                        model[1],
+                                                        model[2])
+    alignment_denominator = adapted_cost.alignments_denominator(trace_count,
+                                                                event_number,
+                                                                best_worst_cost)
+    assert alignment_denominator == 116
+
+    # alignment numerator
+    empty_trace_number = adapted_cost.entire_trace_gone_number(local_align)
+    align_cost_sum = adapted_cost.sum_costs(local_align)
+    missing_labels = adapted_cost.account_missing_labels(local_align,
+                                                         event_dict)
+    empty_trace_cost = best_worst_cost * empty_trace_number
+    alignment_numerator = align_cost_sum + missing_labels + empty_trace_cost
+
+    assert align_cost_sum == 0
+    assert alignment_numerator == 0
+
+    # global check
+    global_align = adapted_cost.get_global_fitness(local_align, log,
+                                                   best_worst_cost)
+    assert global_align['fitness'] == 1.0
+    assert global_align['percFitTraces'] == 1.0
+
+
+def test_many_small_log_problems(figure1_many_small_trace_problems):
+    log = figure1_many_small_trace_problems[0]
+    fragments = figure1_many_small_trace_problems[1]
+    model = figure1_many_small_trace_problems[2]
+
+    local_align = adapted_cost.passage_alignment(fragments, log)
+    assert len(local_align) == 5
+
+    # alignment denominator
+    trace_count = len(log)
+    event_dict = adapted_cost.get_event_count(log)
+    event_number = sum(event_dict.values())
+    best_worst_cost = adapted_cost.get_minimum_distance(model[0],
+                                                        model[1],
+                                                        model[2])
+    alignment_denominator = adapted_cost.alignments_denominator(trace_count,
+                                                                event_number,
+                                                                best_worst_cost)
+    assert alignment_denominator == 137
+
+    # alignment numerator
+    empty_trace_number = adapted_cost.entire_trace_gone_number(local_align)
+    align_cost_sum = adapted_cost.sum_costs(local_align)
+    missing_labels = adapted_cost.account_missing_labels(local_align,
+                                                         event_dict)
+    empty_trace_cost = best_worst_cost * empty_trace_number
+    alignment_numerator = align_cost_sum + missing_labels + empty_trace_cost
+
+    assert align_cost_sum == 11.5
+    assert alignment_numerator == 11.5
+
+    # global check
+    global_align = adapted_cost.get_global_fitness(local_align, log,
+                                                   best_worst_cost)
+    assert global_align['fitness'] == 0.916058394160584
+    assert global_align['percFitTraces'] == 0.7272727272727273
+
+
+def test_log_one_bad_trace_36times(figure1_only_one_bad_trace_36times):
+    log = figure1_only_one_bad_trace_36times[0]
+    fragments = figure1_only_one_bad_trace_36times[1]
+    model = figure1_only_one_bad_trace_36times[2]
+
+    local_align = adapted_cost.passage_alignment(fragments, log)
+    assert len(local_align) == 5
+
+    # alignment denominator
+    trace_count = len(log)
+    event_dict = adapted_cost.get_event_count(log)
+    event_number = sum(event_dict.values())
+    best_worst_cost = adapted_cost.get_minimum_distance(model[0],
+                                                        model[1],
+                                                        model[2])
+    alignment_denominator = adapted_cost.alignments_denominator(trace_count,
+                                                                event_number,
+                                                                best_worst_cost)
+    assert alignment_denominator == 684
+
+    # alignment numerator
+    empty_trace_number = adapted_cost.entire_trace_gone_number(local_align)
+    align_cost_sum = adapted_cost.sum_costs(local_align)
+    missing_labels = adapted_cost.account_missing_labels(local_align,
+                                                         event_dict)
+    empty_trace_cost = best_worst_cost * empty_trace_number
+    alignment_numerator = align_cost_sum + missing_labels + empty_trace_cost
+
+    assert align_cost_sum == 324
+    assert alignment_numerator == 324
+
+    # global check
+    global_align = adapted_cost.get_global_fitness(local_align, log,
+                                                   best_worst_cost)
+    assert global_align['fitness'] == 0.5263157894736843
+    assert global_align['percFitTraces'] == 0.0
+
+
+def test_completely_different_log(figure1_completely_different_event_log):
+    log = figure1_completely_different_event_log[0]
+    fragments = figure1_completely_different_event_log[1]
+    model = figure1_completely_different_event_log[2]
+
+    local_align = adapted_cost.passage_alignment(fragments, log)
+    assert len(local_align) == 5
+
+    # alignment denominator
+    trace_count = len(log)
+    event_dict = adapted_cost.get_event_count(log)
+    event_number = sum(event_dict.values())
+    best_worst_cost = adapted_cost.get_minimum_distance(model[0],
+                                                        model[1],
+                                                        model[2])
+    alignment_denominator = adapted_cost.alignments_denominator(trace_count,
+                                                                event_number,
+                                                                best_worst_cost)
+    assert alignment_denominator == 456
+
+    # alignment numerator
+    empty_trace_number = adapted_cost.entire_trace_gone_number(local_align)
+    align_cost_sum = adapted_cost.sum_costs(local_align)
+    missing_labels = adapted_cost.account_missing_labels(local_align,
+                                                         event_dict)
+    empty_trace_cost = best_worst_cost * empty_trace_number
+    alignment_numerator = align_cost_sum + missing_labels + empty_trace_cost
+
+    assert align_cost_sum == 0
+    assert alignment_numerator == 456
+
+    # global check
+    global_align = adapted_cost.get_global_fitness(local_align, log,
+                                                   best_worst_cost)
+    assert global_align['fitness'] == 0.0
+    assert global_align['percFitTraces'] == 0.0
+
+
+def test_inductive_bad(figure1_inductive_bad):
+    log = figure1_inductive_bad[0]
+    fragments = figure1_inductive_bad[1]
+    model = figure1_inductive_bad[2]
+
+    local_align = adapted_cost.passage_alignment(fragments, log)
+    assert len(local_align) == 5
+
+    # alignment denominator
+    trace_count = len(log)
+    event_dict = adapted_cost.get_event_count(log)
+    event_number = sum(event_dict.values())
+    best_worst_cost = adapted_cost.get_minimum_distance(model[0],
+                                                        model[1],
+                                                        model[2])
+    alignment_denominator = adapted_cost.alignments_denominator(trace_count,
+                                                                event_number,
+                                                                best_worst_cost)
+    assert alignment_denominator == 137
+
+    # alignment numerator
+    empty_trace_number = adapted_cost.entire_trace_gone_number(local_align)
+    align_cost_sum = adapted_cost.sum_costs(local_align)
+    missing_labels = adapted_cost.account_missing_labels(local_align,
+                                                         event_dict)
+    empty_trace_cost = best_worst_cost * empty_trace_number
+    alignment_numerator = align_cost_sum + missing_labels + empty_trace_cost
+
+    assert align_cost_sum == 11.5
+    assert alignment_numerator == 11.5
+
+    # global check
+    global_align = adapted_cost.get_global_fitness(local_align, log,
+                                                   best_worst_cost)
+    assert global_align['fitness'] == 0.916058394160584
+    assert global_align['percFitTraces'] == 0.7272727272727273

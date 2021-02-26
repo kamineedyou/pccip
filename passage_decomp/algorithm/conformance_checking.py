@@ -1,4 +1,4 @@
-from pccip.passage_decomp.cc.extend_model import extend_model
+from pccip.passage_decomp.cc.extend_model import extend_model, remove_extension
 from pccip.passage_decomp.utils.transform_skeleton import petri_to_skeleton
 from pccip.passage_decomp.passages.min_passages import min_passages
 from pm4py.objects.petri.petrinet import PetriNet, Marking
@@ -46,6 +46,9 @@ def passage_conformance_checking(log: EventLog,
 
     # decompose initial petri net into net fragments
     fragments = create_net_fragments(passages)
+
+    # remove the extension of the model
+    remove_extension(ext_net, ext_im, ext_fm)
 
     # calculate local alignments for each net fragment
     local_align = passage_alignment(fragments, log)

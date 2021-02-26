@@ -28,6 +28,9 @@ def create_net_fragments(passages: Set[Passage]) \
             for tran in edge_dict:
                 if tran not in new_net.transitions:
 
+                    if not tran.in_arcs and not tran.out_arcs:
+                        new_net.transitions.add(tran)
+
                     if tran.name not in border_x:
                         for arc in tran.in_arcs:
                             new_net.places.add(arc.source)

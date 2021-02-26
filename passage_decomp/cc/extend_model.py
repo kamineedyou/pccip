@@ -18,9 +18,9 @@ def extend_model(net: PetriNet,
     """This function extends the given petri net with an Bot and Top transition
 
     Args:
-        net (PetriNet): [description]
-        initial_marking (Marking): [description]
-        final_marking (Marking): [description]
+        net (PetriNet): Input Petri Net
+        initial_marking (Marking): Input Initial Marking
+        final_marking (Marking): Input Final Marking
 
     Raises:
         NoInitialMarking: No initial marking is given
@@ -46,3 +46,17 @@ def extend_model(net: PetriNet,
         utils.add_arc_from_to(currentSink, t_bot, net)
 
     return (net, initial_marking, final_marking)
+
+
+def remove_extension(net: PetriNet, im: Marking, fm: Marking):
+    """Remove the petri net extension when it is no longer required.
+
+    Args:
+        net (PetriNet): Input Petri Net
+        im (Marking): Input Initial Marking
+        fm (Marking): Input Final Marking
+    """
+    for i in im:
+        utils.remove_transition(net, next(iter(i.in_arcs)).source)
+    for f in fm:
+        utils.remove_transition(net, next(iter(f.out_arcs)).target)

@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<pnml>
+  <net id="net1" type="http://www.pnml.org/version-2009/grammar/pnmlcoremodel">
+    <page id="n0">
+      <place id="p_6">
+        <name>
+          <text>p_6</text>
+        </name>
+      </place>
+      <place id="p_4">
+        <name>
+          <text>p_4</text>
+        </name>
+      </place>
+      <transition id="aa8566af-f963-4530-bc1a-77b942963ac3">
+        <name>
+          <text>g</text>
+        </name>
+      </transition>
+      <transition id="48b4a8a7-8faa-4967-ba19-2ce356040ff9">
+        <name>
+          <text>h</text>
+        </name>
+      </transition>
+      <transition id="d415701f-5fe7-4710-adba-ca4def38cc58">
+        <name>
+          <text>e</text>
+        </name>
+      </transition>
+      <transition id="a5a8bb77-289d-4325-9e4e-aa796ebd4fae">
+        <name>
+          <text>f</text>
+        </name>
+      </transition>
+      <transition id="skip_5">
+        <name>
+          <text>skip_5</text>
+        </name>
+        <toolspecific tool="ProM" version="6.4" activity="$invisible$" localNodeID="0d9e810f-4b1b-4ddc-a80b-4a7410bb4a9e"/>
+      </transition>
+      <arc id="8791022864866" source="d415701f-5fe7-4710-adba-ca4def38cc58" target="p_6"/>
+      <arc id="8791022864487" source="skip_5" target="p_4"/>
+      <arc id="8791022865773" source="p_6" target="a5a8bb77-289d-4325-9e4e-aa796ebd4fae"/>
+      <arc id="8791022865902" source="p_4" target="48b4a8a7-8faa-4967-ba19-2ce356040ff9"/>
+      <arc id="8791022864788" source="p_6" target="skip_5"/>
+      <arc id="8791022864764" source="p_4" target="aa8566af-f963-4530-bc1a-77b942963ac3"/>
+    </page>
+  </net>
+</pnml>

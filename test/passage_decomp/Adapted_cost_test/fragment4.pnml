@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<pnml>
+  <net id="net1" type="http://www.pnml.org/version-2009/grammar/pnmlcoremodel">
+    <page id="n0">
+      <place id="({'f', 'a'}, {'d'})">
+        <name>
+          <text>({'f', 'a'}, {'d'})</text>
+        </name>
+      </place>
+      <place id="({'f', 'a'}, {'c', 'b'})">
+        <name>
+          <text>({'f', 'a'}, {'c', 'b'})</text>
+        </name>
+      </place>
+      <transition id="f">
+        <name>
+          <text>f</text>
+        </name>
+      </transition>
+      <transition id="d">
+        <name>
+          <text>d</text>
+        </name>
+      </transition>
+      <transition id="c">
+        <name>
+          <text>c</text>
+        </name>
+      </transition>
+      <transition id="b">
+        <name>
+          <text>b</text>
+        </name>
+      </transition>
+      <transition id="a">
+        <name>
+          <text>a</text>
+        </name>
+      </transition>
+      <arc id="8790042976546" source="f" target="({'f', 'a'}, {'c', 'b'})"/>
+      <arc id="8790042977666" source="({'f', 'a'}, {'d'})" target="d"/>
+      <arc id="8790042977702" source="a" target="({'f', 'a'}, {'d'})"/>
+      <arc id="8790042977576" source="({'f', 'a'}, {'c', 'b'})" target="c"/>
+      <arc id="8790042977768" source="a" target="({'f', 'a'}, {'c', 'b'})"/>
+      <arc id="8790042977609" source="({'f', 'a'}, {'c', 'b'})" target="b"/>
+      <arc id="8790042977720" source="f" target="({'f', 'a'}, {'d'})"/>
+    </page>
+  </net>
+</pnml>

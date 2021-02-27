@@ -6,7 +6,7 @@ from pccip.passage_decomp.pd.extend_log import extend_log
 from pccip.passage_decomp.pd.causal_structure import create_causal_structure
 from pccip.passage_decomp.pd.causal_structure import create_custom_causal_structure
 from pccip.passage_decomp.passages.min_passages import min_passages
-from pccip.passage_decomp.cc.log_decomp import decompose_event_log as log_decomp
+from pccip.passage_decomp.cc.log_decomp import efficient_log_decomp
 from pccip.passage_decomp.pd.net_fragments import create_fragment, merge_fragments
 
 
@@ -54,14 +54,12 @@ def passage_process_discovery(xes: EventLog,
     passage_set = min_passages(causal)
 
     # generate sublogs based off of each passage
-    sublogs = set()
-    for passage in passage_set:
-        sublogs.add(log_decomp(ext_log, passage.getTVis()))
+    sublogs = efficient_log_decomp(ext_log, passage_set)
 
     # generate fragments based off of each sublog
     fragments = []
-    for sublog in sublogs:
-        fragments.append(create_fragment(sublog, p_algo, p_params))
+    for log in sublogs:
+        fragments.append(create_fragment(log, p_algo, p_params))
 
     # merge the fragments to create the final petri net
     result_net, result_im, result_fm = merge_fragments(fragments)
